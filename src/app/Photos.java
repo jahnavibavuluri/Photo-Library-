@@ -20,7 +20,7 @@ public class Photos extends Application {
         listController.start(primaryStage);
 
         primaryStage.setTitle("Photos52 -- Jahnavi Bavuluri and Chiraag Rekhari");
-        primaryStage.setScene(new Scene(root, 700, 500));
+        primaryStage.setScene(new Scene(root, 700, 400));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
