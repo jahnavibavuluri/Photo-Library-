@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.AlbumController;
 import model.LoginController;
+import model.SlideshowController;
 
 import java.io.IOException;
 
@@ -15,13 +16,13 @@ public class Photos extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/album.fxml"));
+        loader.setLocation(getClass().getResource("/view/slideshow.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
-        AlbumController listController = loader.getController();
+        SlideshowController listController = loader.getController();
         listController.start(primaryStage);
 
         primaryStage.setTitle("Photos52 -- Jahnavi Bavuluri and Chiraag Rekhari");
-        primaryStage.setScene(new Scene(root, 700, 700));
+        primaryStage.setScene(new Scene(root, 700, 500));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
