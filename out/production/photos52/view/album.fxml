@@ -6,6 +6,47 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"  fx:controller="model.AlbumController" prefHeight="400.0" prefWidth="600.0">
 
+<?import javafx.scene.image.ImageView?>
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.AlbumController" prefHeight="700.0" prefWidth="700.0">
+    <children>
+        <GridPane prefWidth="600" prefHeight="50" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="640" AnchorPane.rightAnchor="50" AnchorPane.leftAnchor="50">
+            <Label text="Albums In Your Library" alignment="CENTER" />
+        </GridPane>
+        <GridPane prefWidth="600" prefHeight="50" AnchorPane.leftAnchor="50" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="50" AnchorPane.bottomAnchor="590">
+            <columnConstraints>
+                <ColumnConstraints prefWidth="100"/>
+                <ColumnConstraints prefWidth="25"/>
+                <ColumnConstraints prefWidth="100"/>
+                <ColumnConstraints prefWidth="25"/>
+                <ColumnConstraints prefWidth="100"/>
+                <ColumnConstraints prefWidth="25"/>
+                <ColumnConstraints prefWidth="100"/>
+                <ColumnConstraints prefWidth="25"/>
+                <ColumnConstraints prefWidth="100"/>
+            </columnConstraints>
+            <Button text="LOGOUT" prefWidth="100" alignment="CENTER" GridPane.columnIndex="0"/>
+            <Button text="ADD" prefWidth="100" alignment="CENTER" GridPane.columnIndex="2" onAction="#setImage"/>
+            <Button text="EDIT" prefWidth="100" alignment="CENTER" GridPane.columnIndex="4"/>
+            <Button text="DELETE" prefWidth="100" alignment="CENTER" GridPane.columnIndex="6"/>
+            <Button text="SEARCH" prefWidth="100" alignment="CENTER" GridPane.columnIndex="8"/>
+            <!--<Label text="buttons will go here" alignment="CENTER"/>-->
+        </GridPane>
+        <!--<Button fx:id="button" text="add" onAction="#setImage"/>-->
+        <ScrollPane fx:id="scroll" AnchorPane.bottomAnchor="50" AnchorPane.topAnchor="120" AnchorPane.rightAnchor="50" AnchorPane.leftAnchor="50">
+            <GridPane fx:id="grid" prefWidth="570" minHeight="600" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
+                <columnConstraints>
+                    <ColumnConstraints prefWidth="190"/>
+                    <ColumnConstraints prefWidth="190"/>
+                    <ColumnConstraints prefWidth="190"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints prefHeight="200"/>
+                </rowConstraints>
+                <!--<ImageView fx:id="image" GridPane.columnIndex="0" fitHeight="200" fitWidth="190"/>-->
+            </GridPane>
+        </ScrollPane>
+    </children>
 </AnchorPane>
+
+
