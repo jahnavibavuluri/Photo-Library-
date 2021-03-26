@@ -8,16 +8,16 @@
 
 <?import javafx.scene.image.ImageView?>
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.IndividualAlbumController" prefHeight="400.0" prefWidth="600.0">
-    <GridPane fx:id="album_grid" prefWidth="190" prefHeight="200" visible="false">
+    <GridPane fx:id="album_grid" prefWidth="200" prefHeight="200" visible="false">
         <rowConstraints>
             <RowConstraints prefHeight="100"/>
             <RowConstraints prefHeight="33"/>
             <RowConstraints prefHeight="34"/>
             <RowConstraints prefHeight="33"/>
         </rowConstraints>
-        <ImageView fx:id ="image" fitWidth="100" fitHeight="100" GridPane.rowIndex="0"/>
-        <Label text="Name of Album" alignment="CENTER" GridPane.rowIndex="1"/>
-        <Label text="Number of photos in Album" alignment="CENTER" GridPane.rowIndex="2"/>
-        <Label text="Dates of Album" alignment="CENTER" GridPane.rowIndex="3"/>
+        <ImageView fx:id ="image" fitHeight="100" GridPane.rowIndex="0" preserveRatio="true"/>
+        <Label text="Name of Album" GridPane.rowIndex="1" alignment="TOP_CENTER" contentDisplay="CENTER"/>
+        <Label text="Number of photos in Album" GridPane.rowIndex="2" alignment="TOP_CENTER" contentDisplay="CENTER"/>
+        <Label text="Dates of Album" GridPane.rowIndex="3" alignment="TOP_CENTER" contentDisplay="CENTER"/>
     </GridPane>
 </AnchorPane>

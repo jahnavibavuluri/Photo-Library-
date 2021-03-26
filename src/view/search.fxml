@@ -6,12 +6,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<?import javafx.scene.image.ImageView?>
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.AlbumController" prefHeight="700.0" prefWidth="700.0">
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.SearchController" prefHeight="700.0" prefWidth="700.0">
     <children>
         <GridPane prefWidth="600" prefHeight="50" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="640" AnchorPane.rightAnchor="50" AnchorPane.leftAnchor="50">
-            <Label text="Albums In Your Library" alignment="CENTER" />
+            <Label text="Welcome to Search" alignment="CENTER" />
         </GridPane>
         <GridPane prefWidth="600" prefHeight="50" AnchorPane.leftAnchor="50" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="50" AnchorPane.bottomAnchor="590">
             <columnConstraints>
@@ -25,11 +23,11 @@
                 <ColumnConstraints prefWidth="25"/>
                 <ColumnConstraints prefWidth="100"/>
             </columnConstraints>
-            <Button text="LOGOUT" prefWidth="100" alignment="CENTER" GridPane.columnIndex="0"/>
-            <Button text="ADD" prefWidth="100" alignment="CENTER" GridPane.columnIndex="2" onAction="#setImage"/>
-            <Button text="EDIT" prefWidth="100" alignment="CENTER" GridPane.columnIndex="4"/>
-            <Button text="DELETE" prefWidth="100" alignment="CENTER" GridPane.columnIndex="6"/>
-            <Button text="SEARCH" prefWidth="100" alignment="CENTER" GridPane.columnIndex="8"/>
+            <Button text="Back" prefWidth="100" alignment="CENTER" GridPane.columnIndex="0"/>
+            <Button text="Search 1 Tag" prefWidth="100" alignment="CENTER" GridPane.columnIndex="2" />
+            <Button text="Search 2 Tags" prefWidth="100" alignment="CENTER" GridPane.columnIndex="4"/>
+            <Button text="Search Date" prefWidth="100" alignment="CENTER" GridPane.columnIndex="6"/>
+            <Button text="Create Album" prefWidth="100" alignment="CENTER" GridPane.columnIndex="8" onAction="#setImage"/>
         </GridPane>
         <ScrollPane fx:id="scroll" AnchorPane.bottomAnchor="50" AnchorPane.topAnchor="120" AnchorPane.rightAnchor="50" AnchorPane.leftAnchor="50">
             <GridPane fx:id="grid" prefWidth="570" minHeight="600" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
@@ -45,5 +43,3 @@
         </ScrollPane>
     </children>
 </AnchorPane>
-
-
