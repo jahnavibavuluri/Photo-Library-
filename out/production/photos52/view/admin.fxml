@@ -6,14 +6,14 @@
 <?import javafx.geometry.*?>
 
 
-<AnchorPane prefHeight="500.0" prefWidth="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.LoginController">
+<AnchorPane prefHeight="500.0" prefWidth="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.AdminController">
     <children>
         <!-- This SplitPane is the ListView on the left side of the GUI-->
         <SplitPane prefHeight="440" prefWidth="225" AnchorPane.bottomAnchor="30" AnchorPane.leftAnchor="445" AnchorPane.rightAnchor="30" AnchorPane.topAnchor="30">
             <items>
                 <AnchorPane prefHeight="440" prefWidth="225" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0">
                     <children>
-                        <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Songs in Your Library" prefHeight="20" prefWidth="305" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0"/>
+                        <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Users" prefHeight="20" prefWidth="305" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0"/>
                         <ListView fx:id="songs_listview" prefWidth="305" prefHeight="420" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="0"/>
                     </children>
                 </AnchorPane>
