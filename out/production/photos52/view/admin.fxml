@@ -14,7 +14,7 @@
                 <AnchorPane prefHeight="440" prefWidth="225" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0">
                     <children>
                         <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Users" prefHeight="20" prefWidth="305" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0"/>
-                        <ListView fx:id="songs_listview" prefWidth="305" prefHeight="420" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="0"/>
+                        <ListView fx:id="user_listview" prefWidth="305" prefHeight="420" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="0"/>
                     </children>
                 </AnchorPane>
             </items>
@@ -51,7 +51,7 @@
                             <ColumnConstraints prefWidth="102.5" />
                         </columnConstraints>
                         <children>
-                            <Button fx:id="logout_btn" text="Logout" prefWidth="100" GridPane.columnIndex="2"/>
+                            <Button fx:id="logout_btn" text="Logout" prefWidth="100" GridPane.columnIndex="2" onAction="#logout"/>
                         </children>
                     </GridPane>
                 </children>

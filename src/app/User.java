@@ -7,8 +7,8 @@ import app.Album;
 
 public class User {
 
-    String username;
-    ArrayList<Album> albums;
+    public String username;
+    public ArrayList<Album> albums;
 
     public User(String username) {
         this.username = username;
