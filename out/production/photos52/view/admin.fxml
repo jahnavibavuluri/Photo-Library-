@@ -38,11 +38,10 @@
                             <RowConstraints prefHeight="37.5"/>
                         </rowConstraints>
                         <children>
-                            <TextField fx:id="add" GridPane.columnIndex="0" GridPane.rowIndex="0" visible="true"/>
-
-                            <TextField fx:id="delete" GridPane.rowIndex="3" GridPane.columnIndex="0" visible="true"/>
-                            <Button fx:id="add_btn" text="Add" prefWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-                            <Button fx:id="delete_btn" text="Delete" prefWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                            <TextField fx:id="add" GridPane.columnIndex="0" GridPane.rowIndex="0" visible="true" />
+                            <TextField fx:id="delete" GridPane.rowIndex="3" GridPane.columnIndex="0" visible="true" />
+                            <Button fx:id="add_btn" text="Add" prefWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="0" onAction="#add"/>
+                            <Button fx:id="delete_btn" text="Delete" prefWidth="100" GridPane.columnIndex="2" GridPane.rowIndex="3" onAction="#delete"/>
                         </children>
                     </GridPane>
                     <GridPane prefHeight="35" prefWidth="305" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="170" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
