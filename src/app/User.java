@@ -36,6 +36,17 @@ public class User {
         }
     }
 
+    public void deleteAlbum(String name) throws IllegalArgumentException {
+        Iterator<Album> iter = albums.iterator();
+        while (iter.hasNext()) {
+            Album a = iter.next();
+            if (a.getName().equals(name))
+                albums.remove(a);
+        }
+
+        throw new IllegalArgumentException("Album with that name does not exist!");
+    }
+
 
 
 }
