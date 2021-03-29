@@ -35,7 +35,7 @@
                 <RowConstraints prefHeight="50"/>
             </rowConstraints>
             <Label text="Username:" textAlignment="LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2"></Label>
-            <TextField GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+            <TextField fx:id="login" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
         </GridPane>
 
         <GridPane prefWidth="700" prefHeight="125" AnchorPane.bottomAnchor="50" AnchorPane.topAnchor="225" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
@@ -49,7 +49,7 @@
                 <ColumnConstraints prefWidth="100"/>
                 <ColumnConstraints prefWidth="300"/>
             </columnConstraints>
-            <Button text="Login" textAlignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="100"></Button>
+            <Button text="login_btn" textAlignment="CENTER" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="100" onAction="#login"></Button>
         </GridPane>
 
     </children>
