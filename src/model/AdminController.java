@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import java.util.ArrayList;
 import app.User;
-import app.Photos;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import java.util.Optional;

@@ -3,16 +3,6 @@ package model;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.stage.Stage;
-import javafx.scene.control.*;
-import java.util.ArrayList;
-import app.User;
-import app.Photos;
-import model.AdminController;
-import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
-import java.util.Optional;
-import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import java.io.IOException;
@@ -53,18 +43,6 @@ public class LoginController {
                 exception.printStackTrace();
             }
         }
-
-            /*Stage appStage;
-            Parent root;
-
-            appStage = mainStage;
-            root=FXMLLoader.load(getClass().getResource("/view/admin.fxml"));
-            Scene scene=new Scene(root);
-            appStage.setScene(scene);
-            appStage.show();*/
-
-
-
     }
 
 }
