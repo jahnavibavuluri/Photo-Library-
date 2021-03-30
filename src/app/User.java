@@ -15,6 +15,14 @@ public class User {
         albums = new ArrayList<Album>();
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+
+    public String getAlbums() {
+        return albums.toString();
+    }
+
     public void addAlbum(String album) throws IllegalArgumentException {
         for (Album a: albums) {
             if (a.getName().equals(album))

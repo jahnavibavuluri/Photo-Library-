@@ -25,6 +25,10 @@ public class Album {
         this.name = name;
     }
 
+    public String getPhotos() {
+        return photos.toString();
+    }
+
     public void addPhoto(Photo photo) throws IllegalArgumentException {
         //checking that the same photo is not being added
         for (Photo p: photos) {
@@ -56,7 +60,10 @@ public class Album {
                     }
                 }
             }
-            if (samePhoto) photos.remove(p);
+            if (samePhoto) {
+                photos.remove(p);
+                return;
+            }
         }
 
         throw new IllegalArgumentException("Cannot find this photo in the album! (This exception should not be thrown since we know for a fact this photo exists in the album!)");
