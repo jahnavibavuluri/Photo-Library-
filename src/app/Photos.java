@@ -16,10 +16,10 @@ public class Photos extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/photos.fxml"));
+        loader.setLocation(getClass().getResource("/view/login.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
-        PhotoController listController = loader.getController();
-        listController.start(primaryStage,0,0);
+        LoginController listController = loader.getController();
+        listController.start(primaryStage);
 
         primaryStage.setTitle("Photos52 -- Jahnavi Bavuluri and Chiraag Rekhari");
         primaryStage.setScene(new Scene(root));

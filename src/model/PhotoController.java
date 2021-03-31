@@ -5,6 +5,7 @@ import app.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -18,6 +19,9 @@ import javafx.stage.FileChooser;
 import java.io.EOFException;
 import java.io.File;
 import java.util.ArrayList;
+
+// !!!NOTE: PHOTO CONTROLLER IS NOT WORKING RIGHT NOW BECAUSE NOTHING IS BEING PASSING INTO THE SCENE FROM ALBUMS.
+// THIS WILL WORK ONCE WE FIGURE OUT MOUSE CLICKED AND CAN ACTUALLY SEND IN THE USER AND ALBUM THAT WE ARE USING!!!
 
 public class PhotoController {
 
@@ -47,11 +51,27 @@ public class PhotoController {
             if (e instanceof EOFException)
                 UsersList = new ArrayList<User>();
         }
+        //DO NOT DELETE THESE COMMENTS
         this.userIndex = userIndex;
         //this.user = UsersList.get(userIndex);
         this.albumIndex = albumIndex;
         //this.album = user.getAlbums().get(albumIndex);
         //System.out.println(user.getUsername());
+    }
+
+    public void logout(ActionEvent event) throws Exception{
+        //saves the users arraylist
+        Serialize.writeApp(UsersList);
+
+        Stage appStage=(Stage)logout_btn.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/album.fxml"));
+        AnchorPane root = (AnchorPane)loader.load();
+        AlbumController controller = loader.getController();
+        controller.start(appStage, userIndex);
+        appStage.setScene(new Scene(root));
+        appStage.show();
+
     }
 
     public void setImage(ActionEvent e) {
