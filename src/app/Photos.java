@@ -16,13 +16,13 @@ public class Photos extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/login.fxml"));
+        loader.setLocation(getClass().getResource("/view/photos.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
-        LoginController listController = loader.getController();
+        PhotoController listController = loader.getController();
         listController.start(primaryStage);
 
         primaryStage.setTitle("Photos52 -- Jahnavi Bavuluri and Chiraag Rekhari");
-        primaryStage.setScene(new Scene(root, 700, 400));
+        primaryStage.setScene(new Scene(root, 1000, 700));
         primaryStage.setResizable(false);
         primaryStage.show();
     }
