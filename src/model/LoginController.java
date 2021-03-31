@@ -58,14 +58,14 @@ public class LoginController {
             }
         } else {
             String user_logging_in = login.getText();
-            for (User user: UsersList) {
-                if (user.getUsername().equals(user_logging_in)) {
+            for (int i = 0; i<UsersList.size(); i++) {
+                if (UsersList.get(i).getUsername().equals(user_logging_in)) {
                     Stage appStage=(Stage)login_btn.getScene().getWindow();
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(getClass().getResource("/view/album.fxml"));
                     AnchorPane root = (AnchorPane)loader.load();
                     AlbumController controller = loader.getController();
-                    controller.start(appStage,user);
+                    controller.start(appStage,i);
                     appStage.setScene(new Scene(root));
                     appStage.show();
                 }

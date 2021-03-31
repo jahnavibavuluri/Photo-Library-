@@ -19,10 +19,10 @@ public class Photos extends Application {
         loader.setLocation(getClass().getResource("/view/photos.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
         PhotoController listController = loader.getController();
-        listController.start(primaryStage);
+        listController.start(primaryStage,0,0);
 
         primaryStage.setTitle("Photos52 -- Jahnavi Bavuluri and Chiraag Rekhari");
-        primaryStage.setScene(new Scene(root, 1000, 700));
+        primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
         primaryStage.show();
     }

@@ -24,7 +24,7 @@
                         <ColumnConstraints prefWidth="100"/>
                         <ColumnConstraints prefWidth="75"/>
                     </columnConstraints>
-                    <Button text="BACK" prefWidth="100" alignment="CENTER" GridPane.columnIndex="1"/>
+                    <Button fx:id="logout_btn" text="BACK" prefWidth="100" alignment="CENTER" GridPane.columnIndex="1"/>
                     <Button text="SLIDESHOW" prefWidth="100" alignment="CENTER" GridPane.columnIndex="3"/>
                     <Button text="ADD" prefWidth="100" alignment="CENTER" GridPane.columnIndex="5" onAction="#setImage"/>
                 </GridPane>

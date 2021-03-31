@@ -4,31 +4,59 @@ import app.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
+import java.io.EOFException;
+import java.util.ArrayList;
+
 
 public class AlbumController {
 
+    int userIndex;
+    ArrayList<User> UsersList;
     User user;
     Stage mainStage;
-
-    @FXML
-    ScrollPane scroll;
-
-    @FXML
-    GridPane grid;
+    @FXML ScrollPane scroll;
+    @FXML GridPane grid;
+    @FXML Button logout_btn;
 
     public int row = 0;
     public int col = 0;
 
-    public void start(Stage mainStage, User user) {
+    public void start(Stage mainStage, int userIndex) {
         this.mainStage = mainStage;
-        this.user = user;
+
+        try {
+            UsersList = Serialize.readApp();
+        } catch (Exception e) {
+            System.out.println("This should not appear since users array list will always have Stock user!");
+            if (e instanceof EOFException)
+                UsersList = new ArrayList<User>();
+        }
+        this.userIndex = userIndex;
+        this.user = UsersList.get(userIndex);
         System.out.println(user.getUsername());
+    }
+
+    public void logout(ActionEvent event) throws Exception{
+        //saves the users arraylist
+        Serialize.writeApp(UsersList);
+
+        Stage appStage=(Stage)logout_btn.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/login.fxml"));
+        AnchorPane root = (AnchorPane)loader.load();
+        LoginController controller = loader.getController();
+        controller.start(appStage);
+        appStage.setScene(new Scene(root));
+        appStage.show();
+
     }
 
     public void setImage(ActionEvent e) {

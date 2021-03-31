@@ -20,8 +20,8 @@ public class User implements Serializable {
         return this.username;
     }
 
-    public String getAlbums() {
-        return albums.toString();
+    public ArrayList<Album> getAlbums() {
+        return albums;
     }
 
     public void addAlbum(String album) throws IllegalArgumentException {
