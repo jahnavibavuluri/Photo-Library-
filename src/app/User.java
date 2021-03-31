@@ -1,11 +1,12 @@
 package app;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import app.Album;
 
-public class User {
+public class User implements Serializable {
 
     public String username;
     public ArrayList<Album> albums;

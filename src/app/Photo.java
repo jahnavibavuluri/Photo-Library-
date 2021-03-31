@@ -1,12 +1,14 @@
 package app;
 
 import javafx.scene.image.Image;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
-public class Photo {
+public class Photo implements Serializable {
 
     public Image image;
     public Date date;

@@ -1,5 +1,6 @@
 package app;
 
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,7 +8,7 @@ import java.util.Iterator;
 import javafx.scene.image.Image;
 import app.Photo;
 
-public class Album {
+public class Album implements Serializable {
 
     public String name;
     public ArrayList<Photo> photos;

@@ -1,5 +1,6 @@
 package model;
 
+import app.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +13,9 @@ import javafx.scene.image.Image;
 
 public class AlbumController {
 
+    User user;
+    Stage mainStage;
+
     @FXML
     ScrollPane scroll;
 
@@ -21,8 +25,10 @@ public class AlbumController {
     public int row = 0;
     public int col = 0;
 
-    public void start(Stage mainStage) {
-
+    public void start(Stage mainStage, User user) {
+        this.mainStage = mainStage;
+        this.user = user;
+        System.out.println(user.getUsername());
     }
 
     public void setImage(ActionEvent e) {

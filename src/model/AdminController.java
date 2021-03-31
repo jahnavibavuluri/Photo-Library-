@@ -2,8 +2,11 @@ package model;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
+
+import java.io.EOFException;
 import java.util.ArrayList;
 import app.User;
 import javafx.collections.ObservableList;
@@ -12,7 +15,7 @@ import java.util.Optional;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-
+import model.Serialize;
 
 
 public class AdminController{
@@ -22,24 +25,41 @@ public class AdminController{
     @FXML Button logout_btn;
     @FXML ListView<String> user_listview;
 
-    ArrayList<User> UsersList = new ArrayList<User>();
+    ArrayList<User> UsersList;
     ObservableList<String> obsList = FXCollections.observableArrayList();
 
 
     public void start(Stage mainstage) {
-        UsersList.add(new User("Stock"));
+        try {
+            UsersList = Serialize.readApp();
+        } catch (Exception e) {
+            if (e instanceof EOFException)
+                UsersList = new ArrayList<User>();
+        }
+
+        if (UsersList.isEmpty()) {
+            UsersList.add(new User("Stock"));
+        }
+
         updateListView();
+
     }
 
     public void logout(ActionEvent event) throws Exception{
+        //saves the users arraylist
+        Serialize.writeApp(UsersList);
+
         Stage appStage;
-        Parent root;
 
         appStage=(Stage)logout_btn.getScene().getWindow();
-        root=FXMLLoader.load(getClass().getResource("/view/login.fxml"));
-        Scene scene=new Scene(root);
-        appStage.setScene(scene);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/login.fxml"));
+        AnchorPane root = (AnchorPane)loader.load();
+        LoginController controller = loader.getController();
+        controller.start(appStage);
+        appStage.setScene(new Scene(root));
         appStage.show();
+
     }
 
     public void updateListView(){
