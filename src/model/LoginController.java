@@ -47,7 +47,6 @@ public class LoginController {
                 AnchorPane root = (AnchorPane) loader.load();
                 AdminController adminview = loader.getController();
                 //Stage stage = new Stage();
-
                 adminview.start(mainStage);
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);

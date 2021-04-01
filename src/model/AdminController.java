@@ -25,20 +25,21 @@ public class AdminController{
     @FXML Button logout_btn;
     @FXML ListView<String> user_listview;
 
-    ArrayList<User> UsersList;
+    public ArrayList<User> UsersList;
     ObservableList<String> obsList = FXCollections.observableArrayList();
 
 
     public void start(Stage mainstage) {
         try {
-            UsersList = Serialize.readApp();
+            this.UsersList = Serialize.readApp();
         } catch (Exception e) {
+            System.out.println("eof exception");
             if (e instanceof EOFException)
-                UsersList = new ArrayList<User>();
+                this.UsersList = new ArrayList<User>();
         }
 
-        if (UsersList.isEmpty()) {
-            UsersList.add(new User("Stock"));
+        if (this.UsersList.isEmpty()) {
+            this.UsersList.add(new User("Stock"));
         }
 
         updateListView();
