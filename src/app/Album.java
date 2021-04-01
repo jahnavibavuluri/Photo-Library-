@@ -3,6 +3,7 @@ package app;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import javafx.scene.image.Image;
@@ -30,13 +31,19 @@ public class Album implements Serializable {
         return photos.toString();
     }
 
+    public int numPhotos() {
+        return photos.size();
+    }
+
     public void addPhoto(Photo photo) throws IllegalArgumentException {
         //checking that the same photo is not being added
         for (Photo p: photos) {
             boolean samePhoto = true;
-            for (int i = 0; i < p.image.getHeight(); i++) {
-                for (int j = 0; j < p.image.getWidth(); j++) {
-                    if (p.image.getPixelReader().getArgb(i,j) != photo.image.getPixelReader().getArgb(i, j)) {
+            int width = getSmallerWidth(p,photo);
+            int height = getSmallerHeight(p,photo);
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (p.image.getPixelReader().getArgb(j,i) != photo.image.getPixelReader().getArgb(j,i)) {
                         samePhoto = false;
                         break;
                     }
@@ -70,9 +77,17 @@ public class Album implements Serializable {
         throw new IllegalArgumentException("Cannot find this photo in the album! (This exception should not be thrown since we know for a fact this photo exists in the album!)");
     }
 
+    public int getSmallerWidth(Photo p1, Photo p2) {
+        return p1.getImage().getWidth() < p2.getImage().getWidth() ? (int)p1.getImage().getWidth():(int)p2.getImage().getWidth();
+    }
+
+    public int getSmallerHeight(Photo p1, Photo p2) {
+        return p1.getImage().getHeight() < p2.getImage().getHeight() ? (int)p1.getImage().getHeight():(int)p2.getImage().getHeight();
+    }
+
     //will implement this later!
-    public Image[] getRangeOfPhotos() {
-        Image[] firstAndLast = new Image[2];
+    public Date[] getRangeOfPhotos() {
+        Date[] firstAndLast = new Date[2];
         //firstAndLast[0] = the earliest photo
         //firstAndLast[1] = the latest photo
         return firstAndLast;

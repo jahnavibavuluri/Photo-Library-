@@ -64,7 +64,7 @@ public class LoginController {
                     loader.setLocation(getClass().getResource("/view/album.fxml"));
                     AnchorPane root = (AnchorPane)loader.load();
                     AlbumController controller = loader.getController();
-                    controller.start(appStage,i);
+                    controller.start(appStage,UsersList.get(i));
                     appStage.setScene(new Scene(root));
                     appStage.show();
                 }

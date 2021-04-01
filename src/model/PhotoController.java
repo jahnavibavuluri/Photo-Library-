@@ -1,11 +1,13 @@
 package model;
 
 import app.Album;
+import app.Photo;
 import app.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -18,6 +20,7 @@ import javafx.stage.FileChooser;
 
 import java.io.EOFException;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 // !!!NOTE: PHOTO CONTROLLER IS NOT WORKING RIGHT NOW BECAUSE NOTHING IS BEING PASSING INTO THE SCENE FROM ALBUMS.
@@ -25,8 +28,8 @@ import java.util.ArrayList;
 
 public class PhotoController {
 
-    int albumIndex;
-    int userIndex;
+    //int albumIndex;
+    //int userIndex;
     ArrayList<User> UsersList;
     User user;
     Album album;
@@ -39,7 +42,7 @@ public class PhotoController {
     public int row = 0;
     public int col = 0;
 
-    public void start(Stage mainStage, int albumIndex, int userIndex) {
+    public void start(Stage mainStage, Album album, User user) {
         Image i = new javafx.scene.image.Image("/view/image.jpg");
         image2.setImage(i);
 
@@ -52,11 +55,12 @@ public class PhotoController {
                 UsersList = new ArrayList<User>();
         }
         //DO NOT DELETE THESE COMMENTS
-        this.userIndex = userIndex;
         //this.user = UsersList.get(userIndex);
-        this.albumIndex = albumIndex;
+        this.album = album;
+        this.user = user;
         //this.album = user.getAlbums().get(albumIndex);
-        //System.out.println(user.getUsername());
+        System.out.println(user.getUsername());
+        System.out.println(album.getName());
     }
 
     public void logout(ActionEvent event) throws Exception{
@@ -68,36 +72,49 @@ public class PhotoController {
         loader.setLocation(getClass().getResource("/view/album.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
         AlbumController controller = loader.getController();
-        controller.start(appStage, userIndex);
+        controller.start(appStage, user);
         appStage.setScene(new Scene(root));
         appStage.show();
 
     }
 
-    public void setImage(ActionEvent e) {
+    public void setImage(ActionEvent e) throws IOException {
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", ".gif", ".bmp");
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(imageFilter);
         File selectedFile = fileChooser.showOpenDialog(mainStage);
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/IndividualPhotoController.fxml"));
+        loader.setLocation(getClass().getResource("/view/IndividualPhotosController.fxml"));
         try {
             AnchorPane img = (AnchorPane)loader.load();
-            IndividualAlbumController test = loader.getController();
-            test.album_grid.setVisible(true);
+            IndividualPhotosController photoView = loader.getController();
+            photoView.album_grid.setVisible(true);
             Image i = new Image(selectedFile.toURI().toString());
-            test.image.setImage(i);
-            grid.add(test.album_grid, col, row);
-            if (col == 2) {
-                row++;
-                col = 0;
-            } else {
-                col++;
+            photoView.image.setImage(i);
+            Photo p = new Photo(i);
+            try {
+                this.album.addPhoto(p);
+                grid.add(photoView.album_grid, col, row);
+                if (col == 2) {
+                    row++;
+                    col = 0;
+                } else {
+                    col++;
+                }
+            } catch (IllegalArgumentException error) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Input Error");
+                String content = error.getMessage();
+                alert.setContentText(content);
+                alert.showAndWait();
             }
+
         } catch (Exception ex) {
+            System.out.println("catch error");
             ex.printStackTrace();
         }
+        Serialize.writeApp(UsersList);
     }
 
 }

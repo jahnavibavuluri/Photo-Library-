@@ -26,7 +26,7 @@
                 <ColumnConstraints prefWidth="100"/>
             </columnConstraints>
             <Button fx:id="logout_btn" text="LOGOUT" prefWidth="100" alignment="CENTER" GridPane.columnIndex="0" onAction="#logout"/>
-            <Button text="ADD" prefWidth="100" alignment="CENTER" GridPane.columnIndex="2" onAction="#setImage"/>
+            <Button text="ADD" prefWidth="100" alignment="CENTER" GridPane.columnIndex="2" onAction="#addAlbum"/>
             <Button text="EDIT" prefWidth="100" alignment="CENTER" GridPane.columnIndex="4"/>
             <Button text="DELETE" prefWidth="100" alignment="CENTER" GridPane.columnIndex="6"/>
             <Button text="SEARCH" prefWidth="100" alignment="CENTER" GridPane.columnIndex="8"/>

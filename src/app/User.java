@@ -24,6 +24,8 @@ public class User implements Serializable {
         return albums;
     }
 
+    public int numberOfAlbums() {return albums.size();}
+
     public void addAlbum(String album) throws IllegalArgumentException {
         for (Album a: albums) {
             if (a.getName().equals(album))

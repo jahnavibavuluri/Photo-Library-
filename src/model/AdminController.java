@@ -50,9 +50,7 @@ public class AdminController{
         //saves the users arraylist
         Serialize.writeApp(UsersList);
 
-        Stage appStage;
-
-        appStage=(Stage)logout_btn.getScene().getWindow();
+        Stage appStage=(Stage)logout_btn.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/login.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
@@ -84,7 +82,7 @@ public class AdminController{
 
             for (int i = 0; i < UsersList.size(); i++) {
                 if (((UsersList.get(i).username.toLowerCase()).equals(add.getText().trim().toLowerCase()))) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Input Error");
                     String content = "No Two Users Can NOT Have The Same Name";
                     alert.setContentText(content);
@@ -122,7 +120,7 @@ public class AdminController{
             return;
         }
         if(delete.getText().toLowerCase().equals("stock")){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Input Error");
             String content = "You Can Not Delete This User";
             alert.setContentText(content);
