@@ -34,6 +34,7 @@ public class LoginController {
             if (e instanceof EOFException)
                 UsersList = new ArrayList<User>();
         }
+        System.out.println(UsersList.toString());
     }
 
     public void login(ActionEvent e) throws Exception{

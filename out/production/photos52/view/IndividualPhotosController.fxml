@@ -8,14 +8,14 @@
 
 <?import javafx.scene.image.ImageView?>
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.IndividualPhotosController" prefHeight="400.0" prefWidth="600.0">
-    <GridPane fx:id="album_grid" prefWidth="200" prefHeight="200" visible="false">
+    <GridPane fx:id="photo_grid" prefWidth="200" prefHeight="200" visible="false">
         <rowConstraints>
             <RowConstraints prefHeight="100"/>
             <RowConstraints prefHeight="33"/>
             <RowConstraints prefHeight="34"/>
             <RowConstraints prefHeight="33"/>
         </rowConstraints>
-        <ImageView fx:id ="image" fitHeight="100" GridPane.rowIndex="0" preserveRatio="true"/>
-        <Label text="Caption: " GridPane.rowIndex="2" alignment="TOP_CENTER" contentDisplay="CENTER"/>
+        <ImageView fx:id ="ind_photos_image" fitHeight="100" GridPane.rowIndex="0" preserveRatio="true"/>
+        <Label fx:id="ind_caption_label" text="Caption: " GridPane.rowIndex="2" alignment="TOP_CENTER" contentDisplay="CENTER"/>
     </GridPane>
 </AnchorPane>

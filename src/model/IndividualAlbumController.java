@@ -31,6 +31,7 @@ public class IndividualAlbumController {
     //public ArrayList<User> UsersList;
 
     public void start(Stage mainStage, Album album, User user) {
+        this.album_grid.setId(album.getName());
         this.user = user;
         this.mainStage = mainStage;
         album_grid.setVisible(true);
@@ -53,7 +54,6 @@ public class IndividualAlbumController {
                 }
             }
         });
-
     }
 
     public void goToPhotosScene(Album album) throws IOException {

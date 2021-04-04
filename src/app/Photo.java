@@ -24,6 +24,7 @@ public class Photo implements Serializable {
     public Photo(Image image) {
         this.image = image;
         this.tags = new ArrayList<Tag>();
+        this.date = Calendar.getInstance().getTime();
     }
 
     public String getDate() {
@@ -34,12 +35,15 @@ public class Photo implements Serializable {
         return this.caption;
     }
 
-    public void setCaption(String caption) {
+    public void setCaption(String caption) throws IllegalArgumentException {
+        if (caption == null || caption.isBlank()) {
+            throw new IllegalArgumentException("Caption cannot be empty!");
+        }
         this.caption = caption;
     }
 
-    public String getTags() {
-        return tags.toString();
+    public ArrayList<Tag> getTags() {
+        return this.tags;
     }
 
     public Image getImage() {
@@ -69,6 +73,29 @@ public class Photo implements Serializable {
             }
         }
         throw new IllegalArgumentException("Cannot fine tag!");
+    }
+
+    public boolean sameImage(Image img) {
+        boolean samePhoto = true;
+        int width = getSmallerWidth(this.image,img);
+        int height = getSmallerHeight(this.image,img);
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (this.image.getPixelReader().getArgb(j,i) != img.getPixelReader().getArgb(j,i)) {
+                    samePhoto = false;
+                    break;
+                }
+            }
+        }
+        return (samePhoto) ? true:false;
+    }
+
+    public int getSmallerWidth(Image p1, Image p2) {
+        return p1.getWidth() < p2.getWidth() ? (int)p1.getWidth():(int)p2.getWidth();
+    }
+
+    public int getSmallerHeight(Image p1, Image p2) {
+        return p1.getHeight() < p2.getHeight() ? (int)p1.getHeight():(int)p2.getHeight();
     }
 
 }
