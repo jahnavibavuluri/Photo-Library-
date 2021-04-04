@@ -6,6 +6,7 @@ import app.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -20,6 +21,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
 
 // !!!NOTE: PHOTO CONTROLLER IS NOT WORKING RIGHT NOW BECAUSE NOTHING IS BEING PASSING INTO THE SCENE FROM ALBUMS.
@@ -62,6 +64,7 @@ public class PhotoController {
         //this.album = user.getAlbums().get(albumIndex);
         System.out.println(user.getUsername());
         System.out.println(album.getName());
+        clearPhotoDisplay();
         if (this.album.numPhotos() > 0) {
             for (Photo p: this.album.getPhotos()) {
                 try {
@@ -71,6 +74,13 @@ public class PhotoController {
                 }
             }
         }
+    }
+
+    public void clearPhotoDisplay() {
+        this.display_image.setImage(null);
+        this.photos_caption.setText("Caption: ");
+        this.photos_date.setText("Date: ");
+        this.photos_tags.setText("Tags: ");
     }
 
     public void populatePhotos(Photo p) {
@@ -149,7 +159,19 @@ public class PhotoController {
         Serialize.writeApp(UsersList);
     }
 
-    public void editCaption(ActionEvent e) {
+    public void resetPhotos() throws Exception {
+        Serialize.writeApp(UsersList);
+        this.row = 0;
+        this.col = 0;
+        Iterator<Node> iter = this.grid.getChildren().iterator();
+        while (iter.hasNext()) {
+            Node node = iter.next();
+            iter.remove();
+        }
+        this.start(this.mainStage, this.album, this.user);
+    }
+
+    public void editCaption(ActionEvent e) throws Exception {
         //get the image that the change it being made on
         Image i = display_image.getImage();
         Photo photoInAlbum = null;
@@ -174,6 +196,11 @@ public class PhotoController {
             if (result.isPresent()) {
                 try {
                     photoInAlbum.setCaption(result.get());
+                    try {
+                        resetPhotos();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
 
                 } catch (IllegalArgumentException error) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -183,7 +210,7 @@ public class PhotoController {
                     alert.showAndWait();
                 }
             }
-            photos_caption.setText(photoInAlbum.getCaption());
+            //photos_caption.setText(photoInAlbum.getCaption());
         }
     }
 
@@ -198,30 +225,8 @@ public class PhotoController {
             alert.setContentText(content);
             alert.showAndWait();
         } else {
-
+            //still have to finish implementing
         }
-
-        /*
-        TextInputDialog deletingAlbum = new TextInputDialog();
-        deletingAlbum.initOwner(this.mainStage);
-        deletingAlbum.setTitle("Delete Album");
-        deletingAlbum.setHeaderText("Please enter the name of the album you would like to delete.");
-        Optional<String> result = deletingAlbum.showAndWait();
-        if (result.isPresent()) {
-            try {
-                System.out.println("the album being deleted is: " + result.get());
-                this.user.deleteAlbum(result.get());
-                resetAlbums();
-            } catch (IllegalArgumentException error) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Input Error");
-                String content = error.getMessage();
-                alert.setContentText(content);
-                alert.showAndWait();
-            }
-        }
-         */
-
 
     }
 

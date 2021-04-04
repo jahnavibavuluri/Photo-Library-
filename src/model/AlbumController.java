@@ -141,7 +141,16 @@ public class AlbumController {
         Serialize.writeApp(UsersList);
     }
 
-    public void editAlbum() {
+    @FXML
+    public void enterAlbum(MouseEvent m) {
+        GridPane gpane = (GridPane) m.getTarget();
+        System.out.println("mouse clicked!");
+        int colIndex = gpane.getColumnIndex(gpane);
+        int rowIndex = gpane.getRowIndex(gpane);
+        System.out.println("The col index is: " + colIndex + "\n The row index is: " + rowIndex);
+    }
+
+    public void editAlbum() throws Exception {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Edit Album Name");
 
@@ -181,15 +190,7 @@ public class AlbumController {
         result.ifPresent(pair -> {
             //System.out.println(pair.getKey() + " " + pair.getValue());
             Album a = user.getAlbumWithName(pair.getKey());
-            try {
-                user.editAlbum(pair.getKey() + "", pair.getValue() + "");
-            } catch (IllegalArgumentException error) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Input Error");
-                String content = error.getMessage();
-                alert.setContentText(content);
-                alert.showAndWait();
-            }
+            user.editAlbum(pair.getKey() + "", pair.getValue() + "");
             System.out.println(a.getName());
             //Node node = getNode(pair.getKey());
             System.out.println("the old album was: " + pair.getKey() + "\n the new albums is: " + pair.getValue());
@@ -260,15 +261,6 @@ public class AlbumController {
     }
 
 }
-
-@FXML
-    public void enterAlbum(MouseEvent m) {
-        GridPane gpane = (GridPane) m.getTarget();
-        System.out.println("mouse clicked!");
-        int colIndex = gpane.getColumnIndex(gpane);
-        int rowIndex = gpane.getRowIndex(gpane);
-        System.out.println("The col index is: " + colIndex + "\n The row index is: " + rowIndex);
-    }
 
  GridPane album_grid = new GridPane();
         album_grid.addRow(100);
