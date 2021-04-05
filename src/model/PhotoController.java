@@ -171,6 +171,17 @@ public class PhotoController {
         this.start(this.mainStage, this.album, this.user);
     }
 
+    public void viewSlideshow() throws Exception {
+        Stage appStage=this.mainStage;
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/slideshow.fxml"));
+        AnchorPane root = (AnchorPane)loader.load();
+        SlideshowController controller = loader.getController();
+        controller.start(this.mainStage, this.user, this.album);
+        appStage.setScene(new Scene(root));
+        appStage.show();
+    }
+
     public void editCaption(ActionEvent e) throws Exception {
         //get the image that the change it being made on
         Image i = display_image.getImage();
@@ -225,7 +236,30 @@ public class PhotoController {
             alert.setContentText(content);
             alert.showAndWait();
         } else {
-            //still have to finish implementing
+            //find the photo in the album that corresponds to the photo being edited
+            for (Photo p: album.getPhotos()) {
+                if (p.sameImage(i))
+                    photoInAlbum = p;
+            }
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("You are deleting the selected photo!");
+            alert.setContentText("Are you sure you want to delete this photo?");
+            alert.showAndWait();
+            try {
+                this.album.deletePhoto(photoInAlbum);
+                try {
+                    resetPhotos();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            } catch (IllegalArgumentException error) {
+                Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                alert1.setTitle("Input Error");
+                String content = error.getMessage();
+                alert1.setContentText(content);
+                alert1.showAndWait();
+            }
         }
 
     }
@@ -239,10 +273,85 @@ public class PhotoController {
     }
 
     public void movePhoto(ActionEvent e) {
+        Image i = display_image.getImage();
+        Photo photoInAlbum = null;
+        if (i == null) {
+            //there is no photo selected
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No photo is selected!");
+            String content = ("Please select an image to edit.");
+            alert.setContentText(content);
+            alert.showAndWait();
+        } else {
+            for (Photo p: album.getPhotos()) {
+                if (p.sameImage(i))
+                    photoInAlbum = p;
+            }
+            TextInputDialog movePhoto = new TextInputDialog();
+            movePhoto.initOwner(this.mainStage);
+            movePhoto.setTitle("Move Photo");
+            movePhoto.setHeaderText("Enter the album name you would like to move this photo into.");
+            Optional<String> result = movePhoto.showAndWait();
+            if (result.isPresent()) {
+                try {
+                    Album moveTo = user.getAlbum(result.get());
+                    user.movePhoto(photoInAlbum, this.album, moveTo);
+                    try {
+                        resetPhotos();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
 
+                } catch (IllegalArgumentException error) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Input Error");
+                    String content = error.getMessage();
+                    alert.setContentText(content);
+                    alert.showAndWait();
+                }
+            }
+        }
     }
 
     public void copyPhoto(ActionEvent e) {
+        Image i = display_image.getImage();
+        Photo photoInAlbum = null;
+        if (i == null) {
+            //there is no photo selected
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No photo is selected!");
+            String content = ("Please select an image to edit.");
+            alert.setContentText(content);
+            alert.showAndWait();
+        } else {
+            for (Photo p: album.getPhotos()) {
+                if (p.sameImage(i))
+                    photoInAlbum = p;
+            }
+            TextInputDialog copyPhoto = new TextInputDialog();
+            copyPhoto.initOwner(this.mainStage);
+            copyPhoto.setTitle("Copy Photo");
+            copyPhoto.setHeaderText("Enter the album name you would like to copy this photo into.");
+            Optional<String> result = copyPhoto.showAndWait();
+            if (result.isPresent()) {
+                try {
+                    Album copyTo = user.getAlbum(result.get());
+                    user.copyPhoto(photoInAlbum, this.album, copyTo);
+                    try {
+                        resetPhotos();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                } catch (IllegalArgumentException error) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Input Error");
+                    String content = error.getMessage();
+                    alert.setContentText(content);
+                    alert.showAndWait();
+                }
+            }
+        }
 
     }
 

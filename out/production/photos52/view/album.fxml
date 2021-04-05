@@ -29,7 +29,7 @@
             <Button text="ADD" prefWidth="100" alignment="CENTER" GridPane.columnIndex="2" onAction="#addAlbum"/>
             <Button text="EDIT" prefWidth="100" alignment="CENTER" GridPane.columnIndex="4" onAction="#editAlbum"/>
             <Button text="DELETE" prefWidth="100" alignment="CENTER" GridPane.columnIndex="6" onAction="#deleteAlbum"/>
-            <Button text="SEARCH" prefWidth="100" alignment="CENTER" GridPane.columnIndex="8"/>
+            <Button text="SEARCH" prefWidth="100" alignment="CENTER" GridPane.columnIndex="8" onAction="#searchPhotos"/>
         </GridPane>
         <ScrollPane fx:id="scroll" AnchorPane.bottomAnchor="50" AnchorPane.topAnchor="120" AnchorPane.rightAnchor="50" AnchorPane.leftAnchor="50">
             <GridPane fx:id="grid" prefWidth="570" minHeight="600" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">

@@ -1,8 +1,10 @@
 package model;
 
+import app.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -19,9 +21,23 @@ public class SearchController {
 
     public int row = 0;
     public int col = 0;
+    Stage mainStage;
+    User user;
 
-    public void start(Stage mainstage) {
+    public void start(Stage mainstage, User user) {
+        this.mainStage = mainstage;
+        this.user = user;
+    }
 
+    public void backToAlbums() throws Exception {
+        Stage appStage=this.mainStage;
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/album.fxml"));
+        AnchorPane root = (AnchorPane)loader.load();
+        AlbumController controller = loader.getController();
+        controller.start(appStage,this.user);
+        appStage.setScene(new Scene(root));
+        appStage.show();
     }
 
     public void setImage(ActionEvent e) {

@@ -28,14 +28,19 @@ public class IndividualAlbumController {
     @FXML Label dates_of_pics;
     public Stage mainStage;
     public User user;
+    public Album album;
     //public ArrayList<User> UsersList;
 
     public void start(Stage mainStage, Album album, User user) {
         this.album_grid.setId(album.getName());
         this.user = user;
+        this.album = album;
+        if (album.getPhotos().size() != 0) {
+            image.setImage(album.getPhotos().get(album.getPhotos().size()-1).getImage());
+        }
         this.mainStage = mainStage;
         album_grid.setVisible(true);
-        number_of_pics.setText((album.numPhotos() == 0 ? "N/A" : String.valueOf(album.numPhotos())));
+        number_of_pics.setText("Number of photos: " + (album.numPhotos() == 0 ? "0" : String.valueOf(album.numPhotos())));
         album_name_text.setText((album.getName()));
         dates_of_pics.setText(album.getRangeOfPhotos().toString());
         album_grid.setVisible(true);

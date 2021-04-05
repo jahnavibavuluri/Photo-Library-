@@ -60,9 +60,11 @@ public class Album implements Serializable {
         while (iter.hasNext()) {
             Photo p = iter.next();
             boolean samePhoto = true;
-            for (int i = 0; i < p.image.getHeight(); i++) {
-                for (int j = 0; j < p.image.getWidth(); j++) {
-                    if (p.image.getPixelReader().getArgb(i,j) != photo.image.getPixelReader().getArgb(i, j)) {
+            int width = getSmallerWidth(p,photo);
+            int height = getSmallerHeight(p,photo);
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (p.image.getPixelReader().getArgb(j,i) != photo.image.getPixelReader().getArgb(j,i)) {
                         samePhoto = false;
                         break;
                     }

@@ -11,14 +11,12 @@
 <?import javafx.scene.image.ImageView?>
 <AnchorPane prefHeight="500.0" prefWidth="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.SlideshowController">
     <children>
+        <Button text="BACK" prefWidth="100" onAction="#backToPhotos"/>
         <SplitPane prefWidth="385" prefHeight="250" AnchorPane.bottomAnchor="210" AnchorPane.leftAnchor="157.5" AnchorPane.rightAnchor="157.5" AnchorPane.topAnchor="40">
             <items>
                 <ImageView fx:id = "Image" fitHeight="250" fitWidth="385" preserveRatio="true"/>
             </items>
         </SplitPane>
-
-
-
 
         <!-- This SplitPane is the Add Songs on the bottom right side of the GUI-->
         <SplitPane prefWidth="385" prefHeight="150" AnchorPane.bottomAnchor="40" AnchorPane.leftAnchor="157.5" AnchorPane.rightAnchor="157.5" AnchorPane.topAnchor="310">
@@ -36,8 +34,8 @@
                             <ColumnConstraints prefWidth="77" />
                         </columnConstraints>
                         <children>
-                            <Button fx:id="previous_btn" text="Previous" prefWidth="77" GridPane.columnIndex="1"/>
-                            <Button fx:id="next_btn" text="Next" prefWidth="77" GridPane.columnIndex="3"/>
+                            <Button fx:id="previous_btn" text="Previous" prefWidth="77" GridPane.columnIndex="1" onAction="#previousPhoto"/>
+                            <Button fx:id="next_btn" text="Next" prefWidth="77" GridPane.columnIndex="3" onAction="#nextPhoto"/>
                         </children>
                     </GridPane>
                 </children>

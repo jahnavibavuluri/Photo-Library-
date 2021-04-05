@@ -35,6 +35,14 @@ public class LoginController {
                 UsersList = new ArrayList<User>();
         }
         System.out.println(UsersList.toString());
+
+        mainStage.setOnCloseRequest(event -> {
+            try {
+                Serialize.writeApp(UsersList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void login(ActionEvent e) throws Exception{

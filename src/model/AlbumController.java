@@ -190,15 +190,24 @@ public class AlbumController {
         result.ifPresent(pair -> {
             //System.out.println(pair.getKey() + " " + pair.getValue());
             Album a = user.getAlbumWithName(pair.getKey());
-            user.editAlbum(pair.getKey() + "", pair.getValue() + "");
-            System.out.println(a.getName());
-            //Node node = getNode(pair.getKey());
-            System.out.println("the old album was: " + pair.getKey() + "\n the new albums is: " + pair.getValue());
             try {
-                resetAlbums();
-            } catch (Exception e) {
-                e.printStackTrace();
+                user.editAlbum(pair.getKey() + "", pair.getValue() + "");
+                System.out.println(a.getName());
+                //Node node = getNode(pair.getKey());
+                System.out.println("the old album was: " + pair.getKey() + "\n the new albums is: " + pair.getValue());
+                try {
+                    resetAlbums();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } catch (IllegalArgumentException error) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Input Error");
+                String content = error.getMessage();
+                alert.setContentText(content);
+                alert.showAndWait();
             }
+
         });
     }
 
@@ -233,6 +242,18 @@ public class AlbumController {
             iter.remove();
         }
         this.start(this.mainStage, this.user);
+    }
+
+    public void searchPhotos(ActionEvent e) throws Exception {
+        Stage appStage=this.mainStage;
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/search.fxml"));
+        AnchorPane root = (AnchorPane)loader.load();
+        SearchController controller = loader.getController();
+        controller.start(this.mainStage, this.user);
+        appStage.setScene(new Scene(root));
+        appStage.show();
+
     }
 
 }

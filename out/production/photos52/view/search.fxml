@@ -23,7 +23,7 @@
                 <ColumnConstraints prefWidth="25"/>
                 <ColumnConstraints prefWidth="100"/>
             </columnConstraints>
-            <Button text="Back" prefWidth="100" alignment="CENTER" GridPane.columnIndex="0"/>
+            <Button text="Back" prefWidth="100" alignment="CENTER" GridPane.columnIndex="0" onAction="#backToAlbums"/>
             <Button text="Search 1 Tag" prefWidth="100" alignment="CENTER" GridPane.columnIndex="2" />
             <Button text="Search 2 Tags" prefWidth="100" alignment="CENTER" GridPane.columnIndex="4"/>
             <Button text="Search Date" prefWidth="100" alignment="CENTER" GridPane.columnIndex="6"/>

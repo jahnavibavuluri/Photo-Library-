@@ -42,6 +42,14 @@ public class User implements Serializable {
         albums.add(album);
     }
 
+    public Album getAlbum(String name) {
+        for (Album a: this.albums) {
+            if (a.getName().equals(name))
+                return a;
+        }
+        return null;
+    }
+
     public void editAlbum(String oldName, String newName) throws IllegalArgumentException {
         for (Album a: albums) {
             if (a.getName().equals(newName) && !oldName.equals(newName)) //excludes the case where a user can decide to make no changes to the old album
@@ -80,6 +88,91 @@ public class User implements Serializable {
                 return a;
         }
         return null;
+    }
+
+    public void copyPhoto(Photo photo, Album start, Album end) throws IllegalArgumentException {
+        //makes sure either album is not null
+        if (start == null || end == null)
+            throw new IllegalArgumentException("Album does not exist!");
+        boolean startAlbumDoesNotExist = true;
+        boolean endAlbumDoesNotExist = true;
+        Album startAlbum = null;
+        Album endAlbum = null;
+
+        //finds the given albums in the users albums arraylist
+        for (Album a: this.albums) {
+            if (a.getName().equals(start.getName())) {
+                startAlbumDoesNotExist = false;
+                startAlbum = a;
+            }
+
+            if (a.getName().equals((end.getName()))) {
+                endAlbumDoesNotExist = false;
+                endAlbum = a;
+            }
+        }
+        //throws an exception if either album is not found
+        if (startAlbumDoesNotExist || endAlbumDoesNotExist) throw new IllegalArgumentException("Album does not exist!");
+        //finds the given photo in the start album
+        boolean photoExistsinAlbum = false;
+        Photo photoInAlbum = null;
+        for (Photo p: startAlbum.getPhotos()) {
+            if (p.sameImage(photo.getImage())) {
+                photoExistsinAlbum = true;
+                photoInAlbum = p;
+
+            }
+        }
+
+        //if the given photo does not exist in the start album, throw exception
+        if (!photoExistsinAlbum) throw new IllegalArgumentException("This photo does not exist in this album!");
+
+        //finally adds the same photo to the end album
+        end.addPhoto(photoInAlbum);
+
+    }
+
+    public void movePhoto(Photo photo, Album start, Album end) throws IllegalArgumentException {
+        //makes sure either album is not null
+        if (start == null || end == null)
+            throw new IllegalArgumentException("Album does not exist!");
+        boolean startAlbumDoesNotExist = true;
+        boolean endAlbumDoesNotExist = true;
+        Album startAlbum = null;
+        Album endAlbum = null;
+
+        //finds the given albums in the users albums arraylist
+        for (Album a: this.albums) {
+            if (a.getName().equals(start.getName())) {
+                startAlbumDoesNotExist = false;
+                startAlbum = a;
+            }
+
+            if (a.getName().equals((end.getName()))) {
+                endAlbumDoesNotExist = false;
+                endAlbum = a;
+            }
+        }
+        //throws an exception if either album is not found
+        if (startAlbumDoesNotExist || endAlbumDoesNotExist) throw new IllegalArgumentException("Album does not exist!");
+        //finds the given photo in the start album
+        boolean photoExistsinAlbum = false;
+        Photo photoInAlbum = null;
+        for (Photo p: startAlbum.getPhotos()) {
+            if (p.sameImage(photo.getImage())) {
+                photoExistsinAlbum = true;
+                photoInAlbum = p;
+
+            }
+        }
+
+        //if the given photo does not exist in the start album, throw exception
+        if (!photoExistsinAlbum) throw new IllegalArgumentException("This photo does not exist in this album!");
+
+        //finally adds the same photo to the end album
+        end.addPhoto(photoInAlbum);
+        start.deletePhoto(photoInAlbum);
+
     }
 
 
