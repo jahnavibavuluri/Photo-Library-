@@ -4,16 +4,46 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import app.Album;
 
 public class User implements Serializable {
 
     public String username;
     public ArrayList<Album> albums;
+    public ArrayList<String> presetTags;
 
     public User(String username) {
         this.username = username;
         this.albums = new ArrayList<Album>();
+        this.presetTags = new ArrayList<String>();
+        presetTags.add("weather");
+        presetTags.add("person");
+        presetTags.add("location");
+    }
+
+    public void addPreset(Tag tag){
+        for(int i=0; i<presetTags.size(); i++){
+
+            if(presetTags.get(i).equals(tag.getKey())){
+                return;
+            }
+        }
+        presetTags.add(tag.getKey());
+    }
+    public void printPreset(){
+        for(String t: presetTags){
+            System.out.println(t);
+        }
+    }
+
+    public void deletePreset(Tag tag){
+        if(tag.getKey().equals("weather") || tag.getKey().equals("location")){
+            return;
+        }
+        for(int i=0; i<presetTags.size(); i++){
+            if(presetTags.get(i).equals(tag.getKey())){
+                presetTags.remove(i);
+            }
+        }
     }
 
     public String getUsername() {

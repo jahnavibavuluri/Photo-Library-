@@ -110,7 +110,7 @@ public class PhotoController {
         // Convert the result to a username-password-pair when the login button is clicked.
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == done) {
-                return new Pair<>(from.getText(), to.getText());
+                return new Pair<>(from.getText().toLowerCase(), to.getText().toLowerCase());
             }
             return null;
         });
@@ -122,7 +122,12 @@ public class PhotoController {
             String key = "" + pair.getKey();
             System.out.println(key + " " + value);
             try {
-                Tag tag = new Tag(key, value, true);
+                Tag tag;
+                if(key.equals("location") || key.equals("weather")){
+                     tag = new Tag(key, value, false);
+                } else{
+                     tag = new Tag(key, value, true);
+                }
                 Image i = display_image.getImage();
                 Photo photoInAlbum = null;
                 if (i == null) {
@@ -140,6 +145,8 @@ public class PhotoController {
                     }
                 }
                 photoInAlbum.addTag(tag);
+                user.addPreset(tag);
+                user.printPreset();
             } catch  (IllegalArgumentException error) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Input Error");
@@ -209,27 +216,37 @@ public class PhotoController {
         String temp;
         Optional<Pair<String, String>> result = dialog.showAndWait();
         result.ifPresent(pair -> {
-            String value = "" + pair.getValue();
-            String key = "" + pair.getKey();
-            System.out.println(key + " " + value);
-            Tag tag = new Tag(key, value, true);
-            Image i = display_image.getImage();
-            Photo photoInAlbum = null;
-            if (i == null) {
-                //there is no photo selected
+            try {
+                String value = "" + pair.getValue();
+                String key = "" + pair.getKey();
+                System.out.println(key + " " + value);
+                Tag tag = new Tag(key, value, true);
+                Image i = display_image.getImage();
+                Photo photoInAlbum = null;
+                if (i == null) {
+                    //there is no photo selected
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("No photo is selected!");
+                    String content = ("Please select an image to edit.");
+                    alert.setContentText(content);
+                    alert.showAndWait();
+                } else {
+                    //find the photo in the album that corresponds to the photo being edited
+                    for (Photo p : album.getPhotos()) {
+                        if (p.sameImage(i))
+                            photoInAlbum = p;
+                    }
+                }
+                photoInAlbum.deleteTag(tag);
+                user.deletePreset(tag);
+                user.printPreset();
+            } catch (IllegalArgumentException error){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("No photo is selected!");
-                String content = ("Please select an image to edit.");
+                alert.setTitle("Input Error");
+                String content = error.getMessage();
                 alert.setContentText(content);
                 alert.showAndWait();
-            } else {
-                //find the photo in the album that corresponds to the photo being edited
-                for (Photo p : album.getPhotos()) {
-                    if (p.sameImage(i))
-                        photoInAlbum = p;
-                }
             }
-            photoInAlbum.deleteTag(tag);
         });
     }
 
