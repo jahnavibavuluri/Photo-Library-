@@ -3,9 +3,12 @@ package model;
 import app.Album;
 import app.Photo;
 import app.User;
+import app.Tag;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.stage.FileChooser;
+import javafx.util.Pair;
 
 import java.io.EOFException;
 import java.io.File;
@@ -74,6 +78,159 @@ public class PhotoController {
                 }
             }
         }
+    }
+    public void addTag(ActionEvent e) throws Exception{
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Add Tag");
+
+        // Set the button types.
+        ButtonType done = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(done, ButtonType.CANCEL);
+
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField from = new TextField();
+        from.setPromptText("Key");
+        TextField to = new TextField();
+        to.setPromptText("Value");
+
+        gridPane.add(new Label("Key:"), 0, 0);
+        gridPane.add(from, 1, 0);
+        gridPane.add(new Label("Value:"), 2, 0);
+        gridPane.add(to, 3, 0);
+
+        dialog.getDialogPane().setContent(gridPane);
+
+
+        Platform.runLater(() -> from.requestFocus());
+
+        // Convert the result to a username-password-pair when the login button is clicked.
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == done) {
+                return new Pair<>(from.getText(), to.getText());
+            }
+            return null;
+        });
+        String temp;
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+        result.ifPresent(pair -> {
+
+            String value = "" + pair.getValue();
+            String key = "" + pair.getKey();
+            System.out.println(key + " " + value);
+            try {
+                Tag tag = new Tag(key, value, true);
+                Image i = display_image.getImage();
+                Photo photoInAlbum = null;
+                if (i == null) {
+                    //there is no photo selected
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("No photo is selected!");
+                    String content = ("Please select an image to edit.");
+                    alert.setContentText(content);
+                    alert.showAndWait();
+                } else {
+                    //find the photo in the album that corresponds to the photo being edited
+                    for (Photo p : album.getPhotos()) {
+                        if (p.sameImage(i))
+                            photoInAlbum = p;
+                    }
+                }
+                photoInAlbum.addTag(tag);
+            } catch  (IllegalArgumentException error) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Input Error");
+                String content = error.getMessage();
+                alert.setContentText(content);
+                alert.showAndWait();
+            }
+
+
+            //System.out.println(pair.getKey() + " " + pair.getValue());
+            /*Album a = user.getAlbumWithName(pair.getKey());
+            try {
+                user.editAlbum(pair.getKey() + "", pair.getValue() + "");
+                System.out.println(a.getName());
+                //Node node = getNode(pair.getKey());
+                System.out.println("the old album was: " + pair.getKey() + "\n the new albums is: " + pair.getValue());
+                try {
+                    //resetAlbums();
+                } catch (Exception r) {
+                    r.printStackTrace();
+                }
+            } catch (IllegalArgumentException error) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Input Error");
+                String content = error.getMessage();
+                alert.setContentText(content);
+                alert.showAndWait();
+            }*/
+        });
+    }
+
+    public void deleteTag(ActionEvent e) {
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Delete Tag");
+
+        // Set the button types.
+        ButtonType done = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(done, ButtonType.CANCEL);
+
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField from = new TextField();
+        from.setPromptText("Key");
+        TextField to = new TextField();
+        to.setPromptText("Value");
+
+        gridPane.add(new Label("Key:"), 0, 0);
+        gridPane.add(from, 1, 0);
+        gridPane.add(new Label("Value:"), 2, 0);
+        gridPane.add(to, 3, 0);
+
+        dialog.getDialogPane().setContent(gridPane);
+
+
+        Platform.runLater(() -> from.requestFocus());
+
+        // Convert the result to a username-password-pair when the login button is clicked.
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == done) {
+                return new Pair<>(from.getText(), to.getText());
+            }
+            return null;
+        });
+        String temp;
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+        result.ifPresent(pair -> {
+            String value = "" + pair.getValue();
+            String key = "" + pair.getKey();
+            System.out.println(key + " " + value);
+            Tag tag = new Tag(key, value, true);
+            Image i = display_image.getImage();
+            Photo photoInAlbum = null;
+            if (i == null) {
+                //there is no photo selected
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("No photo is selected!");
+                String content = ("Please select an image to edit.");
+                alert.setContentText(content);
+                alert.showAndWait();
+            } else {
+                //find the photo in the album that corresponds to the photo being edited
+                for (Photo p : album.getPhotos()) {
+                    if (p.sameImage(i))
+                        photoInAlbum = p;
+                }
+            }
+            photoInAlbum.deleteTag(tag);
+        });
     }
 
     public void clearPhotoDisplay() {
@@ -264,13 +421,9 @@ public class PhotoController {
 
     }
 
-    public void addTag(ActionEvent e) {
 
-    }
 
-    public void deleteTag(ActionEvent e) {
 
-    }
 
     public void movePhoto(ActionEvent e) {
         Image i = display_image.getImage();

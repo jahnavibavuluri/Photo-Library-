@@ -31,7 +31,7 @@ public class User implements Serializable {
             throw new IllegalArgumentException("Album cannot be null!");
         }
 
-        if (album.getName().isBlank()) {
+        if (album.getName().isEmpty()) {
             throw new IllegalArgumentException("Please enter a name.");
         }
 
@@ -68,7 +68,7 @@ public class User implements Serializable {
     }
 
     public void deleteAlbum(String name) throws IllegalArgumentException {
-        if (name == null || name.isBlank()) throw new IllegalArgumentException("Please enter an album to delete!");
+        if (name == null || name.isEmpty()) throw new IllegalArgumentException("Please enter an album to delete!");
         boolean noAlbumExists = true;
         Iterator<Album> iter = albums.iterator();
         while (iter.hasNext()) {

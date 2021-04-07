@@ -36,7 +36,7 @@ public class Photo implements Serializable {
     }
 
     public void setCaption(String caption) throws IllegalArgumentException {
-        if (caption == null || caption.isBlank()) {
+        if (caption == null || caption.isEmpty()) {
             throw new IllegalArgumentException("Caption cannot be empty!");
         }
         this.caption = caption;
@@ -57,8 +57,15 @@ public class Photo implements Serializable {
             if (t.getKey().equals(key) && t.getValue().equals(value)) {
                 throw new IllegalArgumentException("You can't add the same tag to a photo");
             }
+            if(!t.getX() && t.getKey().equals(key)){
+                throw new IllegalArgumentException("This key can NOT have multiple values");
+            }
         }
         this.tags.add(tag);
+        System.out.println("Tag has been added");
+        for (Tag t: this.tags) {
+            System.out.println(t.getKey() + " " + t.getValue());
+        }
     }
 
     public void deleteTag(Tag tag) throws IllegalArgumentException {
@@ -69,10 +76,12 @@ public class Photo implements Serializable {
             Tag t = iter.next();
             if (t.getKey().equals(key) && t.getValue().equals(value)) {
                 tags.remove(t);
+                System.out.println(t.getKey() + " " + t.getValue());
                 return;
             }
         }
-        throw new IllegalArgumentException("Cannot fine tag!");
+        throw new IllegalArgumentException("Cannot find tag!");
+
     }
 
     public boolean sameImage(Image img) {
