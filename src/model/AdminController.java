@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.util.ArrayList;
 import app.User;
 import javafx.collections.ObservableList;
@@ -24,12 +25,14 @@ public class AdminController{
     @FXML TextField delete;
     @FXML Button logout_btn;
     @FXML ListView<String> user_listview;
+    public Stage mainstage;
 
     public ArrayList<User> UsersList;
     ObservableList<String> obsList = FXCollections.observableArrayList();
 
 
     public void start(Stage mainstage) {
+        this.mainstage = mainstage;
         try {
             this.UsersList = Serialize.readApp();
         } catch (Exception e) {
@@ -43,6 +46,13 @@ public class AdminController{
         }
 
         updateListView();
+        mainstage.setOnCloseRequest(event -> {
+            try {
+                Serialize.writeApp(UsersList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
     }
 

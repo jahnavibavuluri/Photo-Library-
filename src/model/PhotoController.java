@@ -35,10 +35,12 @@ public class PhotoController {
 
     //int albumIndex;
     //int userIndex;
-    ArrayList<User> UsersList;
-    User user;
-    Album album;
-    Stage mainStage;
+    public ArrayList<User> UsersList;
+    private User user;
+    private Album album;
+    public Stage mainStage;
+    public int albumIndex;
+    public int userIndex;
     @FXML ScrollPane scroll;
     @FXML GridPane grid;
     @FXML ImageView display_image;
@@ -50,21 +52,18 @@ public class PhotoController {
     public int row = 0;
     public int col = 0;
 
-    public void start(Stage mainStage, Album album, User user) {
-        //Image i = new javafx.scene.image.Image("/view/image.jpg");
-        //image2.setImage(i);
+    public void start(Stage mainStage, int albumIndex, int userIndex) {
+        this.albumIndex = albumIndex;
+        this.userIndex = userIndex;
         this.mainStage= mainStage;
         try {
             UsersList = Serialize.readApp();
         } catch (Exception e) {
             System.out.println("This should not appear since users array list will always have Stock user!");
-            if (e instanceof EOFException)
-                UsersList = new ArrayList<User>();
+            e.printStackTrace();
         }
-        //DO NOT DELETE THESE COMMENTS
-        //this.user = UsersList.get(userIndex);
-        this.album = album;
-        this.user = user;
+        this.user = UsersList.get(userIndex);
+        this.album = user.getAlbums().get(albumIndex);
         //this.album = user.getAlbums().get(albumIndex);
         System.out.println(user.getUsername());
         System.out.println(album.getName());
@@ -78,7 +77,15 @@ public class PhotoController {
                 }
             }
         }
+        mainStage.setOnCloseRequest(event -> {
+            try {
+                Serialize.writeApp(UsersList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
+
     public void addTag(ActionEvent e) throws Exception{
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Add Tag");
@@ -285,7 +292,7 @@ public class PhotoController {
         loader.setLocation(getClass().getResource("/view/album.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
         AlbumController controller = loader.getController();
-        controller.start(appStage, user);
+        controller.start(appStage, userIndex);
         appStage.setScene(new Scene(root));
         appStage.show();
 
@@ -342,7 +349,7 @@ public class PhotoController {
             Node node = iter.next();
             iter.remove();
         }
-        this.start(this.mainStage, this.album, this.user);
+        this.start(this.mainStage, this.albumIndex, this.userIndex);
     }
 
     public void viewSlideshow() throws Exception {
@@ -351,7 +358,7 @@ public class PhotoController {
         loader.setLocation(getClass().getResource("/view/slideshow.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
         SlideshowController controller = loader.getController();
-        controller.start(this.mainStage, this.user, this.album);
+        controller.start(this.mainStage, this.userIndex, this.albumIndex);
         appStage.setScene(new Scene(root));
         appStage.show();
     }
@@ -381,6 +388,7 @@ public class PhotoController {
             if (result.isPresent()) {
                 try {
                     photoInAlbum.setCaption(result.get());
+                    //populatePhotos(photoInAlbum);
                     try {
                         resetPhotos();
                     } catch (Exception ex) {
@@ -421,6 +429,7 @@ public class PhotoController {
             alert.showAndWait();
             try {
                 this.album.deletePhoto(photoInAlbum);
+                clearPhotoDisplay();
                 try {
                     resetPhotos();
                 } catch (Exception ex) {

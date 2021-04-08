@@ -27,14 +27,29 @@ public class IndividualAlbumController {
     @FXML Label number_of_pics;
     @FXML Label dates_of_pics;
     public Stage mainStage;
-    public User user;
-    public Album album;
+    public int albumIndex;
+    public int userIndex;
+    public ArrayList<User> UsersList;
+    private User user;
+    private Album album;
     //public ArrayList<User> UsersList;
 
-    public void start(Stage mainStage, Album album, User user) {
-        this.album_grid.setId(album.getName());
-        this.user = user;
-        this.album = album;
+    public void start(Stage mainStage, int albumIndex, int userIndex) {
+        this.albumIndex = albumIndex;
+        this.userIndex = userIndex;
+        try {
+            UsersList = Serialize.readApp();
+        } catch (Exception e) {
+            System.out.println("This should not appear since users array list will always have Stock user!");
+            e.printStackTrace();
+        }
+        this.user = UsersList.get(userIndex);
+        System.out.println(user.getUsername());
+        System.out.println(user.getAlbums().size());
+        this.album = user.getAlbums().get(albumIndex);
+
+        this.album_grid.setId(UsersList.get(userIndex).getAlbums().get(albumIndex).getName());
+
         if (album.getPhotos().size() != 0) {
             image.setImage(album.getPhotos().get(album.getPhotos().size()-1).getImage());
         }
@@ -66,7 +81,7 @@ public class IndividualAlbumController {
         loader.setLocation(getClass().getResource("/view/photos.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
         PhotoController controller = loader.getController();
-        controller.start(mainStage,album,user);
+        controller.start(mainStage,this.albumIndex,this.userIndex);
         mainStage.setScene(new Scene(root));
         mainStage.show();
     }

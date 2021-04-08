@@ -43,7 +43,7 @@ public class Album implements Serializable {
             int height = getSmallerHeight(p,photo);
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    if (p.image.getPixelReader().getArgb(j,i) != photo.image.getPixelReader().getArgb(j,i)) {
+                    if (p.getImage().getPixelReader().getArgb(j,i) != photo.getImage().getPixelReader().getArgb(j,i)) {
                         samePhoto = false;
                         break;
                     }
@@ -64,7 +64,7 @@ public class Album implements Serializable {
             int height = getSmallerHeight(p,photo);
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    if (p.image.getPixelReader().getArgb(j,i) != photo.image.getPixelReader().getArgb(j,i)) {
+                    if (p.getImage().getPixelReader().getArgb(j,i) != photo.getImage().getPixelReader().getArgb(j,i)) {
                         samePhoto = false;
                         break;
                     }

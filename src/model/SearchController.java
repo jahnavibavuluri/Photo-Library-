@@ -11,6 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class SearchController {
 
     @FXML
@@ -21,12 +24,28 @@ public class SearchController {
 
     public int row = 0;
     public int col = 0;
-    Stage mainStage;
-    User user;
+    public Stage mainStage;
+    private User user;
+    public int userIndex;
+    public ArrayList<User> UsersList;
 
-    public void start(Stage mainstage, User user) {
+    public void start(Stage mainstage, int userIndex) {
         this.mainStage = mainstage;
-        this.user = user;
+        this.userIndex = userIndex;
+        try {
+            UsersList = Serialize.readApp();
+        } catch (Exception e) {
+            System.out.println("This should not appear since users array list will always have Stock user!");
+            e.printStackTrace();
+        }
+        this.user = UsersList.get(userIndex);
+        mainStage.setOnCloseRequest(event -> {
+            try {
+                Serialize.writeApp(UsersList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void backToAlbums() throws Exception {
@@ -35,7 +54,7 @@ public class SearchController {
         loader.setLocation(getClass().getResource("/view/album.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
         AlbumController controller = loader.getController();
-        controller.start(appStage,this.user);
+        controller.start(appStage,this.userIndex);
         appStage.setScene(new Scene(root));
         appStage.show();
     }

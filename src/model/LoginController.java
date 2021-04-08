@@ -31,9 +31,16 @@ public class LoginController {
             UsersList = Serialize.readApp();
         } catch (Exception e) {
             System.out.println("This should not appear since users array list will always have Stock user!");
-            if (e instanceof EOFException)
+            if (e instanceof EOFException) {
+                System.out.println("oef!!!!");
                 UsersList = new ArrayList<User>();
+            }
         }
+
+        if (this.UsersList.isEmpty()) {
+            this.UsersList.add(new User("stock"));
+        }
+
         System.out.println(UsersList.toString());
 
         mainStage.setOnCloseRequest(event -> {
@@ -67,13 +74,16 @@ public class LoginController {
         } else {
             String user_logging_in = login.getText();
             for (int i = 0; i<UsersList.size(); i++) {
-                if (UsersList.get(i).getUsername().equals(user_logging_in)) {
-                    Stage appStage=(Stage)login_btn.getScene().getWindow();
+                System.out.println(UsersList.get(i).getUsername());
+                if (user_logging_in.toLowerCase().equals(UsersList.get(i).getUsername())) {
+                //if (UsersList.get(i).getUsername().toLowerCase().equals(user_logging_in)) {
+                    System.out.println("there is a match! The user is: " + user_logging_in);
+                    Stage appStage=this.mainStage;
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(getClass().getResource("/view/album.fxml"));
                     AnchorPane root = (AnchorPane)loader.load();
                     AlbumController controller = loader.getController();
-                    controller.start(appStage,UsersList.get(i));
+                    controller.start(appStage,i);
                     appStage.setScene(new Scene(root));
                     appStage.show();
                 }
