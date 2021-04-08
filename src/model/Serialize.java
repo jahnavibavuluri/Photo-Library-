@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Serialize implements Serializable {
     public static final String storeDir = "data";
-    public static final String storeFile = "users.ser";
+    public static final String storeFile = "users.dat";
 
     public static void writeApp(ArrayList<User> users) throws IOException {
 
