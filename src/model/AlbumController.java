@@ -27,7 +27,6 @@ import java.util.Optional;
 
 public class AlbumController {
 
-    //int userIndex;
     public ArrayList<User> UsersList;
     public ArrayList<Album> albums;
     private User user;
@@ -36,12 +35,10 @@ public class AlbumController {
     public int row = 0;
     public int col = 0;
 
-    @FXML
-    ScrollPane scroll;
-    @FXML
-    GridPane grid;
-    @FXML
-    Button logout_btn;
+    @FXML ScrollPane scroll;
+    @FXML GridPane grid;
+    @FXML Button logout_btn;
+    @FXML Label username;
 
 
     public void start(Stage mainStage, int userIndex) {
@@ -53,11 +50,11 @@ public class AlbumController {
             System.out.println("This should not appear since users array list will always have Stock user!");
             e.printStackTrace();
         }
-
         System.out.println(UsersList.toString());
         user = UsersList.get(userIndex);
         //System.out.println(UsersList);
         albums = user.getAlbums();
+        username.setText("Welcome to the albums in your photo library, " + user.getUsername() + "! Double click on the album you wish to enter.");
         System.out.println(user.getUsername());
         System.out.println(user.numberOfAlbums());
         System.out.println(user.getAlbums());

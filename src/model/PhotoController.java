@@ -47,6 +47,7 @@ public class PhotoController {
     @FXML Label photos_caption;
     @FXML Label photos_date;
     @FXML Label photos_tags;
+    @FXML Label albumName;
     @FXML Button logout_btn;
 
     public int row = 0;
@@ -67,6 +68,7 @@ public class PhotoController {
         //this.album = user.getAlbums().get(albumIndex);
         System.out.println(user.getUsername());
         System.out.println(album.getName());
+        albumName.setText("Welcome to " + album.getName() + ", " + user.getUsername() + "! Click the photo you would like to display or edit.");
         clearPhotoDisplay();
         if (this.album.numPhotos() > 0) {
             for (Photo p: this.album.getPhotos()) {
@@ -89,6 +91,7 @@ public class PhotoController {
     public void addTag(ActionEvent e) throws Exception{
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Add Tag");
+        dialog.setHeaderText("You can add a new Tag key value pair or choose from your preset tags: " + user.printPreset());
 
         // Set the button types.
         ButtonType done = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
@@ -135,9 +138,9 @@ public class PhotoController {
                 } else{
                      tag = new Tag(key, value, true);
                 }
-                Image i = display_image.getImage();
+                String i = display_image.getId();
                 Photo photoInAlbum = null;
-                if (i == null) {
+                if (display_image.getImage() == null) {
                     //there is no photo selected
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("No photo is selected!");
@@ -147,13 +150,14 @@ public class PhotoController {
                 } else {
                     //find the photo in the album that corresponds to the photo being edited
                     for (Photo p : album.getPhotos()) {
-                        if (p.sameImage(i))
+                        Photo tempPhoto = new Photo(new File(i));
+                        if (p.sameImage(tempPhoto))
                             photoInAlbum = p;
                     }
                 }
                 photoInAlbum.addTag(tag);
                 user.addPreset(tag);
-                user.printPreset();
+                //user.printPreset();
             } catch  (IllegalArgumentException error) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Input Error");
@@ -228,9 +232,11 @@ public class PhotoController {
                 String key = "" + pair.getKey();
                 System.out.println(key + " " + value);
                 Tag tag = new Tag(key, value, true);
-                Image i = display_image.getImage();
+
+                String i = display_image.getId();
                 Photo photoInAlbum = null;
-                if (i == null) {
+
+                if (display_image.getImage() == null) {
                     //there is no photo selected
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("No photo is selected!");
@@ -240,13 +246,13 @@ public class PhotoController {
                 } else {
                     //find the photo in the album that corresponds to the photo being edited
                     for (Photo p : album.getPhotos()) {
-                        if (p.sameImage(i))
+                        if (p.sameImage(new Photo(new File(i))))
                             photoInAlbum = p;
                     }
                 }
                 photoInAlbum.deleteTag(tag);
                 user.deletePreset(tag);
-                user.printPreset();
+                //user.printPreset();
             } catch (IllegalArgumentException error){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Input Error");
@@ -309,8 +315,8 @@ public class PhotoController {
         try {
             AnchorPane img = (AnchorPane)loader.load();
             IndividualPhotosController photoView = loader.getController();
-            Image i = new Image(selectedFile.toURI().toString());
-            Photo p = new Photo(i);
+            //Image i = new Image(selectedFile.toURI().toString());
+            Photo p = new Photo(selectedFile);
             photoView.start(this.mainStage,p, display_image, photos_caption, photos_date, photos_tags);
 
             //photoView.image.setImage(i);
@@ -365,9 +371,9 @@ public class PhotoController {
 
     public void editCaption(ActionEvent e) throws Exception {
         //get the image that the change it being made on
-        Image i = display_image.getImage();
+        String i = display_image.getId();
         Photo photoInAlbum = null;
-        if (i == null) {
+        if (display_image.getImage() == null) {
             //there is no photo selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("No photo is selected!");
@@ -377,7 +383,7 @@ public class PhotoController {
         } else {
             //find the photo in the album that corresponds to the photo being edited
             for (Photo p: album.getPhotos()) {
-                if (p.sameImage(i))
+                if (p.sameImage(new Photo(new File(i))))
                     photoInAlbum = p;
             }
             TextInputDialog newCaption = new TextInputDialog();
@@ -408,9 +414,9 @@ public class PhotoController {
     }
 
     public void deletePhoto(ActionEvent e) {
-        Image i = display_image.getImage();
+        String i = display_image.getId();
         Photo photoInAlbum = null;
-        if (i == null) {
+        if (display_image.getImage() == null) {
             //there is no photo selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("No photo is selected!");
@@ -420,7 +426,7 @@ public class PhotoController {
         } else {
             //find the photo in the album that corresponds to the photo being edited
             for (Photo p: album.getPhotos()) {
-                if (p.sameImage(i))
+                if (p.sameImage(new Photo(new File(i))))
                     photoInAlbum = p;
             }
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -452,9 +458,9 @@ public class PhotoController {
 
 
     public void movePhoto(ActionEvent e) {
-        Image i = display_image.getImage();
+        String i = display_image.getId();
         Photo photoInAlbum = null;
-        if (i == null) {
+        if (display_image.getImage() == null) {
             //there is no photo selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("No photo is selected!");
@@ -463,7 +469,7 @@ public class PhotoController {
             alert.showAndWait();
         } else {
             for (Photo p: album.getPhotos()) {
-                if (p.sameImage(i))
+                if (p.sameImage(new Photo(new File(i))))
                     photoInAlbum = p;
             }
             TextInputDialog movePhoto = new TextInputDialog();
@@ -493,9 +499,9 @@ public class PhotoController {
     }
 
     public void copyPhoto(ActionEvent e) {
-        Image i = display_image.getImage();
+        String i = display_image.getId();
         Photo photoInAlbum = null;
-        if (i == null) {
+        if (display_image.getImage() == null) {
             //there is no photo selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("No photo is selected!");
@@ -504,7 +510,7 @@ public class PhotoController {
             alert.showAndWait();
         } else {
             for (Photo p: album.getPhotos()) {
-                if (p.sameImage(i))
+                if (p.sameImage(new Photo(new File(i))))
                     photoInAlbum = p;
             }
             TextInputDialog copyPhoto = new TextInputDialog();

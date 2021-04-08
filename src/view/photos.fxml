@@ -12,7 +12,7 @@
         <AnchorPane prefWidth="700" prefHeight="700" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
             <children>
                 <GridPane prefWidth="600" prefHeight="50" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="640" AnchorPane.rightAnchor="50" AnchorPane.leftAnchor="50">
-                    <Label text="Photos In Your Album" alignment="TOP_CENTER" contentDisplay="CENTER" />
+                    <Label fx:id="albumName" text="Photos In Your Album" alignment="TOP_CENTER" contentDisplay="CENTER" />
                 </GridPane>
                 <GridPane prefWidth="600" prefHeight="50" AnchorPane.leftAnchor="50" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="50" AnchorPane.bottomAnchor="590">
                     <columnConstraints>

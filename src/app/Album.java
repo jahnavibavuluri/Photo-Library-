@@ -38,8 +38,11 @@ public class Album implements Serializable {
     public void addPhoto(Photo photo) throws IllegalArgumentException {
         //checking that the same photo is not being added
         for (Photo p: photos) {
-            boolean samePhoto = true;
-            int width = getSmallerWidth(p,photo);
+            boolean samePhoto = false;
+            if (p.sameImage(photo)) {
+                samePhoto = true;
+            }
+            /*int width = getSmallerWidth(p,photo);
             int height = getSmallerHeight(p,photo);
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
@@ -48,7 +51,7 @@ public class Album implements Serializable {
                         break;
                     }
                 }
-            }
+            }*/
             if (samePhoto) throw new IllegalArgumentException("The same photo cannot be added to the same album!");
         }
 
@@ -59,7 +62,11 @@ public class Album implements Serializable {
         Iterator<Photo> iter = photos.iterator();
         while (iter.hasNext()) {
             Photo p = iter.next();
-            boolean samePhoto = true;
+            boolean samePhoto = false;
+            if (p.sameImage(photo)) {
+                samePhoto = true;
+            }
+            /*
             int width = getSmallerWidth(p,photo);
             int height = getSmallerHeight(p,photo);
             for (int i = 0; i < height; i++) {
@@ -69,7 +76,7 @@ public class Album implements Serializable {
                         break;
                     }
                 }
-            }
+            }*/
             if (samePhoto) {
                 photos.remove(p);
                 return;
@@ -79,13 +86,13 @@ public class Album implements Serializable {
         throw new IllegalArgumentException("Cannot find this photo in the album! (This exception should not be thrown since we know for a fact this photo exists in the album!)");
     }
 
-    public int getSmallerWidth(Photo p1, Photo p2) {
+    /*public int getSmallerWidth(Photo p1, Photo p2) {
         return p1.getImage().getWidth() < p2.getImage().getWidth() ? (int)p1.getImage().getWidth():(int)p2.getImage().getWidth();
     }
 
     public int getSmallerHeight(Photo p1, Photo p2) {
         return p1.getImage().getHeight() < p2.getImage().getHeight() ? (int)p1.getImage().getHeight():(int)p2.getImage().getHeight();
-    }
+    }*/
 
     //will implement this later!
     public Date[] getRangeOfPhotos() {

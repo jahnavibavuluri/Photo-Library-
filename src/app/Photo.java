@@ -3,19 +3,16 @@ package app;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
 
 public class Photo implements Serializable {
 
-    public Image image;
+    //public Image image;
+    public File image;
+    //public Path filePath;
     public Date date;
     public ArrayList<Tag> tags;
     public String caption;
@@ -26,8 +23,8 @@ public class Photo implements Serializable {
         this.tags = new ArrayList<Tag>();
     }
 
-    public Photo(Image image) {
-        this.image = image;
+    public Photo(File pic) {
+        this.image = pic;
         this.tags = new ArrayList<Tag>();
         this.date = Calendar.getInstance().getTime();
     }
@@ -51,9 +48,13 @@ public class Photo implements Serializable {
         return this.tags;
     }
 
-    public Image getImage() {
+    public File getFile() {
         return this.image;
     }
+
+    /*public Path getPath() {
+        return this.filePath;
+    }*/
 
     public void addTag(Tag tag) throws IllegalArgumentException {
         String key = tag.getKey();
@@ -89,6 +90,37 @@ public class Photo implements Serializable {
 
     }
 
+    public boolean sameImage(Photo photo) {
+        try {
+            if (Files.size(photo.image.toPath()) != Files.size(this.image.toPath())) {
+                System.out.println("1: files are not the same");
+                return false;
+            }
+
+            byte[] first = Files.readAllBytes(photo.image.toPath());
+            byte[] second = Files.readAllBytes(this.image.toPath());
+            if (Arrays.equals(first,second)) {
+                System.out.println("2: files are the same");
+            } else System.out.println("3: files are not the same");
+
+            return Arrays.equals(first, second);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("4: files are not the same");
+        return false;
+    }
+
+    public String getDisplayTags() {
+        StringBuilder allTags = new StringBuilder();
+        for (Tag t: this.tags) {
+            allTags.append(t.getTag());
+            allTags.append("  ");
+        }
+        return allTags.toString();
+    }
+
+    /*
     public boolean sameImage(Image img) {
         boolean samePhoto = true;
         int width = getSmallerWidth(this.image,img);
@@ -104,6 +136,7 @@ public class Photo implements Serializable {
         return (samePhoto) ? true:false;
     }
 
+
     public int getSmallerWidth(Image p1, Image p2) {
         return p1.getWidth() < p2.getWidth() ? (int)p1.getWidth():(int)p2.getWidth();
     }
@@ -111,4 +144,5 @@ public class Photo implements Serializable {
     public int getSmallerHeight(Image p1, Image p2) {
         return p1.getHeight() < p2.getHeight() ? (int)p1.getHeight():(int)p2.getHeight();
     }
+    */
 }
