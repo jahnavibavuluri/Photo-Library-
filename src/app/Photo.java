@@ -1,7 +1,12 @@
 package app;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -106,5 +111,4 @@ public class Photo implements Serializable {
     public int getSmallerHeight(Image p1, Image p2) {
         return p1.getHeight() < p2.getHeight() ? (int)p1.getHeight():(int)p2.getHeight();
     }
-
 }

@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.util.Pair;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,7 +30,8 @@ public class AlbumController {
     //int userIndex;
     public ArrayList<User> UsersList;
     public ArrayList<Album> albums;
-    public User user;
+    private User user;
+    public int userIndex;
     public Stage mainStage;
     public int row = 0;
     public int col = 0;
@@ -42,41 +44,50 @@ public class AlbumController {
     Button logout_btn;
 
 
-    public void start(Stage mainStage, User user) {
+    public void start(Stage mainStage, int userIndex) {
         this.mainStage = mainStage;
+        this.userIndex = userIndex;
         try {
             UsersList = Serialize.readApp();
         } catch (Exception e) {
             System.out.println("This should not appear since users array list will always have Stock user!");
-            if (e instanceof EOFException)
-                UsersList = new ArrayList<User>();
+            e.printStackTrace();
         }
 
-        this.user = user;
+        System.out.println(UsersList.toString());
+        user = UsersList.get(userIndex);
         //System.out.println(UsersList);
-        albums = this.user.getAlbums();
+        albums = user.getAlbums();
         System.out.println(user.getUsername());
-        System.out.println(this.user.numberOfAlbums());
-        System.out.println(this.user.getAlbums());
-        if (this.user.numberOfAlbums() > 0) {
-            for (Album a : this.user.getAlbums()) {
+        System.out.println(user.numberOfAlbums());
+        System.out.println(user.getAlbums());
+        if (user.numberOfAlbums() > 0) {
+            for (int i = 0; i<albums.size(); i++) {
+            //for (Album a : user.getAlbums()) {
                 try {
-                    populateAlbums(a);
+                    populateAlbums(i);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+        mainStage.setOnCloseRequest(event -> {
+            try {
+                Serialize.writeApp(UsersList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 
-    public void populateAlbums(Album album) throws Exception {
+    public void populateAlbums(int displayAlbumIndex) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/IndividualAlbumController.fxml"));
         try {
             AnchorPane img = (AnchorPane) loader.load();
             IndividualAlbumController albumView = loader.getController();
-            albumView.start(mainStage, album, user);
+            albumView.start(mainStage, displayAlbumIndex, userIndex);
             grid.add(albumView.album_grid, col, row);
             if (col == 2) {
                 row++;
@@ -92,7 +103,7 @@ public class AlbumController {
     public void logout(ActionEvent event) throws Exception {
         //saves the users arraylist
         Serialize.writeApp(UsersList);
-        System.out.println(this.user.getAlbums());
+        System.out.println(user.getAlbums());
 
         Stage appStage = (Stage) logout_btn.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader();
@@ -117,9 +128,12 @@ public class AlbumController {
                 AnchorPane img = (AnchorPane) loader.load();
                 IndividualAlbumController albumView = loader.getController();
                 Album newAlbum = new Album(result.get());
-                albumView.start(mainStage, newAlbum, user);
                 try {
-                    this.user.addAlbum(newAlbum);
+                    user.addAlbum(newAlbum);
+                    Serialize.writeApp(UsersList);
+                    System.out.println(albums.size());
+                    System.out.println(albums.toString());
+                    albumView.start(mainStage, albums.size()-1, userIndex);
                     grid.add(albumView.album_grid, col, row);
                     if (col == 2) {
                         row++;
@@ -139,15 +153,6 @@ public class AlbumController {
             }
         }
         Serialize.writeApp(UsersList);
-    }
-
-    @FXML
-    public void enterAlbum(MouseEvent m) {
-        GridPane gpane = (GridPane) m.getTarget();
-        System.out.println("mouse clicked!");
-        int colIndex = gpane.getColumnIndex(gpane);
-        int rowIndex = gpane.getRowIndex(gpane);
-        System.out.println("The col index is: " + colIndex + "\n The row index is: " + rowIndex);
     }
 
     public void editAlbum() throws Exception {
@@ -220,7 +225,8 @@ public class AlbumController {
         if (result.isPresent()) {
             try {
                 System.out.println("the album being deleted is: " + result.get());
-                this.user.deleteAlbum(result.get());
+                user.deleteAlbum(result.get());
+                Serialize.writeApp(UsersList);
                 resetAlbums();
             } catch (IllegalArgumentException error) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -241,7 +247,7 @@ public class AlbumController {
             Node node = iter.next();
             iter.remove();
         }
-        this.start(this.mainStage, this.user);
+        this.start(this.mainStage, userIndex);
     }
 
     public void searchPhotos(ActionEvent e) throws Exception {
@@ -250,7 +256,7 @@ public class AlbumController {
         loader.setLocation(getClass().getResource("/view/search.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
         SearchController controller = loader.getController();
-        controller.start(this.mainStage, this.user);
+        controller.start(this.mainStage, userIndex);
         appStage.setScene(new Scene(root));
         appStage.show();
 

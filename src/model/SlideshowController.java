@@ -9,18 +9,31 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
+
 
 public class SlideshowController {
     @FXML ImageView Image;
-    User user;
-    Album album;
-    Stage mainStage;
+    private User user;
+    private Album album;
+    public Stage mainStage;
+    public ArrayList<User> UsersList;
+    public int userIndex;
+    public int albumIndex;
     int photo;
 
-    public void start(Stage mainStage, User user, Album album){
-        this.user = user;
-        this.album = album;
+    public void start(Stage mainStage, int userIndex, int albumIndex){
+        this.userIndex = userIndex;
+        this.albumIndex = albumIndex;
         this.mainStage = mainStage;
+        try {
+            UsersList = Serialize.readApp();
+        } catch (Exception e) {
+            System.out.println("This should not appear since users array list will always have Stock user!");
+            e.printStackTrace();
+        }
+        this.user = UsersList.get(userIndex);
+        this.album = user.getAlbums().get(albumIndex);
         photo = 0;
         if (this.album.getPhotos().size() != 0) {
             Image.setImage(album.getPhotos().get(photo).getImage());
@@ -33,7 +46,7 @@ public class SlideshowController {
         loader.setLocation(getClass().getResource("/view/photos.fxml"));
         AnchorPane root = (AnchorPane)loader.load();
         PhotoController controller = loader.getController();
-        controller.start(this.mainStage, this.album, this.user);
+        controller.start(this.mainStage, this.albumIndex, this.userIndex);
         appStage.setScene(new Scene(root));
         appStage.show();
     }
