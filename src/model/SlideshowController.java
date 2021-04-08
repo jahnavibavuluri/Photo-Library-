@@ -36,7 +36,7 @@ public class SlideshowController {
         this.album = user.getAlbums().get(albumIndex);
         photo = 0;
         if (this.album.getPhotos().size() != 0) {
-            Image.setImage(album.getPhotos().get(photo).getImage());
+            Image.setImage(new Image(album.getPhotos().get(photo).getFile().getAbsolutePath()));
         }
     }
 
@@ -57,7 +57,7 @@ public class SlideshowController {
             if (photo == 0) {
                 photo = this.album.getPhotos().size()-1;
             }
-            Image.setImage(this.album.getPhotos().get(photo).getImage());
+            Image.setImage(new Image(this.album.getPhotos().get(photo).getFile().getAbsolutePath()));
             photo--;
         }
     }
@@ -68,7 +68,7 @@ public class SlideshowController {
             if (photo == this.album.getPhotos().size() - 1) {
                 photo = 0;
             }
-            Image.setImage(this.album.getPhotos().get(photo).getImage());
+            Image.setImage(new Image(this.album.getPhotos().get(photo).getFile().getAbsolutePath()));
             photo++;
         }
     }

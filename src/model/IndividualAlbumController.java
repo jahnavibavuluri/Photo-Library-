@@ -51,7 +51,8 @@ public class IndividualAlbumController {
         this.album_grid.setId(UsersList.get(userIndex).getAlbums().get(albumIndex).getName());
 
         if (album.getPhotos().size() != 0) {
-            image.setImage(album.getPhotos().get(album.getPhotos().size()-1).getImage());
+
+            image.setImage(new Image(album.getPhotos().get(album.getPhotos().size()-1).getFile().toURI().toString()));
         }
         this.mainStage = mainStage;
         album_grid.setVisible(true);

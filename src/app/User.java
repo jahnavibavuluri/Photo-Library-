@@ -29,10 +29,13 @@ public class User implements Serializable {
         }
         presetTags.add(tag.getKey());
     }
-    public void printPreset(){
+    public String printPreset(){
+        StringBuilder allPresetTags = new StringBuilder();
         for(String t: presetTags){
-            System.out.println(t);
+            allPresetTags.append(t);
+            allPresetTags.append(", ");
         }
+        return allPresetTags.toString();
     }
 
     public void deletePreset(Tag tag){
@@ -147,7 +150,7 @@ public class User implements Serializable {
         boolean photoExistsinAlbum = false;
         Photo photoInAlbum = null;
         for (Photo p: startAlbum.getPhotos()) {
-            if (p.sameImage(photo.getImage())) {
+            if (p.sameImage(photo)) {
                 photoExistsinAlbum = true;
                 photoInAlbum = p;
 
@@ -189,7 +192,7 @@ public class User implements Serializable {
         boolean photoExistsinAlbum = false;
         Photo photoInAlbum = null;
         for (Photo p: startAlbum.getPhotos()) {
-            if (p.sameImage(photo.getImage())) {
+            if (p.sameImage(photo)) {
                 photoExistsinAlbum = true;
                 photoInAlbum = p;
 

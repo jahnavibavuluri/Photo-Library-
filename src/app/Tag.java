@@ -17,7 +17,7 @@ public class Tag implements Serializable {
     }
 
     public String getTag() {
-        return "( " + this.key + " , " + this.value + " )";
+        return "( " + this.key + ", " + this.value + " )";
     }
 
     public String getKey() {
