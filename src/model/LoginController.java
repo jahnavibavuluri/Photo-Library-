@@ -25,20 +25,22 @@ public class LoginController {
     @FXML TextField login;
     @FXML Button login_btn;
 
-    public void start(Stage mainStage) {
+    public void start(Stage mainStage) throws Exception{
         this.mainStage = mainStage;
         try {
             UsersList = Serialize.readApp();
         } catch (Exception e) {
-            System.out.println("This should not appear since users array list will always have Stock user!");
-            if (e instanceof EOFException) {
+            System.out.println("This is the first time a user is using our app so we must initialize users list and add stock.");
+            UsersList = new ArrayList<User>();
+            /*if (e instanceof EOFException) {
                 System.out.println("oef!!!!");
-                UsersList = new ArrayList<User>();
-            }
+
+            }*/
         }
 
         if (this.UsersList.isEmpty()) {
             this.UsersList.add(new User("stock"));
+            Serialize.writeApp(UsersList);
         }
 
         System.out.println(UsersList.toString());

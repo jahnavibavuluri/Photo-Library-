@@ -13,7 +13,7 @@ public class Photos extends Application {
     //public Stage primaryStage;
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/login.fxml"));
