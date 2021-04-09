@@ -35,6 +35,17 @@ public class Album implements Serializable {
         return photos.size();
     }
 
+    public boolean addPhotoBoolean(ArrayList<Photo> p, Photo photo){
+        for (Photo k: p){
+            if (k.sameImage(photo)){
+                System.out.println("returning false");
+                return false;
+            }
+        }
+        System.out.println("returning true");
+        return true;
+    }
+
     public void addPhoto(Photo photo) throws IllegalArgumentException {
         //checking that the same photo is not being added
         for (Photo p: photos) {

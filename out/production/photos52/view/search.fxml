@@ -24,9 +24,9 @@
                 <ColumnConstraints prefWidth="100"/>
             </columnConstraints>
             <Button text="Back" prefWidth="100" alignment="CENTER" GridPane.columnIndex="0" onAction="#backToAlbums"/>
-            <Button text="Search 1 Tag" prefWidth="100" alignment="CENTER" GridPane.columnIndex="2" />
-            <Button text="Search 2 Tags" prefWidth="100" alignment="CENTER" GridPane.columnIndex="4"/>
-            <Button text="Search Date" prefWidth="100" alignment="CENTER" GridPane.columnIndex="6"/>
+            <Button text="Search 1 Tag" prefWidth="100" alignment="CENTER" GridPane.columnIndex="2" onAction="#searchBy1Tag"/>
+            <Button text="Search 2 Tags" prefWidth="100" alignment="CENTER" GridPane.columnIndex="4" onAction="#searchBy2Tag"/>
+            <Button text="Search Date" prefWidth="100" alignment="CENTER" GridPane.columnIndex="6" onAction="#searchByDate"/>
             <Button text="Create Album" prefWidth="100" alignment="CENTER" GridPane.columnIndex="8" onAction="#setImage"/>
         </GridPane>
         <ScrollPane fx:id="scroll" AnchorPane.bottomAnchor="50" AnchorPane.topAnchor="120" AnchorPane.rightAnchor="50" AnchorPane.leftAnchor="50">
