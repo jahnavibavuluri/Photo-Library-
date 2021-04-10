@@ -2,9 +2,7 @@ package app;
 
 import java.io.Serializable;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 import javafx.scene.image.Image;
 import app.Photo;
@@ -106,11 +104,25 @@ public class Album implements Serializable {
     }*/
 
     //will implement this later!
-    public Date[] getRangeOfPhotos() {
-        Date[] firstAndLast = new Date[2];
-        //firstAndLast[0] = the earliest photo
-        //firstAndLast[1] = the latest photo
-        return firstAndLast;
+    public ArrayList<Date> getRangeOfPhotos() {
+        ArrayList<Date> rangeOfDates = new ArrayList<Date>();
+        ArrayList<Photo> copy = this.photos;
+        if (copy.size() == 0) return null;
+        if (copy.size() == 1) {
+            rangeOfDates.add(copy.get(0).getActualDate());
+            return rangeOfDates;
+        }
+
+        Collections.sort(copy, new Comparator<Photo>() {
+            @Override
+            public int compare(Photo p1, Photo p2) {
+                return p1.getActualDate().compareTo(p2.getActualDate());
+            }
+        });
+
+        rangeOfDates.add(copy.get(0).getActualDate());
+        rangeOfDates.add(copy.get(copy.size()-1).getActualDate());
+        return rangeOfDates;
     }
 
 

@@ -11,9 +11,9 @@
     <GridPane fx:id="photo_grid" prefWidth="200" prefHeight="200" visible="false">
         <rowConstraints>
             <RowConstraints prefHeight="100"/>
-            <RowConstraints prefHeight="33"/>
-            <RowConstraints prefHeight="34"/>
-            <RowConstraints prefHeight="33"/>
+            <RowConstraints prefHeight="10"/>
+            <RowConstraints prefHeight="80"/>
+            <RowConstraints prefHeight="10"/>
         </rowConstraints>
         <ImageView fx:id ="ind_photos_image" fitHeight="100" GridPane.rowIndex="0" preserveRatio="true"/>
         <Label fx:id="ind_caption_label" text="Caption: " GridPane.rowIndex="2" alignment="TOP_CENTER" contentDisplay="CENTER"/>

@@ -37,12 +37,15 @@ public class IndividualAlbumController {
     public void start(Stage mainStage, int albumIndex, int userIndex) {
         this.albumIndex = albumIndex;
         this.userIndex = userIndex;
+        this.mainStage = mainStage;
+
         try {
             UsersList = Serialize.readApp();
         } catch (Exception e) {
             System.out.println("This should not appear since users array list will always have Stock user!");
             e.printStackTrace();
         }
+
         this.user = UsersList.get(userIndex);
         System.out.println(user.getUsername());
         System.out.println(user.getAlbums().size());
@@ -54,12 +57,21 @@ public class IndividualAlbumController {
 
             image.setImage(new Image(album.getPhotos().get(album.getPhotos().size()-1).getFile().toURI().toString()));
         }
-        this.mainStage = mainStage;
+
         album_grid.setVisible(true);
         number_of_pics.setText("Number of photos: " + (album.numPhotos() == 0 ? "0" : String.valueOf(album.numPhotos())));
         album_name_text.setText((album.getName()));
-        dates_of_pics.setText(album.getRangeOfPhotos().toString());
-        album_grid.setVisible(true);
+        album_name_text.setWrapText(true);
+
+        dates_of_pics.setWrapText(true);
+        if (album.getRangeOfPhotos() == null) {
+            dates_of_pics.setText("");
+        } else if (album.getRangeOfPhotos().size() == 1) {
+            dates_of_pics.setText(album.getRangeOfPhotos().get(0).toString());
+        } else {
+            dates_of_pics.setText(album.getRangeOfPhotos().get(0).toString() + " -- " + album.getRangeOfPhotos().get(1).toString());
+        }
+        //dates_of_pics.setText(album.getRangeOfPhotos().toString());
 
         album_grid.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
