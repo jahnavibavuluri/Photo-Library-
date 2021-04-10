@@ -21,7 +21,8 @@ public class IndividualPhotosController {
 
     public void start(Stage mainStage, Photo photo, ImageView image, Label caption, Label date, Label tags) {
         this.mainStage = mainStage;
-        ind_caption_label.setText((photo.getCaption() == null ? "Caption: " : "Caption: " + photo.getCaption()));
+        ind_caption_label.setText((photo.getCaption() == null ? "" : photo.getCaption()));
+        ind_caption_label.setWrapText(true);
         ind_photos_image.setImage(new Image(photo.getFile().toURI().toString()));
         photo_grid.setVisible(true);
 
@@ -37,11 +38,13 @@ public class IndividualPhotosController {
     }
 
     public void displayPhoto(Photo photo, ImageView image, Label caption, Label date, Label tags) {
+        caption.setWrapText(true);
+        tags.setWrapText(true);
         image.setId(photo.getFile().getAbsolutePath());
         image.setImage(new Image(photo.getFile().toURI().toString()));
         caption.setText((photo.getCaption() == null ? "Caption: " : photo.getCaption()));
-        date.setText((photo.getDate() == null ? "No date" : photo.getDate()));
-        tags.setText("Tags: " + photo.getDisplayTags());
+        date.setText((photo.getDate() == null ? "Date: " : photo.getDate()));
+        tags.setText(photo.getTags() == null ? "Tags: " : photo.getDisplayTags());
     }
 
 }

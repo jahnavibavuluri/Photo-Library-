@@ -8,12 +8,12 @@
 
 <?import javafx.scene.image.ImageView?>
 <AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.IndividualAlbumController" prefHeight="400.0" prefWidth="600.0">
-    <GridPane fx:id="album_grid" prefWidth="200" prefHeight="200" visible="false">
+    <GridPane fx:id="album_grid" prefWidth="200" prefHeight="260" visible="false">
         <rowConstraints>
             <RowConstraints prefHeight="100"/>
-            <RowConstraints prefHeight="33"/>
+            <RowConstraints prefHeight="63"/>
             <RowConstraints prefHeight="34"/>
-            <RowConstraints prefHeight="33"/>
+            <RowConstraints prefHeight="63"/>
         </rowConstraints>
         <ImageView fx:id ="image" fitHeight="100" GridPane.rowIndex="0" preserveRatio="true"/>
         <Label fx:id="album_name_text" text="" GridPane.rowIndex="1" alignment="TOP_CENTER" contentDisplay="CENTER"/>

@@ -54,17 +54,15 @@
             </GridPane>
             <GridPane prefHeight="190" prefWidth="300" AnchorPane.bottomAnchor="240" AnchorPane.topAnchor="270" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
                 <rowConstraints>
-                    <RowConstraints prefHeight="25"/>
+                    <RowConstraints prefHeight="70"/>
+                    <RowConstraints prefHeight="10"/>
                     <RowConstraints prefHeight="30"/>
-                    <RowConstraints prefHeight="25"/>
-                    <RowConstraints prefHeight="30"/>
-                    <RowConstraints prefHeight="25"/>
-                    <RowConstraints prefHeight="30"/>
-                    <RowConstraints prefHeight="25"/>
+                    <RowConstraints prefHeight="10"/>
+                    <RowConstraints prefHeight="70"/>
                 </rowConstraints>
-                <Label fx:id="photos_caption" text="Caption: " alignment="TOP_CENTER" contentDisplay="CENTER" GridPane.rowIndex="1"/>
-                <Label fx:id="photos_date" text="Date: " alignment="TOP_CENTER" contentDisplay="CENTER" GridPane.rowIndex="3"/>
-                <Label fx:id="photos_tags" text="Tags: " alignment="TOP_CENTER" contentDisplay="CENTER" GridPane.rowIndex="5"/>
+                <Label fx:id="photos_caption" text="Caption: " alignment="TOP_CENTER" contentDisplay="CENTER" GridPane.rowIndex="0"/>
+                <Label fx:id="photos_date" text="Date: " alignment="TOP_CENTER" contentDisplay="CENTER" GridPane.rowIndex="2"/>
+                <Label fx:id="photos_tags" text="Tags: " alignment="TOP_CENTER" contentDisplay="CENTER" GridPane.rowIndex="4"/>
             </GridPane>
             <GridPane prefHeight="190" prefWidth="300" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="460" AnchorPane.bottomAnchor="50">
                 <columnConstraints>

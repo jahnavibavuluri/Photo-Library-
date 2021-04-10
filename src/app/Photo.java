@@ -13,12 +13,15 @@ public class Photo implements Serializable {
     //public Image image;
     public File image;
     //public Path filePath;
+    public Calendar calendar;
     public Date date;
     public ArrayList<Tag> tags;
     public String caption;
 
     public Photo() {
-        this.date = Calendar.getInstance().getTime();
+        this.calendar = new GregorianCalendar();
+        this.calendar.set(Calendar.MILLISECOND, 0);
+        this.date = this.calendar.getTime();
         image = null;
         this.tags = new ArrayList<Tag>();
     }
@@ -26,12 +29,16 @@ public class Photo implements Serializable {
     public Photo(File pic) {
         this.image = pic;
         this.tags = new ArrayList<Tag>();
-        this.date = Calendar.getInstance().getTime();
+        this.calendar = new GregorianCalendar();
+        this.calendar.set(Calendar.MILLISECOND, 0);
+        this.date = this.calendar.getTime();
     }
 
     public String getDate() {
         return date.toString();
     }
+
+    public Date getActualDate() { return this.date; }
 
     public String getCaption() {
         return this.caption;
