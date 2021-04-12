@@ -64,8 +64,8 @@ public class Photo implements Serializable {
     }*/
 
     public void addTag(Tag tag) throws IllegalArgumentException {
-        String key = tag.getKey();
-        String value = tag.getValue();
+        String key = tag.getKey().trim();
+        String value = tag.getValue().trim();
         for (Tag t: this.tags) {
             if (t.getKey().equals(key) && t.getValue().equals(value)) {
                 throw new IllegalArgumentException("You can't add the same tag to a photo");

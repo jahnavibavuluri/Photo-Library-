@@ -1,6 +1,7 @@
 package model;
 
 import app.User;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -88,8 +89,14 @@ public class LoginController {
                     controller.start(appStage,i);
                     appStage.setScene(new Scene(root));
                     appStage.show();
+                    return;
                 }
             }
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Input Error");
+            String content = "Enter Valid Username -- Keep in mind usernames are NOT case sensitive";
+            alert.setContentText(content);
+            alert.showAndWait();
         }
     }
 

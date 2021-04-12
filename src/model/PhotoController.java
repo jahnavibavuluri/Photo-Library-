@@ -89,85 +89,111 @@ public class PhotoController {
     }
 
     public void addTag(ActionEvent e) throws Exception{
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle("Add Tag");
-        dialog.setHeaderText("You can add a new Tag key value pair or choose from your preset tags: " + user.printPreset());
+        if (display_image.getImage() == null) {
+            //there is no photo selected
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No photo is selected!");
+            String content = ("Please select an image to edit.");
+            alert.setContentText(content);
+            alert.showAndWait();
+        }else {
+            Dialog<Pair<String, String>> dialog = new Dialog<>();
+            dialog.setTitle("Add Tag");
+            dialog.setHeaderText("You can add a new Tag key value pair or choose from your preset tags: " + user.printPreset());
 
-        // Set the button types.
-        ButtonType done = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(done, ButtonType.CANCEL);
+            // Set the button types.
+            ButtonType done = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(done, ButtonType.CANCEL);
 
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(20, 150, 10, 10));
+            GridPane gridPane = new GridPane();
+            gridPane.setHgap(10);
+            gridPane.setVgap(10);
+            gridPane.setPadding(new Insets(20, 150, 10, 10));
 
-        TextField from = new TextField();
-        from.setPromptText("Key");
-        TextField to = new TextField();
-        to.setPromptText("Value");
+            TextField from = new TextField();
+            from.setPromptText("Key");
+            TextField to = new TextField();
+            to.setPromptText("Value");
 
-        gridPane.add(new Label("Key:"), 0, 0);
-        gridPane.add(from, 1, 0);
-        gridPane.add(new Label("Value:"), 2, 0);
-        gridPane.add(to, 3, 0);
+            gridPane.add(new Label("Key:"), 0, 0);
+            gridPane.add(from, 1, 0);
+            gridPane.add(new Label("Value:"), 2, 0);
+            gridPane.add(to, 3, 0);
 
-        dialog.getDialogPane().setContent(gridPane);
+            dialog.getDialogPane().setContent(gridPane);
 
 
-        Platform.runLater(() -> from.requestFocus());
+            Platform.runLater(() -> from.requestFocus());
 
-        // Convert the result to a username-password-pair when the login button is clicked.
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == done) {
-                return new Pair<>(from.getText().toLowerCase(), to.getText().toLowerCase());
-            }
-            return null;
-        });
-        String temp;
-        Optional<Pair<String, String>> result = dialog.showAndWait();
-        result.ifPresent(pair -> {
-
-            String value = "" + pair.getValue();
-            String key = "" + pair.getKey();
-            System.out.println(key + " " + value);
-            try {
-                Tag tag;
-                if(key.equals("location") || key.equals("weather")){
-                     tag = new Tag(key, value, false);
-                } else{
-                     tag = new Tag(key, value, true);
+            // Convert the result to a username-password-pair when the login button is clicked.
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == done) {
+                    return new Pair<>(from.getText().toLowerCase(), to.getText().toLowerCase());
                 }
-                String i = display_image.getId();
-                Photo photoInAlbum = null;
-                if (display_image.getImage() == null) {
-                    //there is no photo selected
+                return null;
+            });
+            String temp;
+            Optional<Pair<String, String>> result = dialog.showAndWait();
+            result.ifPresent(pair -> {
+
+                String temp1 = "" + pair.getValue();
+                String temp2 = "" + pair.getKey();
+                String key = temp1.trim();
+                String value = temp2.trim();
+
+                if(key.equals("") || value.equals("")){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("No photo is selected!");
-                    String content = ("Please select an image to edit.");
+                    alert.setTitle("Input Error");
+                    String content = "No empty tags allowed";
                     alert.setContentText(content);
                     alert.showAndWait();
-                } else {
-                    //find the photo in the album that corresponds to the photo being edited
-                    for (Photo p : album.getPhotos()) {
-                        Photo tempPhoto = new Photo(new File(i));
-                        if (p.sameImage(tempPhoto))
-                            photoInAlbum = p;
+                    return;
+                }
+                System.out.println(key + " " + value);
+                try {
+                    Tag tag;
+                    if (key.equals("location") || key.equals("weather")) {
+                        tag = new Tag(key, value, false);
+                    } else {
+                        tag = new Tag(key, value, true);
+                    }
+                    String i = display_image.getId();
+                    Photo photoInAlbum = null;
+                    if (display_image.getImage() == null) {
+                        /*there is no photo selected
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("No photo is selected!");
+                        String content = ("Please select an image to edit.");
+                        alert.setContentText(content);
+                        alert.showAndWait();
+                        */
+                    } else {
+                        //find the photo in the album that corresponds to the photo being edited
+                        for (Photo p : album.getPhotos()) {
+                            Photo tempPhoto = new Photo(new File(i));
+                            if (p.sameImage(tempPhoto))
+                                photoInAlbum = p;
+                        }
+                    }
+                    photoInAlbum.addTag(tag);
+                    user.addPreset(tag);
+                    clearPhotoDisplay();
+                    Serialize.writeApp(UsersList);
+                    //user.printPreset();
+                } catch (Exception error) {
+                    if (error instanceof IllegalArgumentException) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Input Error");
+                        String content = error.getMessage();
+                        alert.setContentText(content);
+                        alert.showAndWait();
+                    }else{
+                        error.printStackTrace();
                     }
                 }
-                photoInAlbum.addTag(tag);
-                user.addPreset(tag);
-                //user.printPreset();
-            } catch  (IllegalArgumentException error) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Input Error");
-                String content = error.getMessage();
-                alert.setContentText(content);
-                alert.showAndWait();
-            }
-
-
-            //System.out.println(pair.getKey() + " " + pair.getValue());
+            });
+        }
+        //System.out.println(pair.getKey() + " " + pair.getValue());
             /*Album a = user.getAlbumWithName(pair.getKey());
             try {
                 user.editAlbum(pair.getKey() + "", pair.getValue() + "");
@@ -186,81 +212,104 @@ public class PhotoController {
                 alert.setContentText(content);
                 alert.showAndWait();
             }*/
-        });
     }
 
     public void deleteTag(ActionEvent e) {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle("Delete Tag");
+        if (display_image.getImage() == null) {
+            //there is no photo selected
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No photo is selected!");
+            String content = ("Please select an image to edit.");
+            alert.setContentText(content);
+            alert.showAndWait();
+        }else {
+            Dialog<Pair<String, String>> dialog = new Dialog<>();
+            dialog.setTitle("Delete Tag");
 
-        // Set the button types.
-        ButtonType done = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(done, ButtonType.CANCEL);
+            // Set the button types.
+            ButtonType done = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(done, ButtonType.CANCEL);
 
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        gridPane.setPadding(new Insets(20, 150, 10, 10));
+            GridPane gridPane = new GridPane();
+            gridPane.setHgap(10);
+            gridPane.setVgap(10);
+            gridPane.setPadding(new Insets(20, 150, 10, 10));
 
-        TextField from = new TextField();
-        from.setPromptText("Key");
-        TextField to = new TextField();
-        to.setPromptText("Value");
+            TextField from = new TextField();
+            from.setPromptText("Key");
+            TextField to = new TextField();
+            to.setPromptText("Value");
 
-        gridPane.add(new Label("Key:"), 0, 0);
-        gridPane.add(from, 1, 0);
-        gridPane.add(new Label("Value:"), 2, 0);
-        gridPane.add(to, 3, 0);
+            gridPane.add(new Label("Key:"), 0, 0);
+            gridPane.add(from, 1, 0);
+            gridPane.add(new Label("Value:"), 2, 0);
+            gridPane.add(to, 3, 0);
 
-        dialog.getDialogPane().setContent(gridPane);
+            dialog.getDialogPane().setContent(gridPane);
 
 
-        Platform.runLater(() -> from.requestFocus());
+            Platform.runLater(() -> from.requestFocus());
 
-        // Convert the result to a username-password-pair when the login button is clicked.
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == done) {
-                return new Pair<>(from.getText(), to.getText());
-            }
-            return null;
-        });
-        String temp;
-        Optional<Pair<String, String>> result = dialog.showAndWait();
-        result.ifPresent(pair -> {
-            try {
-                String value = "" + pair.getValue();
-                String key = "" + pair.getKey();
-                System.out.println(key + " " + value);
-                Tag tag = new Tag(key, value, true);
+            // Convert the result to a username-password-pair when the login button is clicked.
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == done) {
+                    return new Pair<>(from.getText(), to.getText());
+                }
+                return null;
+            });
+            String temp;
+            Optional<Pair<String, String>> result = dialog.showAndWait();
+            result.ifPresent(pair -> {
+                try {
+                    String temp4 = "" + pair.getValue();
+                    String temp5 = "" + pair.getKey();
+                    String key = temp4.trim();
+                    String value = temp5.trim();
+                    if(key.equals("") || value.equals("")){
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Input Error");
+                        String content = "Please enter a tag to delete";
+                        alert.setContentText(content);
+                        alert.showAndWait();
+                        return;
+                    }
+                    System.out.println(key + " " + value);
+                    Tag tag = new Tag(key, value, true);
 
-                String i = display_image.getId();
-                Photo photoInAlbum = null;
+                    String i = display_image.getId();
+                    Photo photoInAlbum = null;
 
-                if (display_image.getImage() == null) {
-                    //there is no photo selected
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("No photo is selected!");
-                    String content = ("Please select an image to edit.");
-                    alert.setContentText(content);
-                    alert.showAndWait();
-                } else {
-                    //find the photo in the album that corresponds to the photo being edited
-                    for (Photo p : album.getPhotos()) {
-                        if (p.sameImage(new Photo(new File(i))))
-                            photoInAlbum = p;
+                    if (display_image.getImage() == null) {
+                        //there is no photo selected
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("No photo is selected!");
+                        String content = ("Please select an image to edit.");
+                        alert.setContentText(content);
+                        alert.showAndWait();
+                    } else {
+                        //find the photo in the album that corresponds to the photo being edited
+                        for (Photo p : album.getPhotos()) {
+                            if (p.sameImage(new Photo(new File(i))))
+                                photoInAlbum = p;
+                        }
+                    }
+                    photoInAlbum.deleteTag(tag);
+                    user.deletePreset(tag);
+                   clearPhotoDisplay();
+                    Serialize.writeApp(UsersList);
+                } catch (Exception error) {
+                    if (error instanceof IllegalArgumentException) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Input Error");
+                        String content = error.getMessage();
+                        alert.setContentText(content);
+                        alert.showAndWait();
+                    } else{
+                        error.printStackTrace();
                     }
                 }
-                photoInAlbum.deleteTag(tag);
-                user.deletePreset(tag);
-                //user.printPreset();
-            } catch (IllegalArgumentException error){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Input Error");
-                String content = error.getMessage();
-                alert.setContentText(content);
-                alert.showAndWait();
-            }
-        });
+            });
+        }
     }
 
     public void clearPhotoDisplay() {
@@ -305,7 +354,7 @@ public class PhotoController {
     }
 
     public void setImage(ActionEvent e) throws IOException {
-        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", ".gif", ".bmp");
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif", "*.bmp", "*.jpeg");
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(imageFilter);
         File selectedFile = fileChooser.showOpenDialog(mainStage);
@@ -394,6 +443,7 @@ public class PhotoController {
             if (result.isPresent()) {
                 try {
                     photoInAlbum.setCaption(result.get());
+                    Serialize.writeApp(UsersList);
                     //populatePhotos(photoInAlbum);
                     try {
                         resetPhotos();
@@ -401,12 +451,16 @@ public class PhotoController {
                         ex.printStackTrace();
                     }
 
-                } catch (IllegalArgumentException error) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Input Error");
-                    String content = error.getMessage();
-                    alert.setContentText(content);
-                    alert.showAndWait();
+                } catch (Exception error) {
+                    if(error instanceof IllegalArgumentException) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Input Error");
+                        String content = error.getMessage();
+                        alert.setContentText(content);
+                        alert.showAndWait();
+                    } else{
+                        error.printStackTrace();
+                    }
                 }
             }
             //photos_caption.setText(photoInAlbum.getCaption());
@@ -436,18 +490,23 @@ public class PhotoController {
             try {
                 this.album.deletePhoto(photoInAlbum);
                 clearPhotoDisplay();
+                Serialize.writeApp(UsersList);
                 try {
                     resetPhotos();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
 
-            } catch (IllegalArgumentException error) {
-                Alert alert1 = new Alert(Alert.AlertType.ERROR);
-                alert1.setTitle("Input Error");
-                String content = error.getMessage();
-                alert1.setContentText(content);
-                alert1.showAndWait();
+            } catch (Exception error) {
+                if(error instanceof IllegalArgumentException) {
+                    Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                    alert1.setTitle("Input Error");
+                    String content = error.getMessage();
+                    alert1.setContentText(content);
+                    alert1.showAndWait();
+                } else{
+                    error.printStackTrace();
+                }
             }
         }
 
@@ -481,18 +540,23 @@ public class PhotoController {
                 try {
                     Album moveTo = user.getAlbum(result.get());
                     user.movePhoto(photoInAlbum, this.album, moveTo);
+                    Serialize.writeApp(UsersList);
                     try {
                         resetPhotos();
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
 
-                } catch (IllegalArgumentException error) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Input Error");
-                    String content = error.getMessage();
-                    alert.setContentText(content);
-                    alert.showAndWait();
+                } catch (Exception error) {
+                    if(error instanceof IllegalArgumentException) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Input Error");
+                        String content = error.getMessage();
+                        alert.setContentText(content);
+                        alert.showAndWait();
+                    } else{
+                        error.printStackTrace();
+                    }
                 }
             }
         }
@@ -522,18 +586,23 @@ public class PhotoController {
                 try {
                     Album copyTo = user.getAlbum(result.get());
                     user.copyPhoto(photoInAlbum, this.album, copyTo);
+                    Serialize.writeApp(UsersList);
                     try {
                         resetPhotos();
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
 
-                } catch (IllegalArgumentException error) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Input Error");
-                    String content = error.getMessage();
-                    alert.setContentText(content);
-                    alert.showAndWait();
+                } catch (Exception error) {
+                    if(error instanceof IllegalArgumentException) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Input Error");
+                        String content = error.getMessage();
+                        alert.setContentText(content);
+                        alert.showAndWait();
+                    } else{
+                        error.printStackTrace();
+                    }
                 }
             }
         }

@@ -99,17 +99,27 @@ public class AlbumController {
 
     public void logout(ActionEvent event) throws Exception {
         //saves the users arraylist
-        Serialize.writeApp(UsersList);
-        System.out.println(user.getAlbums());
 
-        Stage appStage = (Stage) logout_btn.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/login.fxml"));
-        AnchorPane root = (AnchorPane) loader.load();
-        LoginController controller = loader.getController();
-        controller.start(appStage);
-        appStage.setScene(new Scene(root));
-        appStage.show();
+        Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+        alert1.setTitle("Confirmation");
+        String content1 = "Are you sure you want to logout?";
+        alert1.setContentText(content1);
+        Optional<ButtonType> result = alert1.showAndWait();
+        if ((result).get() == ButtonType.OK) {
+            Serialize.writeApp(UsersList);
+            System.out.println(user.getAlbums());
+            Stage appStage = (Stage) logout_btn.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/login.fxml"));
+            AnchorPane root = (AnchorPane) loader.load();
+            LoginController controller = loader.getController();
+            controller.start(appStage);
+            appStage.setScene(new Scene(root));
+            appStage.show();
+        }
+
+
+
     }
 
     public void addAlbum(ActionEvent e) throws Exception {

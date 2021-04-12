@@ -208,11 +208,27 @@ public class SearchController {
             //1 = AND
             //2 = OR
 
-            String key1 = pair.getKey().getKey() + "";
-            String value1 = pair.getKey().getValue() + "";
-            String key2 = pair.getValue().getKey() + "";
-            String value2 = pair.getValue().getValue() + "";
-            //System.out.println(key1 + " " + value1+ " " + key2 + " " + value2);
+            String temp1 = (pair.getKey().getKey()) + "";
+            String key1 = temp1.trim();
+
+            String temp7 = pair.getKey().getValue() + "";
+            String value1 = temp7.trim();
+
+            String temp3 = pair.getValue().getKey() + "";
+            String key2 = temp3.trim();
+
+            String temp4 = pair.getValue().getValue() + "";
+            String value2 = temp4.trim();
+
+            if(key1.equals("") || value1.equals("") || key2.equals("")|| value2.equals("")){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Input Error");
+                String content = "1 or more tags were not inputted. Please try again";
+                alert.setContentText(content);
+                alert.showAndWait();
+                return;
+            }
+            System.out.println(key1 + " " + value1+ " " + key2 + " " + value2);
             ArrayList<Album> albums = user.getAlbums();
             for( int i =0; i<albums.size(); i++){
                 Album a = albums.get(i);
@@ -335,6 +351,14 @@ public class SearchController {
         result.ifPresent(pair -> {
             String key = pair.getKey() + "";
             String value = pair.getValue() + "";
+            if(key.equals("") || value.equals("")){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Input Error");
+                String content = "1 or more tags were not inputted. Please try again";
+                alert.setContentText(content);
+                alert.showAndWait();
+                return;
+            }
             ArrayList<Album> albums = user.getAlbums();
             for( int i =0; i<albums.size(); i++){
                 Album a = albums.get(i);
@@ -394,11 +418,11 @@ public class SearchController {
         to = date;
     }
 
-    public void searchByDate(ActionEvent e) throws Exception{
-        TextInputDialog addAlbum = new TextInputDialog();
-        addAlbum.initOwner(this.mainStage);
+    public void searchByDate(ActionEvent e) throws Exception {
+        TextInputDialog dateSearch = new TextInputDialog();
+        dateSearch.initOwner(this.mainStage);
         TilePane r = new TilePane();
-        addAlbum.getDialogPane().setContent(r);
+        dateSearch.getDialogPane().setContent(r);
 
         Label fromLabel = new Label("From:");
         Label toLabel = new Label("To:");
@@ -406,8 +430,7 @@ public class SearchController {
         DatePicker fromDate = new DatePicker();
         // action event
         EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e)
-            {
+            public void handle(ActionEvent e) {
                 // get the date picker value
                 setterFrom(fromDate.getValue());
 
@@ -425,8 +448,7 @@ public class SearchController {
 
         // action event
         EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e)
-            {
+            public void handle(ActionEvent e) {
                 // get the date picker value
                 setterTo(toDate.getValue());
 
@@ -451,78 +473,86 @@ public class SearchController {
 
         // create a scene
 
-        Optional<String> result = addAlbum.showAndWait();
+        Optional<String> result = dateSearch.showAndWait();
+        if (result.isPresent()) {
+            System.out.println(from + " " + to);
+            if (from == null || to == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Input Error");
+                String content = "2 Tags were not inputted. Please try again";
+                alert.setContentText(content);
+                alert.showAndWait();
+                return;
+            }
+            if (from.isAfter(to)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Input Error");
+                String content = "Please Fix the Order of the Start and End Date!";
+                alert.setContentText(content);
+                alert.showAndWait();
+                return;
+            }
+            ArrayList<Album> albums = user.getAlbums();
+            for (int i = 0; i < albums.size(); i++) {
+                Album a = albums.get(i);
+                ArrayList<Photo> photos = a.getPhotos();
+                for (int j = 0; j < photos.size(); j++) {
+                    Photo p = photos.get(j);
+                    Date tempDate = p.getActualDate();
+                    LocalDate date = tempDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    if (from.isBefore(to)) {
+                        if (from.isBefore(date) && to.isAfter(date) || from.isEqual(date) || to.isEqual(date)) {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
+                            try {
+                                if (newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)) {
+                                    newAlbum.getPhotos().add(p);
+                                } else {
+                                    continue;
+                                }
+                                AnchorPane img = (AnchorPane) loader.load();
+                                IndividualSearchController searchView = loader.getController();
+                                searchView.start(mainStage, p);
+                                grid.add(searchView.search_grid, col, row);
+                                if (col == 2) {
+                                    row++;
+                                    col = 0;
+                                } else {
+                                    col++;
+                                }
 
-        System.out.println(from + " " + to);
-
-        if(from.isAfter(to)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Input Error");
-            String content = "Please Fix the Order of the Start and End Date!";
-            alert.setContentText(content);
-            alert.showAndWait();
-            return;
-        }
-        ArrayList<Album> albums = user.getAlbums();
-        for( int i =0; i<albums.size(); i++) {
-            Album a = albums.get(i);
-            ArrayList<Photo> photos = a.getPhotos();
-            for (int j = 0; j < photos.size(); j++) {
-                Photo p = photos.get(j);
-                Date tempDate =  p.getActualDate();
-                LocalDate date = tempDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                if(from.isBefore(to)) {
-                    if (from.isBefore(date) && to.isAfter(date) || from.isEqual(date) || to.isEqual(date)) {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
-                        try {
-                            if (newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)) {
-                                newAlbum.getPhotos().add(p);
-                            } else {
-                                continue;
+                            } catch (Exception q) {
+                                q.printStackTrace();
                             }
-                            AnchorPane img = (AnchorPane) loader.load();
-                            IndividualSearchController searchView = loader.getController();
-                            searchView.start(mainStage, p);
-                            grid.add(searchView.search_grid, col, row);
-                            if (col == 2) {
-                                row++;
-                                col = 0;
-                            } else {
-                                col++;
-                            }
-
-                        } catch (Exception q) {
-                            q.printStackTrace();
                         }
                     }
-                }
-                if(from.isEqual(to)){
-                    if (from.isEqual(date) && to.isEqual(date)) {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
-                        try {
-                            if (newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)) {
-                                newAlbum.getPhotos().add(p);
-                            } else {
-                                continue;
-                            }
-                            AnchorPane img = (AnchorPane) loader.load();
-                            IndividualSearchController searchView = loader.getController();
-                            searchView.start(mainStage, p);
-                            grid.add(searchView.search_grid, col, row);
-                            if (col == 2) {
-                                row++;
-                                col = 0;
-                            } else {
-                                col++;
-                            }
+                    if (from.isEqual(to)) {
+                        if (from.isEqual(date) && to.isEqual(date)) {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
+                            try {
+                                if (newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)) {
+                                    newAlbum.getPhotos().add(p);
+                                } else {
+                                    continue;
+                                }
+                                AnchorPane img = (AnchorPane) loader.load();
+                                IndividualSearchController searchView = loader.getController();
+                                searchView.start(mainStage, p);
+                                grid.add(searchView.search_grid, col, row);
+                                if (col == 2) {
+                                    row++;
+                                    col = 0;
+                                } else {
+                                    col++;
+                                }
 
-                        } catch (Exception q) {
-                            q.printStackTrace();
+                            } catch (Exception q) {
+                                q.printStackTrace();
+                            }
                         }
-                    }
 
+                    }
                 }
             }
         }
