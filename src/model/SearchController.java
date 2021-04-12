@@ -111,7 +111,6 @@ public class SearchController {
     }
 
     public void setImage(ActionEvent e)throws Exception {
-        ArrayList<Album> albums = user.getAlbums();
         TextInputDialog addAlbum = new TextInputDialog();
         addAlbum.initOwner(this.mainStage);
         addAlbum.setTitle("Create album from search");
@@ -121,35 +120,6 @@ public class SearchController {
             System.out.println("im here");
             newAlbum.setName(result.get());
             user.getAlbums().add(newAlbum);
-            /*FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/IndividualAlbumController.fxml"));
-            try {
-                AnchorPane img = (AnchorPane) loader.load();
-                IndividualAlbumController albumView = loader.getController();
-                Album newAlbum = new Album(result.get());
-                try {
-                    user.addAlbum(newAlbum);
-                    Serialize.writeApp(UsersList);
-                    System.out.println(albums.size());
-                    System.out.println(albums.toString());
-                    albumView.start(mainStage, albums.size()-1, userIndex);
-                    grid.add(albumView.album_grid, col, row);
-                    if (col == 2) {
-                        row++;
-                        col = 0;
-                    } else {
-                        col++;
-                    }
-                } catch (IllegalArgumentException error) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Input Error");
-                    String content = error.getMessage();
-                    alert.setContentText(content);
-                    alert.showAndWait();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }*/
         }
         Serialize.writeApp(UsersList);
     }
@@ -214,8 +184,7 @@ public class SearchController {
         result.ifPresent(pair -> {
             //1 = AND
             //2 = OR
-            boolean temp = false;
-            boolean temp2 = false;
+
             String key1 = pair.getKey().getKey() + "";
             String value1 = pair.getKey().getValue() + "";
             String key2 = pair.getValue().getKey() + "";
@@ -228,9 +197,12 @@ public class SearchController {
                 for(int j =0; j<photos.size(); j++){
                     Photo p = photos.get(j);
                     ArrayList<Tag> tags = p.getTags();
+                    boolean temp = false;
+                    boolean temp2 = false;
                     for(int k =0; k<tags.size(); k++){
-                        System.out.println(z);
-                        if(z ==1) {
+                        System.out.println("z = " + z);
+                        if(z == 1) {
+                            System.out.println("I am in AND");
                             if (key1.equals(tags.get(k).getKey()) && value1.equals(tags.get(k).getValue())) {temp = true;}
                             if(key2.equals(tags.get(k).getKey()) && value2.equals(tags.get(k).getValue())){temp2 = true;}
                             if(temp && temp2){
@@ -252,7 +224,7 @@ public class SearchController {
                                     } else {
                                         col++;
                                     }
-                                    newAlbum.addPhoto(p);
+
                                 } catch (Exception q){
                                     q.printStackTrace();
                                     break;
@@ -261,6 +233,7 @@ public class SearchController {
                             }
                         }
                         if(z==2){
+                            System.out.println("I am in OR");
                             if ((key1.equals(tags.get(k).getKey()) && value1.equals(tags.get(k).getValue())) || (key2.equals(tags.get(k).getKey()) && value2.equals(tags.get(k).getValue()))) {
                                 FXMLLoader loader = new FXMLLoader();
                                 loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
@@ -280,7 +253,6 @@ public class SearchController {
                                     } else {
                                         col++;
                                     }
-                                    newAlbum.addPhoto(p);
                                 } catch (Exception q){
                                     q.printStackTrace();
                                     continue;
@@ -291,7 +263,10 @@ public class SearchController {
                     }
                 }
             }
-            System.out.println("Could not find tag"); // turn this into dialog box
+            if(newAlbum.getPhotos().size() == 0){
+                System.out.println("Could not find tag");
+            }
+             // turn this into dialog box
         });
     }
 
