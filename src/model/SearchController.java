@@ -6,21 +6,24 @@ import app.Photo;
 import app.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.time.ZoneId;
+import java.util.*;
 import java.time.LocalDate;
 import java.util.Optional;
 import javafx.application.Application;
@@ -62,9 +65,6 @@ public class SearchController {
     @FXML
     GridPane grid;
 
-    @FXML
-    ImageView image2;
-
     public int row = 0;
     public int col = 0;
     public Stage mainStage;
@@ -72,8 +72,10 @@ public class SearchController {
     public int userIndex;
     public ArrayList<User> UsersList;
     int z;
-    ArrayList<Album> allUserAlbums;
-    Album newAlbum;
+    public ArrayList<Album> allUserAlbums;
+    public Album newAlbum;
+    public LocalDate from;
+    public LocalDate to;
 
     public void start(Stage mainstage, int userIndex) {
         this.mainStage = mainstage;
@@ -111,17 +113,38 @@ public class SearchController {
     }
 
     public void setImage(ActionEvent e)throws Exception {
-        TextInputDialog addAlbum = new TextInputDialog();
-        addAlbum.initOwner(this.mainStage);
-        addAlbum.setTitle("Create album from search");
-        addAlbum.setHeaderText("Name of new album");
-        Optional<String> result = addAlbum.showAndWait();
-        if (result.isPresent()) {
-            System.out.println("im here");
-            newAlbum.setName(result.get());
-            user.getAlbums().add(newAlbum);
+        if (newAlbum.getPhotos().size() != 0) {
+            TextInputDialog addAlbum = new TextInputDialog();
+            addAlbum.initOwner(this.mainStage);
+            addAlbum.setTitle("Create album from search");
+            addAlbum.setHeaderText("Name of new album");
+            Optional<String> result = addAlbum.showAndWait();
+            if (result.isPresent()) {
+                System.out.println("im here");
+                newAlbum.setName(result.get());
+                try {
+                        user.addAlbum(newAlbum);
+                        newAlbum = new Album("");
+                        clearPhotos();
+                } catch (IllegalArgumentException error) {
+                    System.out.println("the error is happening here!");
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Input Error");
+                    String content = error.getMessage();
+                    alert.setContentText(content);
+                    alert.showAndWait();
+                }
+
+            }
+            Serialize.writeApp(UsersList);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Input Error");
+            String content = "Please search for photos before creating a new album!";
+            alert.setContentText(content);
+            alert.showAndWait();
         }
-        Serialize.writeApp(UsersList);
+
     }
     //we need this becuae we cant set anything in the lambda function and i need to be able to tell if they click AND or OR
     public void setter(int k){
@@ -352,10 +375,158 @@ public class SearchController {
 
         });
     }
-
-
-
-    public void searchByDate(ActionEvent e){
-
+    public void clearPhotos() throws Exception {
+        Serialize.writeApp(UsersList);
+        this.row = 0;
+        this.col = 0;
+        Iterator<Node> iter = this.grid.getChildren().iterator();
+        while (iter.hasNext()) {
+            Node node = iter.next();
+            iter.remove();
+        }
     }
+
+    public void setterFrom(LocalDate date){
+        from = date;
+    }
+
+    public void setterTo(LocalDate date){
+        to = date;
+    }
+
+    public void searchByDate(ActionEvent e) throws Exception{
+        TextInputDialog addAlbum = new TextInputDialog();
+        addAlbum.initOwner(this.mainStage);
+        TilePane r = new TilePane();
+        addAlbum.getDialogPane().setContent(r);
+
+        Label fromLabel = new Label("From:");
+        Label toLabel = new Label("To:");
+        // create a date picker
+        DatePicker fromDate = new DatePicker();
+        // action event
+        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e)
+            {
+                // get the date picker value
+                setterFrom(fromDate.getValue());
+
+
+            }
+        };
+
+        // show week numbers
+        fromDate.setShowWeekNumbers(true);
+
+        // when datePicker is pressed
+        fromDate.setOnAction(event);
+        //--------------------------------------------------------
+        DatePicker toDate = new DatePicker();
+
+        // action event
+        EventHandler<ActionEvent> event2 = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e)
+            {
+                // get the date picker value
+                setterTo(toDate.getValue());
+
+                // get the selected date
+                //k.setText("Date :" + i);
+            }
+        };
+
+        // show week numbers
+        toDate.setShowWeekNumbers(true);
+
+        // when datePicker is pressed
+        toDate.setOnAction(event2);
+        //-----------------------------------------------------
+
+        // add button and label
+        r.getChildren().add(fromLabel);
+        r.getChildren().add(fromDate);
+        r.getChildren().add(toLabel);
+        r.getChildren().add(toDate);
+
+
+        // create a scene
+
+        Optional<String> result = addAlbum.showAndWait();
+
+        System.out.println(from + " " + to);
+
+        if(from.isAfter(to)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Input Error");
+            String content = "Please Fix the Order of the Start and End Date!";
+            alert.setContentText(content);
+            alert.showAndWait();
+            return;
+        }
+        ArrayList<Album> albums = user.getAlbums();
+        for( int i =0; i<albums.size(); i++) {
+            Album a = albums.get(i);
+            ArrayList<Photo> photos = a.getPhotos();
+            for (int j = 0; j < photos.size(); j++) {
+                Photo p = photos.get(j);
+                Date tempDate =  p.getActualDate();
+                LocalDate date = tempDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if(from.isBefore(to)) {
+                    if (from.isBefore(date) && to.isAfter(date) || from.isEqual(date) || to.isEqual(date)) {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
+                        try {
+                            if (newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)) {
+                                newAlbum.getPhotos().add(p);
+                            } else {
+                                continue;
+                            }
+                            AnchorPane img = (AnchorPane) loader.load();
+                            IndividualSearchController searchView = loader.getController();
+                            searchView.start(mainStage, p);
+                            grid.add(searchView.search_grid, col, row);
+                            if (col == 2) {
+                                row++;
+                                col = 0;
+                            } else {
+                                col++;
+                            }
+
+                        } catch (Exception q) {
+                            q.printStackTrace();
+                        }
+                    }
+                }
+                if(from.isEqual(to)){
+                    if (from.isEqual(date) && to.isEqual(date)) {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
+                        try {
+                            if (newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)) {
+                                newAlbum.getPhotos().add(p);
+                            } else {
+                                continue;
+                            }
+                            AnchorPane img = (AnchorPane) loader.load();
+                            IndividualSearchController searchView = loader.getController();
+                            searchView.start(mainStage, p);
+                            grid.add(searchView.search_grid, col, row);
+                            if (col == 2) {
+                                row++;
+                                col = 0;
+                            } else {
+                                col++;
+                            }
+
+                        } catch (Exception q) {
+                            q.printStackTrace();
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+
 }
