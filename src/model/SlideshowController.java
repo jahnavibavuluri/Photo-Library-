@@ -13,20 +13,58 @@ import javafx.scene.image.Image;
 import java.awt.*;
 import java.util.ArrayList;
 
-
+/**
+ * This class takes care of the elements and actions
+ * performed on the Slideshow fxml page.
+ *
+ * @author Jahnavi Bavuluri and Chiraag Rekhari
+ */
 public class SlideshowController {
+    /**
+     * The user that is currently using the application.
+     */
     private User user;
+    /**
+     * The album that is currently being displayed.
+     */
     private Album album;
+    /**
+     * The main stage where the application is running.
+     */
     public Stage mainStage;
+    /**
+     * The list that stores all the users on the application.
+     */
     public ArrayList<User> UsersList;
+    /**
+     * The index of where the current user is located in the
+     * list of all users.
+     */
     public int userIndex;
+    /**
+     * The index of where the current album is located in the
+     * users list of albums.
+     */
     public int albumIndex;
+    /**
+     * The index of the current photo being displayed.
+     */
     public int photo;
     @FXML ImageView Image;
     @FXML Label slideshow_caption;
     @FXML Label slideshow_date;
     @FXML Label slideshow_tags;
 
+    /**
+     * This method populates the slideshow view with the first photo in the album
+     * and displays the photo's caption, date, and tags.
+     *
+     * @param mainStage     The main stage where the application is running.
+     * @param userIndex     The index of where the current user is located in the
+     *                      list of all users.
+     * @param albumIndex    The index of where the current album is located in the
+     *                      users list of albums.
+     */
     public void start(Stage mainStage, int userIndex, int albumIndex){
         this.userIndex = userIndex;
         this.albumIndex = albumIndex;
@@ -51,6 +89,11 @@ public class SlideshowController {
         }
     }
 
+    /**
+     * This method handles the transition back to the photos view.
+     *
+     * @throws Exception
+     */
     public void backToPhotos() throws Exception {
         Stage appStage=this.mainStage;
         FXMLLoader loader = new FXMLLoader();
@@ -62,13 +105,15 @@ public class SlideshowController {
         appStage.show();
     }
 
+    /**
+     * This method shows the previous photo in the album as well
+     * as displays its caption, date, and tags.
+     */
     public void previousPhoto() {
         if (this.album.getPhotos().size() != 0) {
             //user can only go back if they are not at the beginning
             if (this.photo != 0) {
                 this.photo--;
-                //photo = this.album.getPhotos().size()-1;
-                //ind_photos_image.setImage(new Image(photo.getFile().toURI().toString()));
                 Image.setImage(new Image(this.album.getPhotos().get(this.photo).getFile().toURI().toString()));
                 slideshow_caption.setText((album.getPhotos().get(photo).getCaption() == null ? "Caption: " : album.getPhotos().get(photo).getCaption()));
                 slideshow_date.setText((album.getPhotos().get(photo).getDate() == null ? "Date: " : album.getPhotos().get(photo).getDate()));
@@ -77,12 +122,15 @@ public class SlideshowController {
         }
     }
 
+    /**
+     * This method shows the next photo in the album as well
+     * as displays its caption, date, and tags.
+     */
     public void nextPhoto() {
         if (this.album.getPhotos().size() != 0) {
             //we can only go next if the photo index is not at the end
             if (this.photo != this.album.getPhotos().size() - 1) {
                 this.photo++;
-                //photo = 0;
                 Image.setImage(new Image(this.album.getPhotos().get(this.photo).getFile().toURI().toString()));
                 slideshow_caption.setText((album.getPhotos().get(photo).getCaption() == null ? "Caption: " : album.getPhotos().get(photo).getCaption()));
                 slideshow_date.setText((album.getPhotos().get(photo).getDate() == null ? "Date: " : album.getPhotos().get(photo).getDate()));

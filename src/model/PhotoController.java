@@ -28,18 +28,38 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
 
-// !!!NOTE: PHOTO CONTROLLER IS NOT WORKING RIGHT NOW BECAUSE NOTHING IS BEING PASSING INTO THE SCENE FROM ALBUMS.
-// THIS WILL WORK ONCE WE FIGURE OUT MOUSE CLICKED AND CAN ACTUALLY SEND IN THE USER AND ALBUM THAT WE ARE USING!!!
-
+/**
+ * This class takes care of the elements and actions
+ * performed on the Photos fxml page.
+ *
+ * @author Jahnavi Bavuluri and Chiraag Rekhari
+ */
 public class PhotoController {
-
-    //int albumIndex;
-    //int userIndex;
+    /**
+     * The list that stores all the users on the application.
+     */
     public ArrayList<User> UsersList;
+    /**
+     * The user that is currently using the application.
+     */
     private User user;
+    /**
+     * The album that is currently being displayed.
+     */
     private Album album;
+    /**
+     * The main stage where the application is running.
+     */
     public Stage mainStage;
+    /**
+     * The index of where the current album is located in the
+     * users list of albums.
+     */
     public int albumIndex;
+    /**
+     * The index of where the current user is located in the
+     * list of all users.
+     */
     public int userIndex;
     @FXML ScrollPane scroll;
     @FXML GridPane grid;
@@ -50,9 +70,25 @@ public class PhotoController {
     @FXML Label albumName;
     @FXML Button logout_btn;
 
+    /**
+     * The row counter for the grid gridpane.
+     */
     public int row = 0;
+    /**
+     * The column counter for the grid gridpane.
+     */
     public int col = 0;
 
+    /**
+     * The start method displays all the photos in the selected album
+     * along with their captions.
+     *
+     * @param mainStage     The main stage where the application is running.
+     * @param albumIndex    The index of where the current album is located in the
+     *                      users list of albums.
+     * @param userIndex     The index of where the current user is located in the
+     *                      list of all users.
+     */
     public void start(Stage mainStage, int albumIndex, int userIndex) {
         this.albumIndex = albumIndex;
         this.userIndex = userIndex;
@@ -88,7 +124,13 @@ public class PhotoController {
         });
     }
 
-    public void addTag(ActionEvent e) throws Exception{
+    /**
+     * This method adds a tag to the photo displayed on the
+     * right side display panel.
+     *
+     * @throws Exception
+     */
+    public void addTag() throws Exception{
         if (display_image.getImage() == null) {
             //there is no photo selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -193,28 +235,13 @@ public class PhotoController {
                 }
             });
         }
-        //System.out.println(pair.getKey() + " " + pair.getValue());
-            /*Album a = user.getAlbumWithName(pair.getKey());
-            try {
-                user.editAlbum(pair.getKey() + "", pair.getValue() + "");
-                System.out.println(a.getName());
-                //Node node = getNode(pair.getKey());
-                System.out.println("the old album was: " + pair.getKey() + "\n the new albums is: " + pair.getValue());
-                try {
-                    //resetAlbums();
-                } catch (Exception r) {
-                    r.printStackTrace();
-                }
-            } catch (IllegalArgumentException error) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Input Error");
-                String content = error.getMessage();
-                alert.setContentText(content);
-                alert.showAndWait();
-            }*/
     }
 
-    public void deleteTag(ActionEvent e) {
+    /**
+     * This method deleted a tag from the displayed photo
+     *  in the right side display panel.
+     */
+    public void deleteTag() {
         if (display_image.getImage() == null) {
             //there is no photo selected
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -312,6 +339,9 @@ public class PhotoController {
         }
     }
 
+    /**
+     * This method clears out the display panel on the right side.
+     */
     public void clearPhotoDisplay() {
         this.display_image.setImage(null);
         this.photos_caption.setText("Caption: ");
@@ -319,6 +349,12 @@ public class PhotoController {
         this.photos_tags.setText("Tags: ");
     }
 
+    /**
+     * This method adds a gripane from the Individual Photos fxml
+     * that displays the photo in the current album.
+     *
+     * @param p     The photo that is shown inside the album.
+     */
     public void populatePhotos(Photo p) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/IndividualPhotosController.fxml"));
@@ -338,7 +374,13 @@ public class PhotoController {
         }
     }
 
-    public void logout(ActionEvent event) throws Exception{
+    /**
+     * This method takes the user back to the albums screen
+     * where they can choose to view another album.
+     *
+     * @throws Exception
+     */
+    public void logout() throws Exception{
         //saves the users arraylist
         Serialize.writeApp(UsersList);
 
@@ -353,7 +395,13 @@ public class PhotoController {
 
     }
 
-    public void addPhoto(ActionEvent e) throws IOException {
+    /**
+     * This method adds a new photo to the album that the user
+     * is currently viewing.
+     *
+     * @throws IOException
+     */
+    public void addPhoto() throws IOException {
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif", "*.bmp", "*.jpeg");
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(imageFilter);
@@ -364,7 +412,6 @@ public class PhotoController {
         try {
             AnchorPane img = (AnchorPane)loader.load();
             IndividualPhotosController photoView = loader.getController();
-            //Image i = new Image(selectedFile.toURI().toString());
             Photo newPhoto = null;
             for (Album a: this.user.getAlbums()) {
                 for (Photo p: a.getPhotos()) {
@@ -379,9 +426,6 @@ public class PhotoController {
             }
 
             photoView.start(this.mainStage,newPhoto, display_image, photos_caption, photos_date, photos_tags);
-
-            //photoView.image.setImage(i);
-            //photoView.album_grid.setVisible(true);
 
             try {
                 this.album.addPhoto(newPhoto);
@@ -411,6 +455,18 @@ public class PhotoController {
         Serialize.writeApp(UsersList);
     }
 
+    /**
+     * This method deletes all the photo views (gridpanes)
+     * and calls the start method to repopulate the photo
+     * views in the album.
+     * <p>
+     *     This method is called whenever an edit is made so this change
+     *     can be reflected in all the photos and the display panel can
+     *     also be updated.
+     * </p>
+     *
+     * @throws Exception
+     */
     public void resetPhotos() throws Exception {
         Serialize.writeApp(UsersList);
         this.row = 0;
@@ -423,6 +479,13 @@ public class PhotoController {
         this.start(this.mainStage, this.albumIndex, this.userIndex);
     }
 
+    /**
+     * This method handles the transition from this current photos
+     * view to the slideshow view so the user can view their photos in
+     * a slideshow manner.
+     *
+     * @throws Exception
+     */
     public void viewSlideshow() throws Exception {
         Stage appStage=this.mainStage;
         FXMLLoader loader = new FXMLLoader();
@@ -434,7 +497,13 @@ public class PhotoController {
         appStage.show();
     }
 
-    public void editCaption(ActionEvent e) throws Exception {
+    /**
+     * This method allows a user to edit a caption on the
+     * currently displayed photo.
+     *
+     * @throws Exception
+     */
+    public void editCaption() throws Exception {
         //get the image that the change it being made on
         String i = display_image.getId();
         Photo photoInAlbum = null;
@@ -460,7 +529,6 @@ public class PhotoController {
                 try {
                     photoInAlbum.setCaption(result.get());
                     Serialize.writeApp(UsersList);
-                    //populatePhotos(photoInAlbum);
                     try {
                         resetPhotos();
                     } catch (Exception ex) {
@@ -479,11 +547,14 @@ public class PhotoController {
                     }
                 }
             }
-            //photos_caption.setText(photoInAlbum.getCaption());
         }
     }
 
-    public void deletePhoto(ActionEvent e) {
+    /**
+     * This method allows a user to delete the displayed photo --
+     * effectively deleting it from the entire album itself.
+     */
+    public void deletePhoto() {
         String i = display_image.getId();
         Photo photoInAlbum = null;
         if (display_image.getImage() == null) {
@@ -531,11 +602,12 @@ public class PhotoController {
         }
     }
 
-
-
-
-
-    public void movePhoto(ActionEvent e) {
+    /**
+     * This method allows the user to move the displayed photo from
+     * the current album to another existing album -- the photo is removed
+     * from the current album.
+     */
+    public void movePhoto() {
         String i = display_image.getId();
         Photo photoInAlbum = null;
         if (display_image.getImage() == null) {
@@ -581,7 +653,12 @@ public class PhotoController {
         }
     }
 
-    public void copyPhoto(ActionEvent e) {
+    /**
+     * This method allows a user to copy the displayed photo
+     * into another album but both the photo is not removed from
+     * the current album.
+     */
+    public void copyPhoto() {
         String i = display_image.getId();
         Photo photoInAlbum = null;
         if (display_image.getImage() == null) {
