@@ -295,7 +295,7 @@ public class PhotoController {
                     }
                     photoInAlbum.deleteTag(tag);
                     user.deletePreset(tag);
-                   clearPhotoDisplay();
+                    clearPhotoDisplay();
                     Serialize.writeApp(UsersList);
                 } catch (Exception error) {
                     if (error instanceof IllegalArgumentException) {
@@ -353,7 +353,7 @@ public class PhotoController {
 
     }
 
-    public void setImage(ActionEvent e) throws IOException {
+    public void addPhoto(ActionEvent e) throws IOException {
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif", "*.bmp", "*.jpeg");
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(imageFilter);
@@ -365,14 +365,26 @@ public class PhotoController {
             AnchorPane img = (AnchorPane)loader.load();
             IndividualPhotosController photoView = loader.getController();
             //Image i = new Image(selectedFile.toURI().toString());
-            Photo p = new Photo(selectedFile);
-            photoView.start(this.mainStage,p, display_image, photos_caption, photos_date, photos_tags);
+            Photo newPhoto = null;
+            for (Album a: this.user.getAlbums()) {
+                for (Photo p: a.getPhotos()) {
+                    if (p.sameImage(new Photo(selectedFile))) { //if the file paths are the same then the same photo is referenced in this new album
+                        newPhoto = p;
+                    }
+                }
+            }
+
+            if (newPhoto == null) {
+                newPhoto = new Photo(selectedFile);
+            }
+
+            photoView.start(this.mainStage,newPhoto, display_image, photos_caption, photos_date, photos_tags);
 
             //photoView.image.setImage(i);
             //photoView.album_grid.setVisible(true);
 
             try {
-                this.album.addPhoto(p);
+                this.album.addPhoto(newPhoto);
                 grid.add(photoView.photo_grid, col, row);
                 if (col == 2) {
                     row++;
