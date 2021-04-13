@@ -18,19 +18,37 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import model.Serialize;
 
-
+/**
+ * This is responsible for controlling the admin scene when an admin wants to add and remove users
+ *
+ * @author Chiraag Rekhari
+ * @author Jahnavi Bavuluri
+ */
 public class AdminController{
 
     @FXML TextField add;
     @FXML TextField delete;
     @FXML Button logout_btn;
     @FXML ListView<String> user_listview;
+    /**
+     * The Stage passed in
+     */
     public Stage mainstage;
 
+    /**
+     * Arraylist of all users in the application
+     */
     public ArrayList<User> UsersList;
+
+    /**
+     * JavaFX listview that is used to display the users
+     */
     ObservableList<String> obsList = FXCollections.observableArrayList();
 
-
+    /**
+     * Responsible for starting the the AdminController
+     * @param mainstage Stage passed in
+     */
     public void start(Stage mainstage) {
         this.mainstage = mainstage;
         try {
@@ -56,7 +74,11 @@ public class AdminController{
 
     }
 
-    public void logout(ActionEvent event) throws Exception{
+    /**
+     * Logs the admin out of the admin scene and goes back to the login scene
+     * @throws Exception
+     */
+    public void logout() throws Exception{
 
         Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
         alert1.setTitle("Confirmation");
@@ -79,6 +101,9 @@ public class AdminController{
 
     }
 
+    /**
+     * This updates the listview that displays all the current users
+     */
     public void updateListView(){
         obsList.clear();
         for (int i = 0; i < UsersList.size(); i++) {
@@ -87,6 +112,9 @@ public class AdminController{
         user_listview.setItems(obsList);
     }
 
+    /**
+     * This method adds a user into the UsersList arraylist and then updates the listview
+     */
     public void add() {
         if(add.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -126,6 +154,9 @@ public class AdminController{
 
     }
 
+    /**
+     * This method deletes a user into the UsersList arraylist and then updates the listview
+     */
     public void delete(){
 
         if(delete.getText().isEmpty()){
@@ -179,11 +210,4 @@ public class AdminController{
 
 
     }
-
-
-    public ArrayList<User> getUsers(){
-        return UsersList;
-    }
-
-
 }

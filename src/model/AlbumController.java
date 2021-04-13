@@ -24,15 +24,41 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
 
-
+/**
+ * This class controls the album scene
+ *
+ * @author Chiraag Rekhari
+ * @author Jahnavi Bavuluri
+ */
 public class AlbumController {
 
+    /**
+     * Arraylist of all users in the application
+     */
     public ArrayList<User> UsersList;
+    /**
+     * Arraylist of all the albums of the current user
+     */
     public ArrayList<Album> albums;
+    /**
+     * the current user being worked on
+     */
     private User user;
+    /**
+     * the index of the user in the user ArrayList
+     */
     public int userIndex;
+    /**
+     * The Stage passed in
+     */
     public Stage mainStage;
+    /**
+     * row that the photo image will be displayed in the gridpane
+     */
     public int row = 0;
+    /**
+     * column that the photo image will be displayed in the gridpane
+     */
     public int col = 0;
 
     @FXML ScrollPane scroll;
@@ -40,7 +66,11 @@ public class AlbumController {
     @FXML Button logout_btn;
     @FXML Label username;
 
-
+    /**
+     * responsible for starting the AlbumController
+     * @param mainStage The stage passed in
+     * @param userIndex The index of the user in the user ArrayList
+     */
     public void start(Stage mainStage, int userIndex) {
         this.mainStage = mainStage;
         this.userIndex = userIndex;
@@ -77,7 +107,11 @@ public class AlbumController {
         });
     }
 
-
+    /**
+     * Adds the albums into the gridpane stored in the IndividualAlbum FXML
+     * @param displayAlbumIndex Allows the method to know which album in the albums arraylist to display
+     * @throws Exception
+     */
     public void populateAlbums(int displayAlbumIndex) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/IndividualAlbumController.fxml"));
@@ -97,7 +131,11 @@ public class AlbumController {
         }
     }
 
-    public void logout(ActionEvent event) throws Exception {
+    /**
+     * Logs the user out and returns them back to the login scene
+     * @throws Exception
+     */
+    public void logout() throws Exception {
         //saves the users arraylist
 
         Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
@@ -122,7 +160,11 @@ public class AlbumController {
 
     }
 
-    public void addAlbum(ActionEvent e) throws Exception {
+    /**
+     * Adds an album to the user's albums arraylist
+     * @throws Exception
+     */
+    public void addAlbum() throws Exception {
         TextInputDialog addAlbum = new TextInputDialog();
         addAlbum.initOwner(this.mainStage);
         addAlbum.setTitle("New Album");
@@ -162,6 +204,10 @@ public class AlbumController {
         Serialize.writeApp(UsersList);
     }
 
+    /**
+     * Edits an album's name in the user's albums arraylist
+     * @throws Exception
+     */
     public void editAlbum() throws Exception {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Edit Album Name");
@@ -223,7 +269,11 @@ public class AlbumController {
         });
     }
 
-    public void deleteAlbum(ActionEvent e) throws Exception {
+    /**
+     * Deletes the inputted album from the user's albums arraylist
+     * @throws Exception
+     */
+    public void deleteAlbum() throws Exception {
         TextInputDialog deletingAlbum = new TextInputDialog();
         deletingAlbum.initOwner(this.mainStage);
         deletingAlbum.setTitle("Delete Album");
@@ -261,6 +311,10 @@ public class AlbumController {
         }
     }
 
+    /**
+     * Deletes all of the album's thumbnails and information in the gridpane, but not the actual album instances
+     * @throws Exception
+     */
     public void resetAlbums() throws Exception{
         Serialize.writeApp(UsersList);
         this.row = 0;
@@ -273,7 +327,11 @@ public class AlbumController {
         this.start(this.mainStage, userIndex);
     }
 
-    public void searchPhotos(ActionEvent e) throws Exception {
+    /**
+     * Changes the scene to the search scene where the user can search pictures from their tags
+     * @throws Exception
+     */
+    public void searchPhotos() throws Exception {
         Stage appStage=this.mainStage;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/search.fxml"));
@@ -286,58 +344,3 @@ public class AlbumController {
     }
 
 }
-
-
-/*
-    public void setImage(ActionEvent e) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/IndividualAlbumController.fxml"));
-        try {
-            AnchorPane img = (AnchorPane)loader.load();
-            IndividualAlbumController test = loader.getController();
-            test.album_grid.setVisible(true);
-            Image i = new javafx.scene.image.Image("/view/image.jpg");
-            test.image.setImage(i);
-            grid.add(test.album_grid, col, row);
-            if (col == 2) {
-                row++;
-                col = 0;
-            } else {
-                col++;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-}
-
- GridPane album_grid = new GridPane();
-        album_grid.addRow(100);
-        album_grid.addRow(33);
-        album_grid.addRow(34);
-        album_grid.addRow(33);
-        album_grid.setPrefHeight(200);
-        album_grid.setPrefWidth(190);
-        ImageView imgView = new ImageView();
-        imgView.setFitWidth(100);
-        imgView.setFitHeight(100);
-        Image i = new javafx.scene.image.Image("/view/image.jpg");
-        imgView.setImage(i);
-        album_grid.add(imgView, 0,0);
-        Label name = new Label();
-        name.setText("Name of album");
-        album_grid.add(name,0,1);
-        Label number = new Label();
-        number.setText("number of pictures in album");
-        album_grid.add(number,0,2);
-        Label date = new Label();
-        date.setText("Date of album");
-        album_grid.add(date,0,3);
-        grid.add(album_grid, col, row);
-        if (col == 2) {
-            row++;
-            col = 0;
-        } else {
-            col++;
-        }*/

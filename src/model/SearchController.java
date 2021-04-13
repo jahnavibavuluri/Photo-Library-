@@ -39,44 +39,68 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/*
-FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/IndividualAlbumController.fxml"));
-        try {
-            AnchorPane img = (AnchorPane) loader.load();
-            IndividualAlbumController test = loader.getController();
-            test.album_grid.setVisible(true);
-            Image i = new javafx.scene.image.Image("/view/image.jpg");
-            test.image.setImage(i);
-            grid.add(test.album_grid, col, row);
-            if (col == 2) {
-                row++;
-                col = 0;
-            } else {
-                col++;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
- */
 
+/**
+ * This is responsible for controlling the search scene for when a user wants to search from their existing albums and photos
+ *
+ * @author Chiraag rekhari
+ * @author Jahnavi Bavuluri
+ */
 public class SearchController {
 
     @FXML
     GridPane grid;
-
+    /**
+     * row that the photo image will be displayed in the gridpane
+     */
     public int row = 0;
+    /**
+     * col that the photo image will be displayed in the gridpane
+     */
     public int col = 0;
+    /**
+     *The stage passed in
+     */
     public Stage mainStage;
+    /**
+     * current user working on
+     */
     private User user;
+    /**
+     * the index of the user in the user ArrayList
+     */
     public int userIndex;
+    /**
+     * Arraylist of all users in the application
+     */
     public ArrayList<User> UsersList;
+    /**
+     * temp variable to tell if "AND" or "OR" button are pressed in searchBy2Tag method
+     */
     int z;
+    /**
+     * ArrayList of all albums a user currently has
+     */
     public ArrayList<Album> allUserAlbums;
+    /**
+     * newAlbum to be created if the user wants to create an Album from their search results
+     */
     public Album newAlbum;
+    /**
+     * the start date of date range search
+     */
     public LocalDate from;
+    /**
+     * the end date of the date range search
+     */
     public LocalDate to;
 
+    /**
+     * Responsible for starting the SearchController
+     *
+     * @param mainstage The stage passed in
+     * @param userIndex the index of the user in the user ArrayList
+     */
     public void start(Stage mainstage, int userIndex) {
         this.mainStage = mainstage;
         this.userIndex = userIndex;
@@ -99,8 +123,11 @@ public class SearchController {
         });
     }
 
-
-
+    /**
+     * Responsible for handling the controller of the back button which brings the user back to the album scene
+     *
+     * @throws Exception
+     */
     public void backToAlbums() throws Exception {
         Stage appStage = this.mainStage;
         FXMLLoader loader = new FXMLLoader();
@@ -112,7 +139,12 @@ public class SearchController {
         appStage.show();
     }
 
-    public void setImage(ActionEvent e)throws Exception {
+    /**
+     * Creates a new album from the search results and add it the current users total albums
+     *
+     * @throws Exception
+     */
+    public void setImage()throws Exception {
         if (newAlbum.getPhotos().size() != 0) {
             TextInputDialog addAlbum = new TextInputDialog();
             addAlbum.initOwner(this.mainStage);
@@ -147,11 +179,19 @@ public class SearchController {
 
     }
     //we need this becuae we cant set anything in the lambda function and i need to be able to tell if they click AND or OR
+    /**
+     * Sets z to either 1 or 2 so that it is possible to tell if "AND" or "OR" is pressed in the lambda function
+     *
+     * @param k sets z to either 1 or 2 depending if "AND" or "OR" is pressed
+     */
     public void setter(int k){
         z = k;
     }
 
-    public void searchBy2Tag(ActionEvent e) {
+    /**
+     * Controls the Search By 2 Tags button which allows the user to search by two tags and decide if they want to do it use "AND" or "OR"
+     */
+    public void searchBy2Tag() {
         Dialog<Pair<String, String>> first = new Dialog<>();
         Dialog<Pair<String, String>> second = new Dialog<>();
 
@@ -309,8 +349,10 @@ public class SearchController {
         });
     }
 
-
-    public void searchBy1Tag(ActionEvent e) {
+    /**
+     * Controls the Search By 1 Tag button which allows the user to search their entire photo list by 1 key and 1 value
+     */
+    public void searchBy1Tag() {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Enter tag to search by");
 
@@ -399,6 +441,11 @@ public class SearchController {
 
         });
     }
+
+    /**
+     * controls the clear button which clears the whole gridpane so the user can start searching from scratch
+     * @throws Exception
+     */
     public void clearPhotos() throws Exception {
         Serialize.writeApp(UsersList);
         this.row = 0;
@@ -410,15 +457,27 @@ public class SearchController {
         }
     }
 
+    /**
+     * setter method to set variable "from" to the start date
+     * @param date The date that from will be set to
+     */
     public void setterFrom(LocalDate date){
         from = date;
     }
 
+    /**
+     * setter method to set variable "to to the end date
+     * @param date The date that to will be set to
+     */
     public void setterTo(LocalDate date){
         to = date;
     }
 
-    public void searchByDate(ActionEvent e) throws Exception {
+    /**
+     * Controls the Search By Date Range Button which allows the user to search from a date range by selecting from 2 DatePickers
+     * @throws Exception
+     */
+    public void searchByDate() throws Exception {
         TextInputDialog dateSearch = new TextInputDialog();
         dateSearch.initOwner(this.mainStage);
         TilePane r = new TilePane();

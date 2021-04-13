@@ -23,14 +23,31 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 
-
+/**
+ *This class is responsible for controlling the logic scene and allowing users or admin to log ina s
+ *
+ * @author Chiraag Rekhari
+ * @author Jahnavi Bavuluri
+ */
 public class LoginController {
-
+    /**
+     * Stage passed in
+     */
     Stage mainStage;
+    /**
+     * Complete List of all Users
+     */
     ArrayList<User> UsersList;
+
     @FXML TextField login;
     @FXML Button login_btn;
 
+    /**
+     * Starts the login controller
+     *
+     * @param mainStage the main stage shown to the user
+     * @throws Exception
+     */
     public void start(Stage mainStage) throws Exception{
         this.mainStage = mainStage;
         try {
@@ -111,7 +128,11 @@ public class LoginController {
         });
     }
 
-    public void login(ActionEvent e) throws Exception{
+    /**
+     * This method logs into either admin or user depending on the input
+     * @throws Exception
+     */
+    public void login() throws Exception{
 
 
         if((login.getText().toLowerCase()).equals("admin")) {

@@ -276,6 +276,8 @@ public class PhotoController {
                     System.out.println(key + " " + value);
                     Tag tag = new Tag(key, value, true);
 
+
+
                     String i = display_image.getId();
                     Photo photoInAlbum = null;
 

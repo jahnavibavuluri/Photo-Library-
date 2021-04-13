@@ -4,13 +4,30 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
+/**
+ * This class is responsible for creating a User Instance which is populated in the UsersList ArrayList
+ *
+ * @author Chiraag Rekhari
+ * @author Jahnavi Bavuluri
+ */
 public class User implements Serializable {
-
+    /**
+     * Uername of the user to be created
+     */
     public String username;
+    /**
+     * Album arrayList of the user to be created
+     */
     public ArrayList<Album> albums;
+    /**
+     * preset Tags arrayList and every user starts with weather, person, and location preset Tags
+     */
     public ArrayList<String> presetTags;
 
+    /**
+     * Contructor to instantiate a User object with a username, Albums arraylist, and preset Tags
+     * @param username Uername of the user
+     */
     public User(String username) {
         this.username = username;
         this.albums = new ArrayList<Album>();
@@ -20,6 +37,10 @@ public class User implements Serializable {
         presetTags.add("location");
     }
 
+    /**
+     * Adds a preset Tag to the preset Preset Tags arraylist
+     * @param tag Tag to be added to the Preset Tags arraylist
+     */
     public void addPreset(Tag tag){
         for(int i=0; i<presetTags.size(); i++){
 
@@ -29,6 +50,11 @@ public class User implements Serializable {
         }
         presetTags.add(tag.getKey());
     }
+
+    /**
+     * Prints the preset Tags in the preset Tags arraylist
+     * @return Returns the preset Tags as a String
+     */
     public String printPreset(){
         StringBuilder allPresetTags = new StringBuilder();
         for(String t: presetTags){
@@ -38,6 +64,10 @@ public class User implements Serializable {
         return allPresetTags.toString();
     }
 
+    /**
+     * Deletes the preset Tags from the preset Tags arraylist
+     * @param tag The tag to be deleted in the preset Tags arraylist
+     */
     public void deletePreset(Tag tag){
         if(tag.getKey().equals("weather") || tag.getKey().equals("location")){
             return;
@@ -49,16 +79,33 @@ public class User implements Serializable {
         }
     }
 
+    /**
+     * Getter method to get the username of a user
+     * @return Returns the name of a user as a String
+     */
     public String getUsername() {
         return this.username;
     }
 
+    /**
+     * Getter method to get the albums ArrayList of a user
+     * @return returns the albums ArrayList
+     */
     public ArrayList<Album> getAlbums() {
         return albums;
     }
 
+    /**
+     * Returns the size of the albums ArrayList
+     * @return Returns the size of the albums arraylist as an int
+     */
     public int numberOfAlbums() {return albums.size();}
 
+    /**
+     * Adds an Albums to the albums arraylist and checks if the name is not already in use
+     * @param album the album to be added to the albums arraylist
+     * @throws IllegalArgumentException
+     */
     public void addAlbum(Album album) throws IllegalArgumentException {
         if (album == null) {
             throw new IllegalArgumentException("Album cannot be null!");
@@ -75,6 +122,11 @@ public class User implements Serializable {
         albums.add(album);
     }
 
+    /**
+     * Getter method to get the Album with a particular name
+     * @param name The name of the album found
+     * @return The Album that has the particular name that is being searched for
+     */
     public Album getAlbum(String name) {
         for (Album a: this.albums) {
             System.out.println("the name of the album is: " + a.getName());
@@ -85,6 +137,12 @@ public class User implements Serializable {
         return null;
     }
 
+    /**
+     * Edits the name of an album
+     * @param oldName The old name of the album
+     * @param newName The new name to be changed to of an albuym
+     * @throws IllegalArgumentException
+     */
     public void editAlbum(String oldName, String newName) throws IllegalArgumentException {
         for (Album a: albums) {
             if (a.getName().equals(newName) && !oldName.equals(newName)) //excludes the case where a user can decide to make no changes to the old album
@@ -102,6 +160,11 @@ public class User implements Serializable {
         if (noAlbumExists) throw new IllegalArgumentException(oldName + " does not exist!");
     }
 
+    /**
+     * Deletes the album and removes it from the albums arraylist
+     * @param name The name of the album to be deleted
+     * @throws IllegalArgumentException
+     */
     public void deleteAlbum(String name) throws IllegalArgumentException {
         if (name == null || name.isEmpty()) throw new IllegalArgumentException("Please enter an album to delete!");
         boolean noAlbumExists = true;
@@ -117,6 +180,11 @@ public class User implements Serializable {
         if (noAlbumExists) throw new IllegalArgumentException("Album with that name does not exist!");
     }
 
+    /**
+     * Finds the Album with the name passed in
+     * @param name The name of the album being searched for
+     * @return The album with the particular name
+     */
     public Album getAlbumWithName(String name) {
         for (Album a: this.albums) {
             if (a.getName().equals(name))
@@ -125,6 +193,13 @@ public class User implements Serializable {
         return null;
     }
 
+    /**
+     * Copies a photo from one album to another album
+     * @param photo The photo to be copied
+     * @param start The Album where the photo originally resides
+     * @param end The album where the photo will be copied to
+     * @throws IllegalArgumentException
+     */
     public void copyPhoto(Photo photo, Album start, Album end) throws IllegalArgumentException {
         //makes sure either album is not null
         if (start == null || end == null)
@@ -167,6 +242,13 @@ public class User implements Serializable {
 
     }
 
+    /**
+     * Moves a photo from one album to another album
+     * @param photo The photo to be moved
+     * @param start The Album where the photo originally resides
+     * @param end The album where the photo will be moved to
+     * @throws IllegalArgumentException
+     */
     public void movePhoto(Photo photo, Album start, Album end) throws IllegalArgumentException {
         //makes sure either album is not null
         if (start == null || end == null)
