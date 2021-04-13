@@ -389,8 +389,12 @@ public class PhotoController {
             }
 
         } catch (Exception ex) {
-            System.out.println("catch error");
-            ex.printStackTrace();
+            if(ex instanceof NullPointerException){
+                System.out.println("You pressed cancel");
+            } else {
+                System.out.println("catch error");
+                ex.printStackTrace();
+            }
         }
         Serialize.writeApp(UsersList);
     }
