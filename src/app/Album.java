@@ -158,8 +158,13 @@ public class Album implements Serializable {
             rangeOfDates.add(copy.get(0).getActualDate());
             return rangeOfDates;
         }
-
         Collections.sort(copy, new Comparator<Photo>() {
+            /**
+             * Sorts the copy array list by date
+             * @param p1 First photo to be compared
+             * @param p2 Second photo to be compared
+             * @return
+             */
             @Override
             public int compare(Photo p1, Photo p2) {
                 return p1.getActualDate().compareTo(p2.getActualDate());
