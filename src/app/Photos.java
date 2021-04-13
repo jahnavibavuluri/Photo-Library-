@@ -1,17 +1,27 @@
 package app;
 
-        import javafx.application.Application;
-        import javafx.fxml.FXMLLoader;
-        import javafx.scene.Scene;
-        import javafx.scene.layout.AnchorPane;
-        import javafx.stage.Stage;
-        import model.*;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import model.*;
 
-        import java.io.IOException;
-
+/**
+ * The Photos class is where the application runs from. It
+ * extends the Application class from JavaFX.
+ *
+ * @author Jahnavi Bavuluri and Chiraag Rekhari
+  */
 public class Photos extends Application {
-    //public Stage primaryStage;
 
+    /**
+     * This method starts the Photos project by overriding the
+     * start method from the Application class.
+     *
+     * @param primaryStage  the main Stage were the application will be running
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -27,5 +37,10 @@ public class Photos extends Application {
         primaryStage.show();
     }
 
+    /**
+     * The Main method that launches the actual application.
+     *
+     * @param args
+     */
     public static void main(String[] args) {launch(args);}
 }

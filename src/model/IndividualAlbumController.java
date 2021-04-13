@@ -19,6 +19,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * This class takes care of the elements and events
+ * performed on the Individual Album fxml page.
+ *
+ * @author Jahnavi Bavuluri and Chiraag Rekhari
+ */
 public class IndividualAlbumController {
 
     @FXML ImageView image;
@@ -26,14 +32,44 @@ public class IndividualAlbumController {
     @FXML Label album_name_text;
     @FXML Label number_of_pics;
     @FXML Label dates_of_pics;
+    /**
+     * The main stage where the application will be running.
+     */
     public Stage mainStage;
+    /**
+     * The index of where the current album is located in the
+     * users list of albums.
+     */
     public int albumIndex;
+    /**
+     * The index of where the current user is located in the
+     * list of all users.
+     */
     public int userIndex;
+    /**
+     * The list that stores all of the users on the application.
+     */
     public ArrayList<User> UsersList;
+    /**
+     * The actual user that is currently using the application.
+     */
     private User user;
+    /**
+     * The actual albums that is currently being referenced.
+     */
     private Album album;
-    //public ArrayList<User> UsersList;
 
+    /**
+     * The start method populates the individual album gridpane
+     * with the album thumbnail, the name of the album, the number of
+     * photos in the album, and the date range.
+     *
+     * @param mainStage     The stage where the application will be running.
+     * @param albumIndex    The index of where the current album is located in the
+     *                      users list of albums.
+     * @param userIndex     The index of where the current user is located in the
+     *                      list of all users.
+     */
     public void start(Stage mainStage, int albumIndex, int userIndex) {
         this.albumIndex = albumIndex;
         this.userIndex = userIndex;
@@ -71,9 +107,16 @@ public class IndividualAlbumController {
         } else {
             dates_of_pics.setText(album.getRangeOfPhotos().get(0).toString() + " -- " + album.getRangeOfPhotos().get(1).toString());
         }
-        //dates_of_pics.setText(album.getRangeOfPhotos().toString());
 
         album_grid.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            /**
+             * The handle method detects if the album was double clicked
+             * and takes the user into that individual album where they
+             * can then view their photos.
+             *
+             * @param mouseEvent    the mouse event that allows the application to know
+             *                      that the user has double clicked on this album
+             */
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == 2) {
@@ -89,6 +132,14 @@ public class IndividualAlbumController {
         });
     }
 
+    /**
+     * This method handles the transition from the album view
+     * to the photos view where users can view their photos
+     * within a specific album.
+     *
+     * @param album         the album object that the user is viewing
+     * @throws IOException
+     */
     public void goToPhotosScene(Album album) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/photos.fxml"));
@@ -98,16 +149,4 @@ public class IndividualAlbumController {
         mainStage.setScene(new Scene(root));
         mainStage.show();
     }
-
-    /*
-    public void addAlbum(Stage mainStage) {
-        album_grid.setVisible(true);
-        //album_name_text.setText(name_of_album);
-        //Font f = Font.font(FontPosture.ITALIC);
-        //number_of_pics.setFont(Font.font(number_of_pics.getText(),FontPosture.ITALIC, 10.0));
-        //number_of_pics.setFont(Font.font(String.valueOf(FontPosture.ITALIC)));
-        //dates_of_pics.setFont(Font.font(String.valueOf(FontPosture.ITALIC)));
-    }*/
-
-
 }

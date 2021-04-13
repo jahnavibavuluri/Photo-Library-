@@ -11,13 +11,29 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+/**
+ * This class takes care of the elements and events
+ * performed on the Individual Search fxml page.
+ *
+ * @author Jahnavi Bavuluri and Chiraag Rekhari
+ */
 public class IndividualSearchController {
     @FXML GridPane search_grid;
     @FXML ImageView ind_search_image;
     @FXML Label ind_search_label;
 
+    /**
+     * The main stage where the application will be running.
+     */
     Stage mainStage;
 
+    /**
+     * This method populates the individual search gridpane
+     * with the photo and the caption.
+     *
+     * @param mainStage     The stage where the application will be running.
+     * @param photo         The photo that shows up in the users search results.
+     */
     public void start(Stage mainStage, Photo photo){
         this.mainStage = mainStage;
         ind_search_label.setText((photo.getCaption() == null ? "Caption: " : "Caption: " + photo.getCaption()));

@@ -10,16 +10,12 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
 import javafx.util.Pair;
 
-import java.io.EOFException;
 import java.io.IOException;
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
