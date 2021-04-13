@@ -1,22 +1,27 @@
 package model;
 
+import app.Album;
+import app.Tag;
 import app.User;
+import app.Photo;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-
+import javafx.scene.image.Image;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.io.File;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import javafx.scene.layout.AnchorPane;
+
 
 
 public class LoginController {
@@ -40,8 +45,59 @@ public class LoginController {
         }
 
         if (this.UsersList.isEmpty()) {
+            File walkway = new File("data/walkway.jpeg");
+            File childSkiing = new File("data/childSkiing.jpeg");
+            File greenPasture = new File("data/greenPasture.jpeg");
+            File manWorking = new File("data/manWorking.jpeg");
+            File volleyBall = new File("data/volleyBall.jpeg");
+            File womanWorking = new File("data/womanWorking.jpeg");
             this.UsersList.add(new User("stock"));
+            User stockUser = UsersList.get(0);
+            stockUser.addAlbum(new Album("Stock"));
+            Album stockAlbum = stockUser.getAlbum("Stock");
+
+            stockAlbum.addPhoto(new Photo(walkway));
+            stockAlbum.addPhoto(new Photo(childSkiing));
+            stockAlbum.addPhoto(new Photo(greenPasture));
+            stockAlbum.addPhoto(new Photo(manWorking));
+            stockAlbum.addPhoto(new Photo(volleyBall));
+            stockAlbum.addPhoto(new Photo(womanWorking));
+
+            Photo walkwayP = stockAlbum.photos.get(0);
+            Photo childSkiingP = stockAlbum.photos.get(1);
+            Photo greenPastureP = stockAlbum.photos.get(2);
+            Photo manWorkingP = stockAlbum.photos.get(3);
+            Photo volleyBallP = stockAlbum.photos.get(4);
+            Photo womanWorkingP = stockAlbum.photos.get(5);
+
+            walkwayP.setCaption("Sunshine is the best medicine.");
+            childSkiingP.setCaption("Woo! Down the slopes we go!");
+            greenPastureP.setCaption("Blue skies and green as far as the eye can see. Heaven.");
+            manWorkingP.setCaption("Hard at work!");
+            volleyBallP.setCaption("Oh my! Look how high I can jump!");
+            womanWorkingP.setCaption("Woman power!");
+
+            walkwayP.addTag(new Tag("weather", "sunny", false));
+            walkwayP.addTag(new Tag("person", "no one", true));
+
+            childSkiingP.addTag(new Tag("weather","snowy", false));
+            childSkiingP.addTag(new Tag("person","child", true));
+
+            greenPastureP.addTag(new Tag("weather","sunny", false));
+            greenPastureP.addTag(new Tag("person","no one", true));
+
+            manWorkingP.addTag(new Tag("weather","N/A", false));
+            manWorkingP.addTag(new Tag("person","man", true));
+
+            volleyBallP.addTag(new Tag("weather","N/A", false));
+            volleyBallP.addTag(new Tag("person","athlete", true));
+
+            womanWorkingP.addTag(new Tag("weather","N/A", false));
+            womanWorkingP.addTag(new Tag("person","woman", true));
+
+
             Serialize.writeApp(UsersList);
+            ////new Image(photo.getFile().toURI().toString())
         }
 
         System.out.println(UsersList.toString());

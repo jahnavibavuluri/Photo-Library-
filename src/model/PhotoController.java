@@ -263,8 +263,8 @@ public class PhotoController {
                 try {
                     String temp4 = "" + pair.getValue();
                     String temp5 = "" + pair.getKey();
-                    String key = temp4.trim();
-                    String value = temp5.trim();
+                    String key = temp5.trim();
+                    String value = temp4.trim();
                     if(key.equals("") || value.equals("")){
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Input Error");
