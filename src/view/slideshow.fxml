@@ -12,13 +12,12 @@
 <AnchorPane prefHeight="500.0" prefWidth="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.SlideshowController">
     <children>
         <Button text="BACK" prefWidth="100" onAction="#backToPhotos"/>
-        <SplitPane prefWidth="385" prefHeight="250" AnchorPane.bottomAnchor="210" AnchorPane.leftAnchor="157.5" AnchorPane.rightAnchor="157.5" AnchorPane.topAnchor="40">
+        <SplitPane prefWidth="385" prefHeight="280" AnchorPane.bottomAnchor="210" AnchorPane.leftAnchor="157.5" AnchorPane.rightAnchor="157.5" AnchorPane.topAnchor="10">
             <items>
                 <ImageView fx:id = "Image" fitHeight="250" fitWidth="385" preserveRatio="true"/>
             </items>
         </SplitPane>
 
-        <!-- This SplitPane is the Add Songs on the bottom right side of the GUI-->
         <SplitPane prefWidth="385" prefHeight="250" AnchorPane.bottomAnchor="40" AnchorPane.leftAnchor="157.5" AnchorPane.rightAnchor="157.5" AnchorPane.topAnchor="310">
             <AnchorPane prefWidth="385" prefHeight="250" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
                 <children>
