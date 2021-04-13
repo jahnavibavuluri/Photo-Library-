@@ -77,8 +77,10 @@ public class User implements Serializable {
 
     public Album getAlbum(String name) {
         for (Album a: this.albums) {
-            if (a.getName().equals(name))
+            System.out.println("the name of the album is: " + a.getName());
+            if (a.getName().equals(name)) {
                 return a;
+            }
         }
         return null;
     }

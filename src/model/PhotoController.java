@@ -138,8 +138,8 @@ public class PhotoController {
 
                 String temp1 = "" + pair.getValue();
                 String temp2 = "" + pair.getKey();
-                String key = temp1.trim();
-                String value = temp2.trim();
+                String key = temp2.trim();
+                String value = temp1.trim();
 
                 if(key.equals("") || value.equals("")){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -486,30 +486,33 @@ public class PhotoController {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("You are deleting the selected photo!");
             alert.setContentText("Are you sure you want to delete this photo?");
-            alert.showAndWait();
-            try {
-                this.album.deletePhoto(photoInAlbum);
-                clearPhotoDisplay();
-                Serialize.writeApp(UsersList);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
                 try {
-                    resetPhotos();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                    this.album.deletePhoto(photoInAlbum);
+                    clearPhotoDisplay();
+                    Serialize.writeApp(UsersList);
+                    try {
+                        resetPhotos();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
 
-            } catch (Exception error) {
-                if(error instanceof IllegalArgumentException) {
-                    Alert alert1 = new Alert(Alert.AlertType.ERROR);
-                    alert1.setTitle("Input Error");
-                    String content = error.getMessage();
-                    alert1.setContentText(content);
-                    alert1.showAndWait();
-                } else{
-                    error.printStackTrace();
+                } catch (Exception error) {
+                    if (error instanceof IllegalArgumentException) {
+                        Alert alert1 = new Alert(Alert.AlertType.ERROR);
+                        alert1.setTitle("Input Error");
+                        String content = error.getMessage();
+                        alert1.setContentText(content);
+                        alert1.showAndWait();
+                    } else {
+                        error.printStackTrace();
+                    }
                 }
+            } else {
+                return;
             }
         }
-
     }
 
 

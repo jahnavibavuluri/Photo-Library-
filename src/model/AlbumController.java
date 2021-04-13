@@ -134,7 +134,7 @@ public class AlbumController {
             try {
                 AnchorPane img = (AnchorPane) loader.load();
                 IndividualAlbumController albumView = loader.getController();
-                Album newAlbum = new Album(result.get());
+                Album newAlbum = new Album(result.get().trim());
                 try {
                     user.addAlbum(newAlbum);
                     Serialize.writeApp(UsersList);
@@ -230,11 +230,27 @@ public class AlbumController {
         deletingAlbum.setHeaderText("Please enter the name of the album you would like to delete.");
         Optional<String> result = deletingAlbum.showAndWait();
         if (result.isPresent()) {
+            System.out.println("the album being deleted is: " + result.get().trim());
             try {
-                System.out.println("the album being deleted is: " + result.get());
-                user.deleteAlbum(result.get());
-                Serialize.writeApp(UsersList);
-                resetAlbums();
+                if(user.getAlbum(result.get().trim()) == null){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Input Error");
+                    String content = "Album does not exist -- albums ARE case sensitive!";
+                    alert.setContentText(content);
+                    alert.showAndWait();
+                    return;
+                }
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("You are deleting the selected photo!");
+                alert.setContentText("Are you sure you want to delete this album? ALL photos will be lost");
+                Optional<ButtonType> result1 = alert.showAndWait();
+                if (result1.get() == ButtonType.OK) {
+                    user.deleteAlbum(result.get().trim());
+                    Serialize.writeApp(UsersList);
+                    resetAlbums();
+                } else {
+                    return;
+                }
             } catch (IllegalArgumentException error) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Input Error");

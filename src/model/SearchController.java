@@ -121,7 +121,7 @@ public class SearchController {
             Optional<String> result = addAlbum.showAndWait();
             if (result.isPresent()) {
                 System.out.println("im here");
-                newAlbum.setName(result.get());
+                newAlbum.setName(result.get().trim());
                 try {
                         user.addAlbum(newAlbum);
                         newAlbum = new Album("");
@@ -433,8 +433,6 @@ public class SearchController {
             public void handle(ActionEvent e) {
                 // get the date picker value
                 setterFrom(fromDate.getValue());
-
-
             }
         };
 
