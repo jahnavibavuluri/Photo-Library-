@@ -77,7 +77,7 @@ public class SearchController {
     /**
      * temp variable to tell if "AND" or "OR" button are pressed in searchBy2Tag method
      */
-    int z;
+    public int z;
     /**
      * ArrayList of all albums a user currently has
      */

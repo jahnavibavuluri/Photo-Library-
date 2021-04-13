@@ -33,11 +33,11 @@ public class LoginController {
     /**
      * Stage passed in
      */
-    Stage mainStage;
+    public Stage mainStage;
     /**
      * Complete List of all Users
      */
-    ArrayList<User> UsersList;
+    public  ArrayList<User> UsersList;
 
     @FXML TextField login;
     @FXML Button login_btn;

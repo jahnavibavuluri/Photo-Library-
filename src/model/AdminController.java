@@ -43,7 +43,7 @@ public class AdminController{
     /**
      * JavaFX listview that is used to display the users
      */
-    ObservableList<String> obsList = FXCollections.observableArrayList();
+    public ObservableList<String> obsList = FXCollections.observableArrayList();
 
     /**
      * Responsible for starting the the AdminController
