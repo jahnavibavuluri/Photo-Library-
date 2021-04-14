@@ -278,7 +278,7 @@ public class AlbumController {
         if (result.isPresent()) {
             System.out.println("the album being deleted is: " + result.get().trim());
             try {
-                if(user.getAlbum(result.get().trim()) == null){
+                if(user.getAlbum(result.get().trim().toLowerCase()) == null){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Input Error");
                     String content = "Album does not exist -- albums ARE case sensitive!";

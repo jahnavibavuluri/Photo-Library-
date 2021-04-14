@@ -116,7 +116,7 @@ public class User implements Serializable {
         }
 
         for (Album a: albums) {
-            if (a.getName().equals(album.getName()))
+            if (a.getName().equalsIgnoreCase(album.getName()))
                 throw new IllegalArgumentException("You cannot add an album with the same name!");
         }
         albums.add(album);
@@ -130,7 +130,7 @@ public class User implements Serializable {
     public Album getAlbum(String name) {
         for (Album a: this.albums) {
             System.out.println("the name of the album is: " + a.getName());
-            if (a.getName().equals(name)) {
+            if (a.getName().equalsIgnoreCase(name)) {
                 return a;
             }
         }
@@ -145,7 +145,7 @@ public class User implements Serializable {
      */
     public void editAlbum(String oldName, String newName) throws IllegalArgumentException {
         for (Album a: albums) {
-            if (a.getName().equals(newName) && !oldName.equals(newName)) //excludes the case where a user can decide to make no changes to the old album
+            if (a.getName().equalsIgnoreCase(newName) && !oldName.equalsIgnoreCase(newName)) //excludes the case where a user can decide to make no changes to the old album
                 throw new IllegalArgumentException("You cannot add an album with the same name!");
         }
         boolean noAlbumExists = true;
@@ -171,7 +171,7 @@ public class User implements Serializable {
         Iterator<Album> iter = albums.iterator();
         while (iter.hasNext()) {
             Album a = iter.next();
-            if (a.getName().equals(name)) {
+            if (a.getName().equalsIgnoreCase(name)) {
                 iter.remove();
                 noAlbumExists = false;
             }
