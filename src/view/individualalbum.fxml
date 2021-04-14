@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.image.ImageView?>
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.IndividualAlbumController" prefHeight="400.0" prefWidth="600.0">
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.IndividualAlbumController" prefHeight="400.0" prefWidth="600.0">
     <GridPane fx:id="album_grid" prefWidth="200" prefHeight="260" visible="false">
         <rowConstraints>
             <RowConstraints prefHeight="100"/>

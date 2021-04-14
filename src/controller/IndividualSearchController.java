@@ -1,13 +1,10 @@
-package model;
+package controller;
 
-import app.Photo;
-import app.Tag;
-import javafx.event.EventHandler;
+import model.Photo;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 

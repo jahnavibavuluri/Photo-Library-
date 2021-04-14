@@ -1,6 +1,5 @@
-package model;
+package controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -9,11 +8,11 @@ import javafx.scene.control.*;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
-import app.User;
+import model.User;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import java.util.Optional;
-import javafx.scene.Parent;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import model.Serialize;

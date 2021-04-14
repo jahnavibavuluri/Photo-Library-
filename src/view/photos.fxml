@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.image.ImageView?>
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.PhotoController" prefHeight="700.0" prefWidth="1000.0">
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.PhotoController" prefHeight="700.0" prefWidth="1000.0">
     <SplitPane prefHeight="700" prefWidth="700" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="300" AnchorPane.bottomAnchor="0" AnchorPane.topAnchor="0">
         <AnchorPane prefWidth="700" prefHeight="700" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
             <children>

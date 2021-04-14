@@ -1,9 +1,8 @@
-package model;
+package controller;
 
-import app.Album;
-import app.User;
+import model.Album;
+import model.User;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -14,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import model.Serialize;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -110,7 +110,7 @@ public class AlbumController {
      */
     public void populateAlbums(int displayAlbumIndex) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/IndividualAlbumController.fxml"));
+        loader.setLocation(getClass().getResource("/view/individualalbum.fxml"));
         try {
             AnchorPane img = (AnchorPane) loader.load();
             IndividualAlbumController albumView = loader.getController();
@@ -168,7 +168,7 @@ public class AlbumController {
         Optional<String> result = addAlbum.showAndWait();
         if (result.isPresent()) {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/IndividualAlbumController.fxml"));
+            loader.setLocation(getClass().getResource("/view/individualalbum.fxml"));
             try {
                 AnchorPane img = (AnchorPane) loader.load();
                 IndividualAlbumController albumView = loader.getController();

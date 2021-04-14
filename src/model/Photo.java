@@ -1,11 +1,7 @@
-package app;
-
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
+package model;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 /**

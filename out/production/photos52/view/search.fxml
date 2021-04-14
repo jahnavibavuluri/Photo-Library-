@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.SearchController" prefHeight="700.0" prefWidth="700.0">
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.SearchController" prefHeight="700.0" prefWidth="700.0">
     <children>
         <GridPane prefWidth="200" prefHeight="50" AnchorPane.topAnchor="10" AnchorPane.bottomAnchor="640" AnchorPane.rightAnchor="450" AnchorPane.leftAnchor="50">
             <Label text="Welcome to Search" alignment="CENTER" />

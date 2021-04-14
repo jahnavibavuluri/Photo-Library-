@@ -1,7 +1,5 @@
 package model;
 
-import app.User;
-
 import java.io.*;
 import java.util.ArrayList;
 

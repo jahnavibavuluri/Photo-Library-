@@ -1,7 +1,7 @@
-package model;
+package controller;
 
-import app.Album;
-import app.User;
+import model.Album;
+import model.User;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
+import model.Serialize;
 
 import java.io.IOException;
 import java.util.ArrayList;

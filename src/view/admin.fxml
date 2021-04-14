@@ -6,7 +6,7 @@
 <?import javafx.geometry.*?>
 
 
-<AnchorPane prefHeight="500.0" prefWidth="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.AdminController">
+<AnchorPane prefHeight="500.0" prefWidth="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminController">
     <children>
         <!-- This SplitPane is the ListView on the left side of the GUI-->
         <SplitPane prefHeight="440" prefWidth="225" AnchorPane.bottomAnchor="30" AnchorPane.leftAnchor="445" AnchorPane.rightAnchor="30" AnchorPane.topAnchor="30">

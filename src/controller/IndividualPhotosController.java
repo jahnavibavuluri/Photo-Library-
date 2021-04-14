@@ -1,7 +1,6 @@
-package model;
+package controller;
 
-import app.Photo;
-import app.Tag;
+import model.Photo;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

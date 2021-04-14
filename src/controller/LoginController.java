@@ -1,26 +1,24 @@
-package model;
+package controller;
 
-import app.Album;
-import app.Tag;
-import app.User;
-import app.Photo;
+import model.Album;
+import model.Tag;
+import model.User;
+import model.Photo;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import java.io.EOFException;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.io.File;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import javafx.scene.layout.AnchorPane;
+import model.Serialize;
 
 
 /**
