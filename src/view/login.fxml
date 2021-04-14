@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.LoginController">
+<AnchorPane prefHeight="400.0" prefWidth="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
     <children>
         <SplitPane prefWidth="500" prefHeight="50" AnchorPane.bottomAnchor="300" AnchorPane.topAnchor="50" AnchorPane.rightAnchor="100" AnchorPane.leftAnchor="100">
             <GridPane prefHeight="50" prefWidth="500" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">

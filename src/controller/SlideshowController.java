@@ -1,6 +1,6 @@
-package model;
-import app.Album;
-import app.User;
+package controller;
+import model.Album;
+import model.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,8 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
+import model.Serialize;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 /**

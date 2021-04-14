@@ -1,27 +1,24 @@
-package model;
+package controller;
 
-import app.Album;
-import app.Photo;
-import app.User;
-import app.Tag;
+import model.Album;
+import model.Photo;
+import model.User;
+import model.Tag;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.application.Application;
 import javafx.stage.FileChooser;
 import javafx.util.Pair;
+import model.Serialize;
 
-import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -359,7 +356,7 @@ public class PhotoController {
      */
     public void populatePhotos(Photo p) {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/IndividualPhotosController.fxml"));
+        loader.setLocation(getClass().getResource("/view/individualphotos.fxml"));
         try {
             AnchorPane img = (AnchorPane)loader.load();
             IndividualPhotosController photoView = loader.getController();
@@ -410,7 +407,7 @@ public class PhotoController {
         File selectedFile = fileChooser.showOpenDialog(mainStage);
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/IndividualPhotosController.fxml"));
+        loader.setLocation(getClass().getResource("/view/individualphotos.fxml"));
         try {
             AnchorPane img = (AnchorPane)loader.load();
             IndividualPhotosController photoView = loader.getController();

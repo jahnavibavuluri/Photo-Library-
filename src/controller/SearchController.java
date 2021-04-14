@@ -1,9 +1,9 @@
-package model;
+package controller;
 
-import app.Album;
-import app.Tag;
-import app.Photo;
-import app.User;
+import model.Album;
+import model.Tag;
+import model.Photo;
+import model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,8 +13,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
@@ -26,18 +24,12 @@ import java.time.ZoneId;
 import java.util.*;
 import java.time.LocalDate;
 import java.util.Optional;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import model.Serialize;
 
 
 /**
@@ -286,7 +278,7 @@ public class SearchController {
                             if(key2.equals(tags.get(k).getKey()) && value2.equals(tags.get(k).getValue())){temp2 = true;}
                             if(temp && temp2){
                                 FXMLLoader loader = new FXMLLoader();
-                                loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
+                                loader.setLocation(getClass().getResource("/view/individualsearch.fxml"));
                                 try {
                                     if(newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)){
                                         newAlbum.getPhotos().add(p);
@@ -315,7 +307,7 @@ public class SearchController {
                             System.out.println("I am in OR");
                             if ((key1.equals(tags.get(k).getKey()) && value1.equals(tags.get(k).getValue())) || (key2.equals(tags.get(k).getKey()) && value2.equals(tags.get(k).getValue()))) {
                                 FXMLLoader loader = new FXMLLoader();
-                                loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
+                                loader.setLocation(getClass().getResource("/view/individualsearch.fxml"));
                                 try {
                                     if(newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)){
                                         newAlbum.getPhotos().add(p);
@@ -416,7 +408,7 @@ public class SearchController {
                         if(key.equals(tags.get(k).getKey()) && value.equals(tags.get(k).getValue())){
 
                             FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
+                            loader.setLocation(getClass().getResource("/view/individualsearch.fxml"));
                             try {
                                 if(newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)){
                                     newAlbum.getPhotos().add(p);
@@ -578,7 +570,7 @@ public class SearchController {
                     if (from.isBefore(to)) {
                         if (from.isBefore(date) && to.isAfter(date) || from.isEqual(date) || to.isEqual(date)) {
                             FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
+                            loader.setLocation(getClass().getResource("/view/individualsearch.fxml"));
                             try {
                                 if (newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)) {
                                     newAlbum.getPhotos().add(p);
@@ -604,7 +596,7 @@ public class SearchController {
                     if (from.isEqual(to)) {
                         if (from.isEqual(date) && to.isEqual(date)) {
                             FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(getClass().getResource("/view/IndividualSearchController.fxml"));
+                            loader.setLocation(getClass().getResource("/view/individualsearch.fxml"));
                             try {
                                 if (newAlbum.addPhotoBoolean(newAlbum.getPhotos(), p)) {
                                     newAlbum.getPhotos().add(p);

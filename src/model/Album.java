@@ -1,11 +1,7 @@
-package app;
+package model;
 
 import java.io.Serializable;
-import java.nio.file.Files;
 import java.util.*;
-
-import javafx.scene.image.Image;
-import app.Photo;
 
 /**
  * This class is responsible for creating an Album Instance which is populated in the albums ArrayList

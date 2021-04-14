@@ -1,11 +1,11 @@
 package app;
 
+import controller.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.*;
 
 /**
  * The Photos class is where the application runs from. It

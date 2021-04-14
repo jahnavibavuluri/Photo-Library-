@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.image.ImageView?>
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.IndividualSearchController" prefHeight="400.0" prefWidth="600.0">
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controller.IndividualSearchController" prefHeight="400.0" prefWidth="600.0">
     <GridPane fx:id="search_grid" prefWidth="200" prefHeight="200" visible="false">
         <rowConstraints>
             <RowConstraints prefHeight="100"/>

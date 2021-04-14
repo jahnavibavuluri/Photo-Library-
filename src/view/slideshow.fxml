@@ -9,7 +9,7 @@
 
 
 <?import javafx.scene.image.ImageView?>
-<AnchorPane prefHeight="500.0" prefWidth="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.SlideshowController">
+<AnchorPane prefHeight="500.0" prefWidth="700" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SlideshowController">
     <children>
         <Button text="BACK" prefWidth="100" onAction="#backToPhotos"/>
         <SplitPane prefWidth="385" prefHeight="280" AnchorPane.bottomAnchor="210" AnchorPane.leftAnchor="157.5" AnchorPane.rightAnchor="157.5" AnchorPane.topAnchor="10">
