@@ -115,6 +115,16 @@ public class AdminController{
      * This method adds a user into the UsersList arraylist and then updates the listview
      */
     public void add() {
+
+        if(add.getText().toLowerCase().equals("admin")){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Input Error");
+            String content = "You can not create an Admin user";
+            alert.setContentText(content);
+            alert.showAndWait();
+            add.clear();
+            return;
+        }
         if(add.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Input Error");
@@ -129,7 +139,7 @@ public class AdminController{
                 if (((UsersList.get(i).username.toLowerCase()).equals(add.getText().trim().toLowerCase()))) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Input Error");
-                    String content = "No Two Users Can NOT Have The Same Name";
+                    String content = "No Two Users Can NOT Have The Same Name Even If They Have Different Cases";
                     alert.setContentText(content);
                     alert.showAndWait();
                     add.clear();
@@ -157,6 +167,16 @@ public class AdminController{
      * This method deletes a user into the UsersList arraylist and then updates the listview
      */
     public void delete(){
+
+        if(delete.getText().toLowerCase().equals("admin")){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Input Error");
+            String content = "You can not delete an Admin user";
+            alert.setContentText(content);
+            alert.showAndWait();
+            delete.clear();
+            return;
+        }
 
         if(delete.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -202,7 +222,7 @@ public class AdminController{
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Input Error");
-        String content = delete.getText() + " has never been added to the list of users";
+        String content = delete.getText() + " has never been added to the list of users, this is NOT case sensitive";
         alert.setContentText(content);
         delete.clear();
         alert.showAndWait();

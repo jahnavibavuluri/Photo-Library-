@@ -133,7 +133,7 @@ public class LoginController {
     public void login() throws Exception{
 
 
-        if((login.getText().toLowerCase()).equals("admin")) {
+        if((login.getText().trim()).equals("admin")) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/admin.fxml"));
             try {
@@ -153,7 +153,7 @@ public class LoginController {
             String user_logging_in = login.getText();
             for (int i = 0; i<UsersList.size(); i++) {
                 System.out.println(UsersList.get(i).getUsername());
-                if (user_logging_in.toLowerCase().equals(UsersList.get(i).getUsername())) {
+                if (user_logging_in.trim().equals(UsersList.get(i).getUsername())) {
                 //if (UsersList.get(i).getUsername().toLowerCase().equals(user_logging_in)) {
                     System.out.println("there is a match! The user is: " + user_logging_in);
                     Stage appStage=this.mainStage;
@@ -169,9 +169,10 @@ public class LoginController {
             }
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Input Error");
-            String content = "Enter Valid Username -- Keep in mind usernames are NOT case sensitive";
+            String content = "Enter Valid Username -- Keep in mind usernames ARE case sensitive (leading and trailing spaces are irrelevant)";
             alert.setContentText(content);
             alert.showAndWait();
+            login.clear();
         }
     }
 
