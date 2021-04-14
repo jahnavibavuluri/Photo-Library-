@@ -274,8 +274,8 @@ public class SearchController {
                         System.out.println("z = " + z);
                         if(z == 1) {
                             System.out.println("I am in AND");
-                            if (key1.equals(tags.get(k).getKey()) && value1.equals(tags.get(k).getValue())) {temp = true;}
-                            if(key2.equals(tags.get(k).getKey()) && value2.equals(tags.get(k).getValue())){temp2 = true;}
+                            if (key1.equalsIgnoreCase(tags.get(k).getKey()) && value1.equalsIgnoreCase(tags.get(k).getValue())) {temp = true;}
+                            if(key2.equalsIgnoreCase(tags.get(k).getKey()) && value2.equalsIgnoreCase(tags.get(k).getValue())){temp2 = true;}
                             if(temp && temp2){
                                 FXMLLoader loader = new FXMLLoader();
                                 loader.setLocation(getClass().getResource("/view/individualsearch.fxml"));
@@ -305,7 +305,7 @@ public class SearchController {
                         }
                         if(z==2){
                             System.out.println("I am in OR");
-                            if ((key1.equals(tags.get(k).getKey()) && value1.equals(tags.get(k).getValue())) || (key2.equals(tags.get(k).getKey()) && value2.equals(tags.get(k).getValue()))) {
+                            if ((key1.equalsIgnoreCase(tags.get(k).getKey()) && value1.equalsIgnoreCase(tags.get(k).getValue())) || (key2.equalsIgnoreCase(tags.get(k).getKey()) && value2.equalsIgnoreCase(tags.get(k).getValue()))) {
                                 FXMLLoader loader = new FXMLLoader();
                                 loader.setLocation(getClass().getResource("/view/individualsearch.fxml"));
                                 try {
@@ -405,7 +405,7 @@ public class SearchController {
                     ArrayList<Tag> tags = p.getTags();
                     for(int k =0; k<tags.size(); k++){
 
-                        if(key.equals(tags.get(k).getKey()) && value.equals(tags.get(k).getValue())){
+                        if(key.equalsIgnoreCase(tags.get(k).getKey()) && value.equalsIgnoreCase(tags.get(k).getValue())){
 
                             FXMLLoader loader = new FXMLLoader();
                             loader.setLocation(getClass().getResource("/view/individualsearch.fxml"));

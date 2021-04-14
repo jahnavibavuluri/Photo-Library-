@@ -115,7 +115,7 @@ public class Photo implements Serializable {
         String key = tag.getKey().trim();
         String value = tag.getValue().trim();
         for (Tag t: this.tags) {
-            if (t.getKey().equals(key) && t.getValue().equals(value)) {
+            if (t.getKey().equalsIgnoreCase(key) && t.getValue().equalsIgnoreCase(value)) {
                 throw new IllegalArgumentException("You can't add the same tag to a photo");
             }
             if(!t.getX() && t.getKey().equals(key)){
@@ -140,7 +140,7 @@ public class Photo implements Serializable {
         String value = tag.getValue();
         while (iter.hasNext()) {
             Tag t = iter.next();
-            if (t.getKey().equals(key) && t.getValue().equals(value)) {
+            if (t.getKey().equalsIgnoreCase(key) && t.getValue().equalsIgnoreCase(value)) {
                 tags.remove(t);
                 System.out.println(t.getKey() + " " + t.getValue());
                 return;
