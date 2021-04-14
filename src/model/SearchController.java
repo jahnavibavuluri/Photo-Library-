@@ -391,8 +391,11 @@ public class SearchController {
         Optional<Pair<String, String>> result = dialog.showAndWait();
 
         result.ifPresent(pair -> {
-            String key = pair.getKey() + "";
-            String value = pair.getValue() + "";
+            String temp3 = pair.getKey() + "";
+            String key = temp3.trim();
+
+            String temp4 = pair.getValue() + "";
+            String value = temp4.trim();
             if(key.equals("") || value.equals("")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Input Error");
@@ -443,7 +446,7 @@ public class SearchController {
     }
 
     /**
-     * controls the clear button which clears the whole gridpane so the user can start searching from scratch
+     * controls the clear button which clears the whole gridpane so the user can start searching from scratch and saves the changes
      * @throws Exception
      */
     public void clearPhotos() throws Exception {
@@ -455,6 +458,21 @@ public class SearchController {
             Node node = iter.next();
             iter.remove();
         }
+    }
+
+    /**
+     * controls the clear button which clears the whole gridpane so the user can start searching from scratch
+     */
+    public void clearSearch(){
+        this.row = 0;
+        this.col = 0;
+        Iterator<Node> iter = this.grid.getChildren().iterator();
+        while (iter.hasNext()) {
+            Node node = iter.next();
+            iter.remove();
+        }
+        Album temp = new Album("");
+        newAlbum = temp;
     }
 
     /**

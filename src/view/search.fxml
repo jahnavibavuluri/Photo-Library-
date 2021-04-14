@@ -12,7 +12,7 @@
             <Label text="Welcome to Search" alignment="CENTER" />
         </GridPane>
         <GridPane prefWidth="100" prefHeight="50" AnchorPane.bottomAnchor="640" AnchorPane.topAnchor="10" AnchorPane.rightAnchor="50" AnchorPane.leftAnchor="550" >
-            <Button text="CLEAR" prefWidth="100"/>
+            <Button text="CLEAR" prefWidth="100" onAction="#clearSearch"/>
         </GridPane>
         <GridPane prefWidth="600" prefHeight="50" AnchorPane.leftAnchor="50" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="50" AnchorPane.bottomAnchor="590">
             <columnConstraints>
