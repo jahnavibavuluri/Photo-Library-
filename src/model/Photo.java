@@ -84,10 +84,10 @@ public class Photo implements Serializable {
      * @throws IllegalArgumentException
      */
     public void setCaption(String caption) throws IllegalArgumentException {
-        if (caption == null || caption.isEmpty()) {
+        if (caption == null || caption.trim().equals("")) {
             throw new IllegalArgumentException("Caption cannot be empty!");
         }
-        this.caption = caption;
+        this.caption = caption.trim();
     }
 
     /**
