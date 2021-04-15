@@ -281,7 +281,7 @@ public class AlbumController {
                 if(user.getAlbum(result.get().trim().toLowerCase()) == null){
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Input Error");
-                    String content = "Album does not exist -- albums ARE case sensitive!";
+                    String content = "Album does not exist -- deleting albums ARE NOT case sensitive!";
                     alert.setContentText(content);
                     alert.showAndWait();
                     return;

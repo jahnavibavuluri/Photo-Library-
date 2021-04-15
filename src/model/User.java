@@ -144,20 +144,24 @@ public class User implements Serializable {
      * @throws IllegalArgumentException
      */
     public void editAlbum(String oldName, String newName) throws IllegalArgumentException {
+        if (newName.trim().equals("") || newName.equals(null)) {
+            throw new IllegalArgumentException("You cannot add an album with no name! -- Editing albums IS case sensitive!");
+        }
+
         for (Album a: albums) {
             if (a.getName().equalsIgnoreCase(newName) && !oldName.equalsIgnoreCase(newName)) //excludes the case where a user can decide to make no changes to the old album
-                throw new IllegalArgumentException("You cannot add an album with the same name!");
+                throw new IllegalArgumentException("You cannot add an album with the same name! -- Editing albums IS case sensitive!");
         }
         boolean noAlbumExists = true;
 
         for (Album a: albums) {
             if (a.getName().equals(oldName)) {
-                a.setName(newName);
+                a.setName(newName.trim());
                 noAlbumExists = false;
             }
         }
 
-        if (noAlbumExists) throw new IllegalArgumentException(oldName + " does not exist!");
+        if (noAlbumExists) throw new IllegalArgumentException(oldName + " does not exist! -- Editing albums IS case sensitive!");
     }
 
     /**
